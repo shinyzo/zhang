@@ -1,0 +1,21 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/shinyzo/config-repo/
+          username: 11742979@qq.com
+          password: shinyzo214
+          basedir: E:/config/basedir
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+management:
+  endpoints:
+    web:
+      expose: "*"
