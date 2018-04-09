@@ -95,34 +95,18 @@ public interface BaseService<Record, Example> {
     int updateByExampleSelective(@Param("record") Record record, @Param("example") Example example);
 
     /**
-     * 根据条件更新记录有效字段，附带BLOB字段
-     * @param record
-     * @param example
-     * @return
-     */
-    int updateByExampleWithBLOBs(@Param("record") Record record, @Param("example") Example example);
-
-    /**
      * 根据条件更新记录
      * @param record
      * @param example
      * @return
      */
     int updateByExample(@Param("record") Record record, @Param("example") Example example);
-
     /**
      * 根据主键更新记录有效字段
      * @param record
      * @return
      */
     int updateByPrimaryKeySelective(Record record);
-
-    /**
-     * 根据主键更新记录，附带BLOB字段
-     * @param record
-     * @return
-     */
-    int updateByPrimaryKeyWithBLOBs(Record record);
 
     /**
      * 根据主键更新记录

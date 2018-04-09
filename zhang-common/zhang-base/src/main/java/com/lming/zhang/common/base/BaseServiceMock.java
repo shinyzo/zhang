@@ -71,10 +71,6 @@ public abstract class BaseServiceMock<Mapper, Record, Example> implements BaseSe
 		return -1;
 	}
 
-	@Override
-	public int updateByExampleWithBLOBs(@Param("record") Record record, @Param("example") Example example) {
-		return -1;
-	}
 
 	@Override
 	public int updateByExample(@Param("record") Record record, @Param("example") Example example) {
@@ -83,11 +79,6 @@ public abstract class BaseServiceMock<Mapper, Record, Example> implements BaseSe
 
 	@Override
 	public int updateByPrimaryKeySelective(Record record) {
-		return -1;
-	}
-
-	@Override
-	public int updateByPrimaryKeyWithBLOBs(Record record) {
 		return -1;
 	}
 
