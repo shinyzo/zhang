@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Auth : shinyzo
@@ -33,7 +34,7 @@ public class ChcPersonalAppController {
     @GetMapping("/subject/add")
     public void add(){
         ChcSubject chcSubject = new ChcSubject();
-        chcSubject.setSubjectId("7777");
+        chcSubject.setSubjectId(UUID.randomUUID().toString().replaceAll("-","").substring(0,4));
         chcSubject.setSubjectName("AAAA");
         chcSubjectService.insertSelective(chcSubject);
     }
@@ -48,9 +49,9 @@ public class ChcPersonalAppController {
 
     @GetMapping("/subject/delete/{subjectId}")
     public void delete(@PathVariable String subjectId){
-        ChcSubject chcSubject = new ChcSubject();
-        chcSubject.setSubjectId(subjectId);
-        chcSubjectService.deleteByPrimaryKeys(subjectId);
+        ChcSubjectExample example = new ChcSubjectExample();
+        example.or().andSubjectIdEqualTo(subjectId);
+        chcSubjectService.deleteByExample(example);
     }
 
 }
