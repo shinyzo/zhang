@@ -10,4 +10,5 @@ import com.lming.zhang.hospital.dao.model.ChcDoctorInfoExample;
 */
 public interface ChcDoctorInfoService extends BaseService<ChcDoctorInfo, ChcDoctorInfoExample> {
 
+
 }

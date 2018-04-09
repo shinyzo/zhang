@@ -9,8 +9,12 @@ import com.lming.zhang.hospital.rpc.api.ChcDoctorInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
 * ChcDoctorInfoService实现
@@ -26,4 +30,10 @@ public class ChcDoctorInfoServiceImpl extends BaseServiceImpl<ChcDoctorInfoMappe
     @Autowired
     ChcDoctorInfoMapper chcDoctorInfoMapper;
 
+    @Cacheable(value = "doctorCache", key = "'ChcDoctorInfoServiceImpl.selectByPrimaryKey'+#id")
+    @Override
+    public ChcDoctorInfo selectByPrimaryKey(Integer id) {
+        LOGGER.info("==========> 从数据库中查找...");
+        return chcDoctorInfoMapper.selectByPrimaryKey(id,"360622198809201536");
+    }
 }
