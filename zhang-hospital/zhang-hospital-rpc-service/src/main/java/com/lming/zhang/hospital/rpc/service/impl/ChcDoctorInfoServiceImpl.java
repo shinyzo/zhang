@@ -1,6 +1,5 @@
 package com.lming.zhang.hospital.rpc.service.impl;
 
-
 import com.lming.zhang.common.annotation.BaseService;
 import com.lming.zhang.common.base.BaseServiceImpl;
 import com.lming.zhang.hospital.dao.mapper.ChcDoctorInfoMapper;
@@ -15,9 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
 * ChcDoctorInfoService实现
-* Created by shuzheng on 2017/12/18.
+* Created by shuzheng on 2018/4/9.
 */
-@Service("chcDoctorInfoService")
+@Service
 @Transactional
 @BaseService
 public class ChcDoctorInfoServiceImpl extends BaseServiceImpl<ChcDoctorInfoMapper, ChcDoctorInfo, ChcDoctorInfoExample> implements ChcDoctorInfoService {

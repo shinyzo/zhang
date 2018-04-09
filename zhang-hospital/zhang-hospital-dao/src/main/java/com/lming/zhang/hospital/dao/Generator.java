@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 代码生成类
+ * 代码生成工具
+ * 工具将会自动生成dao,rpc-api,rpc-service对应数据库文件
  * Created by ZhangShuzheng on 2017/1/10.
  */
 public class Generator {

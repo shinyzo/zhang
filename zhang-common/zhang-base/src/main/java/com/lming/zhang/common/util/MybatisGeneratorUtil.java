@@ -88,7 +88,7 @@ public class MybatisGeneratorUtil {
 				tables.add(table);
 			}
 			jdbcUtil.release();
-
+			String targetProjectApi = basePath + module + "/" +module + "-rpc-api";
 			String targetProjectSqlMap = basePath + module + "/" + module + "-rpc-service";
 			context.put("tables", tables);
 			context.put("generator_javaModelGenerator_targetPackage", packageName + ".dao.model");
@@ -100,8 +100,12 @@ public class MybatisGeneratorUtil {
 			context.put("last_insert_id_tables", lastInsertIdTables);
 			VelocityUtil.generate(generatorConfig_vm, generatorConfigXml, context);
 			// 删除旧代码
+			// 删除dao
 			deleteDir(new File(targetProject + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/dao/model"));
 			deleteDir(new File(targetProject + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/dao/mapper"));
+			// 删除service
+			//deleteDir(new File(targetProjectApi + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/rpc/api"));
+			// 删除xml
 			deleteDir(new File(targetProjectSqlMap + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/dao/mapper"));
 		} catch (Exception e) {
 			e.printStackTrace();
