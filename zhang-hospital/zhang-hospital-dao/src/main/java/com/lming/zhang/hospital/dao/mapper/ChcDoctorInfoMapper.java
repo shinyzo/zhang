@@ -1,11 +1,9 @@
 package com.lming.zhang.hospital.dao.mapper;
 
-
 import com.lming.zhang.hospital.dao.model.ChcDoctorInfo;
 import com.lming.zhang.hospital.dao.model.ChcDoctorInfoExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface ChcDoctorInfoMapper {
     /**

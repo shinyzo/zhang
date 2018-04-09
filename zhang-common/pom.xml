@@ -14,6 +14,9 @@
     <modules>
         <module>zhang-base</module>
         <module>zhang-dependency</module>
+        <module>api-gateway</module>
+        <module>eureka</module>
+        <module>config</module>
     </modules>
 
 

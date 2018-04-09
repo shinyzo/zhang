@@ -9,8 +9,12 @@
 
 	<modules>
 		<module>zhang-hospital-common</module>
-		<module>zhang-hospital-rpc-service</module>
+		<module>zhang-hospital-dao</module>
+		<module>chc-doctor-app</module>
+		<module>chc-personal-app</module>
+		<module>chc-hospital-web</module>
         <module>zhang-hospital-rpc-api</module>
+        <module>zhang-hospital-rpc-service</module>
     </modules>
 	<packaging>pom</packaging>
 
