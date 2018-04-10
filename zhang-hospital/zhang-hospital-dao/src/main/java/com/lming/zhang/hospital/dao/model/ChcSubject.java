@@ -3,6 +3,7 @@ package com.lming.zhang.hospital.dao.model;
 import java.io.Serializable;
 
 public class ChcSubject implements Serializable {
+
     private String subjectId;
 
     private String subjectName;

@@ -7,12 +7,18 @@ spring:
     host: 127.0.0.1
     port: 6379
     password:
+    timeout: 0
+    pool:
+      min-idle: 0
+      max-idle: 8
 #jdbc
   datasource:
+      type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.jdbc.Driver
       username: root
       password: hnboTAnExe
       url: jdbc:mysql://localhost:3306/chc?characterEncoding=utf-8&useSSL=false
+
 
 # mybatis
 mybatis:

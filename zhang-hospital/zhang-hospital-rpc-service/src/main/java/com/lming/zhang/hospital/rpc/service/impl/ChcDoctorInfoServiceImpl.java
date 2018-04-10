@@ -30,7 +30,7 @@ public class ChcDoctorInfoServiceImpl extends BaseServiceImpl<ChcDoctorInfoMappe
     @Autowired
     ChcDoctorInfoMapper chcDoctorInfoMapper;
 
-    @Cacheable(value = "doctorCache", key = "'ChcDoctorInfoServiceImpl.selectByPrimaryKey'+#id")
+
     @Override
     public ChcDoctorInfo selectByPrimaryKey(Integer id) {
         LOGGER.info("==========> 从数据库中查找...");
