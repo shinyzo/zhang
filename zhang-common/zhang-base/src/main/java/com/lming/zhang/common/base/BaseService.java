@@ -32,6 +32,13 @@ public interface BaseService<Record, Example> {
     int deleteByPrimaryKey(Integer id);
 
     /**
+     * 根据主键删除记录
+     * @param key
+     * @return
+     */
+    int deleteByPrimaryKey(String key);
+
+    /**
      * 插入记录
      * @param record
      * @return
@@ -85,6 +92,13 @@ public interface BaseService<Record, Example> {
      * @return
      */
     Record selectByPrimaryKey(Integer id);
+
+    /**
+     * 根据主键查询 String类型
+     * @param key
+     * @return
+     */
+    Record selectByPrimaryKey(String key);
 
     /**
      * 根据条件更新有效字段

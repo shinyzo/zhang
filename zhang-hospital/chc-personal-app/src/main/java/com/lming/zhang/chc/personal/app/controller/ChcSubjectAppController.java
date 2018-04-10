@@ -2,7 +2,6 @@ package com.lming.zhang.chc.personal.app.controller;
 
 import com.lming.zhang.hospital.common.ResultVO;
 import com.lming.zhang.hospital.common.ResultVOUtils;
-import com.lming.zhang.hospital.dao.model.ChcDoctorInfo;
 import com.lming.zhang.hospital.dao.model.ChcSubject;
 import com.lming.zhang.hospital.dao.model.ChcSubjectExample;
 import com.lming.zhang.hospital.rpc.api.ChcSubjectService;
@@ -42,9 +41,7 @@ public class ChcSubjectAppController {
      */
     @RequestMapping(value="/subject/{subjectId}",method = RequestMethod.GET)
     public ResultVO findOne(@PathVariable("subjectId") String subjectId){
-        ChcSubjectExample example = new ChcSubjectExample();
-        example.or().andSubjectIdEqualTo(subjectId);
-        return ResultVOUtils.success(chcSubjectService.selectByExample(example));
+        return ResultVOUtils.success(chcSubjectService.selectByPrimaryKey(subjectId));
     }
 
     /**
@@ -73,9 +70,7 @@ public class ChcSubjectAppController {
      */
     @RequestMapping(value = "/subject/{subjectId}",method = RequestMethod.DELETE)
     public ResultVO delete(@PathVariable String subjectId){
-        ChcSubjectExample example = new ChcSubjectExample();
-        example.or().andSubjectIdEqualTo(subjectId);
-        chcSubjectService.deleteByExample(example);
+        chcSubjectService.deleteByPrimaryKey(subjectId);
         return ResultVOUtils.success(subjectId);
     }
 

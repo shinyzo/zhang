@@ -21,6 +21,8 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 
 	public Mapper mapper;
 
+
+
 	@Override
 	public int countByExample(Example example) {
 		try {
@@ -66,6 +68,25 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 			initMapper();
 			Method deleteByPrimaryKey = mapper.getClass().getDeclaredMethod("deleteByPrimaryKey", id.getClass());
 			Object result = deleteByPrimaryKey.invoke(mapper, id);
+			return Integer.parseInt(String.valueOf(result));
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+		// DynamicDataSource.clearDataSource();
+		return 0;
+	}
+
+	@Override
+	public int deleteByPrimaryKey(String key) {
+		try {
+			// DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
+			initMapper();
+			Method deleteByPrimaryKey = mapper.getClass().getDeclaredMethod("deleteByPrimaryKey", key.getClass());
+			Object result = deleteByPrimaryKey.invoke(mapper, key);
 			return Integer.parseInt(String.valueOf(result));
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
@@ -210,6 +231,25 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 			initMapper();
 			Method selectByPrimaryKey = mapper.getClass().getDeclaredMethod("selectByPrimaryKey", id.getClass());
 			Object result = selectByPrimaryKey.invoke(mapper, id);
+			return (Record) result;
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+		// DynamicDataSource.clearDataSource();
+		return null;
+	}
+
+	@Override
+	public Record selectByPrimaryKey(String key) {
+		try {
+			// DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
+			initMapper();
+			Method selectByPrimaryKey = mapper.getClass().getDeclaredMethod("selectByPrimaryKey", key.getClass());
+			Object result = selectByPrimaryKey.invoke(mapper, key);
 			return (Record) result;
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
