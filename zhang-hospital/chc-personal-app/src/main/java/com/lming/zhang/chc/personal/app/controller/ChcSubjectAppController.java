@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/personal")
-public class DoctorController {
+public class ChcSubjectAppController {
 
     @Autowired
     private ChcDoctorInfoService chcDoctorInfoService;

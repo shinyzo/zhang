@@ -71,17 +71,18 @@
             <version>${mybatis.version}</version>
         </dependency>
         <!-- ehcache -->
-        <!--<dependency>-->
-            <!--<groupId>net.sf.ehcache</groupId>-->
-            <!--<artifactId>ehcache</artifactId>-->
-            <!--<version>${ehcache.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>
         <!-- mybatis-ehcache -->
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-ehcache</artifactId>
             <version>1.0.0</version>
         </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
         <dependency>

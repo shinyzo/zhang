@@ -52,9 +52,7 @@ public class ChcPersonalAppController {
      * @param chcSubject
      */
     @RequestMapping(value="/subject",method = RequestMethod.POST)
-    public ResultVO add(@RequestBody ChcSubject chcSubject){
-        chcSubject.setSubjectId(UUID.randomUUID().toString().replaceAll("-","").substring(0,4));
-        chcSubject.setSubjectName("AAAA");
+    public ResultVO add(ChcSubject chcSubject){
         chcSubjectService.insertSelective(chcSubject);
         return ResultVOUtils.success(chcSubject);
     }
@@ -64,9 +62,9 @@ public class ChcPersonalAppController {
      * @param chcSubject
      */
     @RequestMapping(value = "/subject",method = RequestMethod.PUT)
-    public ResultVO update(@RequestBody ChcSubject chcSubject){
+    public ResultVO update(ChcSubject chcSubject){
         chcSubjectService.updateByPrimaryKey(chcSubject);
-        return ResultVOUtils.success();
+        return ResultVOUtils.success(chcSubject);
     }
 
     /**
@@ -78,7 +76,7 @@ public class ChcPersonalAppController {
         ChcSubjectExample example = new ChcSubjectExample();
         example.or().andSubjectIdEqualTo(subjectId);
         chcSubjectService.deleteByExample(example);
-        return ResultVOUtils.success();
+        return ResultVOUtils.success(subjectId);
     }
 
 }
