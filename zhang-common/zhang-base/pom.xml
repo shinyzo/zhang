@@ -9,10 +9,38 @@
     <groupId>com.lming.zhang</groupId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+
+        <springboot.version>2.0.0.RELEASE</springboot.version>
+        <com.alibaba.dubbo.version>2.5.3</com.alibaba.dubbo.version>
+        <org.apache.zookeeper.version>3.4.6</org.apache.zookeeper.version>
+
+        <mysql.version>5.1.6</mysql.version>
+        <mybatis.version>1.3.2</mybatis.version>
+        <mybatis-generator.version>1.3.5</mybatis-generator.version>
+        <jedis.version>2.9.0</jedis.version>
+        <commons-lang.version>2.6</commons-lang.version>
+        <commons-io.version>2.4</commons-io.version>
+        <ehcache.version>2.10.4</ehcache.version>
+        <pagehelper.version>5.1.2</pagehelper.version>
+        <fluent-validator.version>1.0.2</fluent-validator.version>
+        <zkclient.version>0.1</zkclient.version>
+        <velocity.version>1.7</velocity.version>
+        <durid.version>1.0.29</durid.version>
+        <slf4j.version>1.7.12</slf4j.version>
+        <junit.version>4.12</junit.version>
+        <lombok.version>1.16.20</lombok.version>
+    </properties>
+
+
     <parent>
-        <groupId>com.lming.zhang</groupId>
-        <artifactId>zhang-dependency</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.7.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <dependencies>
@@ -20,45 +48,38 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${springboot.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <!-- aspect 拦截器 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
-            <version>${springboot.version}</version>
         </dependency>
 
         <!-- redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-            <version>${springboot.version}</version>
         </dependency>
 
         <!-- activemq -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-activemq</artifactId>
-            <version>${springboot.version}</version>
         </dependency>
+
         <!-- jedis -->
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
             <version>${jedis.version}</version>
         </dependency>
-
-        <!-- MySql  -->
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
-        </dependency>
-
 
         <!-- mybatis -->
         <dependency>
@@ -93,31 +114,12 @@
             <version>${commons-io.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <version>${ehcache.version}</version>
-        </dependency>
         <!-- 验证框架 -->
         <dependency>
             <groupId>com.baidu.unbiz</groupId>
             <artifactId>fluent-validator-jsr303</artifactId>
             <version>${fluent-validator.version}</version>
         </dependency>
-        <!-- dubbo -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>dubbo</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring</artifactId>
-                </exclusion>
-            </exclusions>
-            <version>${com.alibaba.dubbo.version}</version>
-        </dependency>
-
 
         <!-- velocity -->
         <dependency>
@@ -126,18 +128,6 @@
             <version>${velocity.version}</version>
         </dependency>
 
-        <!-- 日志 -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-        </dependency>
 
     </dependencies>
 

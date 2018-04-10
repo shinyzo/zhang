@@ -1,7 +1,6 @@
 package com.lming.zhang.hospital.common;
 
 import com.lming.zhang.common.base.BaseResult;
-import lombok.Data;
 
 /**
  * Auth : shinyzo

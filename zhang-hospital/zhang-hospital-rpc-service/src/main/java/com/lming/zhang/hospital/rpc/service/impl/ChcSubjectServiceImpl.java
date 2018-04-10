@@ -59,6 +59,12 @@ public class ChcSubjectServiceImpl extends BaseServiceImpl<ChcSubjectMapper, Chc
         return super.selectByPrimaryKey(id);
     }
 
+    @Cacheable(key = "#p0")
+    @Override
+    public ChcSubject selectByPrimaryKey(String key) {
+        return super.selectByPrimaryKey(key);
+    }
+
     @CachePut(key =  "#p0.subjectId")
     @Override
     public int updateByExampleSelective(ChcSubject chcSubject, ChcSubjectExample chcSubjectExample) {

@@ -1,11 +1,11 @@
 package com.lming.zhang.common.base;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
 import com.github.pagehelper.PageHelper;
 
 import com.lming.zhang.common.db.DataSourceEnum;
 import com.lming.zhang.common.db.DynamicDataSource;
 import com.lming.zhang.common.util.SpringContextUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
 
 import java.lang.reflect.InvocationTargetException;

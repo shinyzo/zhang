@@ -1,10 +1,7 @@
 package com.lming.zhang.common.util;
 
 
-
-
-
-import com.alibaba.dubbo.common.utils.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
