@@ -620,5 +620,4 @@
     where doctor_id = #{doctorId,jdbcType=INTEGER}
       and id_card_no = #{idCardNo,jdbcType=VARCHAR}
   </update>
-  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

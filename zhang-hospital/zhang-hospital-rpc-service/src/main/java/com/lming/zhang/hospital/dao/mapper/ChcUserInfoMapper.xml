@@ -350,5 +350,4 @@
     where id = #{id,jdbcType=INTEGER}
       and openid = #{openid,jdbcType=VARCHAR}
   </update>
-  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

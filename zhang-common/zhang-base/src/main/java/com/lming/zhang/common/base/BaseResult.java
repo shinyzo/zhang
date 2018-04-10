@@ -4,12 +4,12 @@ package com.lming.zhang.common.base;
  * 统一返回结果类
  * Created by shuzheng on 2017/2/18.
  */
-public class BaseResult {
+public class BaseResult<Data> {
 
     /**
      * 状态码：1成功，其他为失败
      */
-    public int code;
+    public Integer code;
 
     /**
      * 成功为success，其他为失败原因
@@ -19,9 +19,9 @@ public class BaseResult {
     /**
      * 数据结果集
      */
-    public Object data;
+    public Data data;
 
-    public BaseResult(int code, String message, Object data) {
+    public BaseResult(Integer code, String message, Data data) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -31,7 +31,7 @@ public class BaseResult {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -47,7 +47,7 @@ public class BaseResult {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(Data data) {
         this.data = data;
     }
 

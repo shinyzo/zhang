@@ -3,6 +3,8 @@ package com.lming.zhang.common.base;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.github.pagehelper.PageHelper;
 
+import com.lming.zhang.common.db.DataSourceEnum;
+import com.lming.zhang.common.db.DynamicDataSource;
 import com.lming.zhang.common.util.SpringContextUtil;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,7 +24,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 	@Override
 	public int countByExample(Example example) {
 		try {
-			//DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
+			// DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
 			initMapper();
 			Method countByExample = mapper.getClass().getDeclaredMethod("countByExample", example.getClass());
 			Object result = countByExample.invoke(mapper, example);
@@ -79,7 +81,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 	@Override
 	public int insert(Record record) {
 		try {
-		// 	DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
+		 	DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
 			initMapper();
 			Method insert = mapper.getClass().getDeclaredMethod("insert", record.getClass());
 			Object result = insert.invoke(mapper, record);
@@ -91,7 +93,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		}
-		// DynamicDataSource.clearDataSource();
+		 DynamicDataSource.clearDataSource();
 		return 0;
 	}
 

@@ -161,5 +161,4 @@
     set level_name = #{levelName,jdbcType=VARCHAR}
     where level_id = #{levelId,jdbcType=INTEGER}
   </update>
-  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

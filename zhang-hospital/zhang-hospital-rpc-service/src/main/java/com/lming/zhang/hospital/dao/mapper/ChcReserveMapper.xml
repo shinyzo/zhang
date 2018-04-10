@@ -303,5 +303,4 @@
       lng = #{lng,jdbcType=VARCHAR}
     where reserve_id = #{reserveId,jdbcType=VARCHAR}
   </update>
-  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

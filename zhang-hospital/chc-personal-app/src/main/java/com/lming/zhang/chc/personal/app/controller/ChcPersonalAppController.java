@@ -1,14 +1,13 @@
 package com.lming.zhang.chc.personal.app.controller;
 
+import com.lming.zhang.hospital.common.ResultVO;
+import com.lming.zhang.hospital.common.ResultVOUtils;
 import com.lming.zhang.hospital.dao.model.ChcDoctorInfo;
 import com.lming.zhang.hospital.dao.model.ChcSubject;
 import com.lming.zhang.hospital.dao.model.ChcSubjectExample;
 import com.lming.zhang.hospital.rpc.api.ChcSubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,42 +15,70 @@ import java.util.UUID;
 /**
  * Auth : shinyzo
  * Date : 2018/4/9
- * description : xxxx
+ * description : resuful api
  */
 @RestController
-@RequestMapping("/personal")
+@RequestMapping("/api")
 public class ChcPersonalAppController {
 
     @Autowired
     private ChcSubjectService chcSubjectService;
 
-    @GetMapping("/subject/list")
-    public List<ChcSubject> list(){
+
+    /**
+     * 查询所有
+     * @return
+     */
+    @RequestMapping(value="/subject",method = RequestMethod.GET)
+    public ResultVO findAll(){
         ChcSubjectExample example = new ChcSubjectExample();
-        return chcSubjectService.selectByExample(example);
+        return ResultVOUtils.success(chcSubjectService.selectByExample(example));
     }
 
-    @GetMapping("/subject/add")
-    public void add(){
-        ChcSubject chcSubject = new ChcSubject();
+    /**
+     * 按主键查询
+     * @param subjectId
+     * @return
+     */
+    @RequestMapping(value="/subject/{subjectId}",method = RequestMethod.GET)
+    public ResultVO findOne(@PathVariable("subjectId") String subjectId){
+        ChcSubjectExample example = new ChcSubjectExample();
+        example.or().andSubjectIdEqualTo(subjectId);
+        return ResultVOUtils.success(chcSubjectService.selectByExample(example));
+    }
+
+    /**
+     * 新增数据
+     * @param chcSubject
+     */
+    @RequestMapping(value="/subject",method = RequestMethod.POST)
+    public ResultVO add(@RequestBody ChcSubject chcSubject){
         chcSubject.setSubjectId(UUID.randomUUID().toString().replaceAll("-","").substring(0,4));
         chcSubject.setSubjectName("AAAA");
         chcSubjectService.insertSelective(chcSubject);
+        return ResultVOUtils.success(chcSubject);
     }
 
-    @GetMapping("/subject/update/{subjectId}")
-    public void update(@PathVariable String subjectId){
-        ChcSubject chcSubject = new ChcSubject();
-        chcSubject.setSubjectId(subjectId);
-        chcSubject.setSubjectName("BBBB");
+    /**
+     * 修改数据
+     * @param chcSubject
+     */
+    @RequestMapping(value = "/subject",method = RequestMethod.PUT)
+    public ResultVO update(@RequestBody ChcSubject chcSubject){
         chcSubjectService.updateByPrimaryKey(chcSubject);
+        return ResultVOUtils.success();
     }
 
-    @GetMapping("/subject/delete/{subjectId}")
-    public void delete(@PathVariable String subjectId){
+    /**
+     * 删除数据
+     * @param subjectId
+     */
+    @RequestMapping(value = "/subject/{subjectId}",method = RequestMethod.DELETE)
+    public ResultVO delete(@PathVariable String subjectId){
         ChcSubjectExample example = new ChcSubjectExample();
         example.or().andSubjectIdEqualTo(subjectId);
         chcSubjectService.deleteByExample(example);
+        return ResultVOUtils.success();
     }
 
 }

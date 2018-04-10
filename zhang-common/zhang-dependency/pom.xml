@@ -34,6 +34,7 @@
         <durid.version>1.0.29</durid.version>
         <slf4j.version>1.7.12</slf4j.version>
         <junit.version>4.12</junit.version>
+        <lombok.version>1.16.20</lombok.version>
     </properties>
 
 
@@ -181,6 +182,12 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity</artifactId>
                 <version>${velocity.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
             </dependency>
             <!-- 日志 -->
             <dependency>

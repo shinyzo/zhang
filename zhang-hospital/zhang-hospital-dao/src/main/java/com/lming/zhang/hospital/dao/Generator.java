@@ -25,7 +25,7 @@ public class Generator {
 	private static String JDBC_USERNAME = PropertiesFileUtil.getInstance("generator").get("generator.jdbc.username");
 	private static String JDBC_PASSWORD = PropertiesFileUtil.getInstance("generator").get("generator.jdbc.password");
 	// 需要insert后返回主键的表配置，key:表名,value:主键名
-	private static Map<String, String> LAST_INSERT_ID_TABLES = new HashMap<>();
+	private static Map<String, String> LAST_INSERT_ID_TABLES = new HashMap<String,String>();
 	static {
 		//LAST_INSERT_ID_TABLES.put("upms_user", "user_id");
 	}

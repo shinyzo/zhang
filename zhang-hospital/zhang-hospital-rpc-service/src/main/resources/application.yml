@@ -1,17 +1,28 @@
 server:
-  port: 1111
+  port: 2222
 spring:
   application:
     name: hospital-service
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
 #jdbc
   datasource:
       driver-class-name: com.mysql.jdbc.Driver
       username: root
       password: hnboTAnExe
       url: jdbc:mysql://localhost:3306/chc?characterEncoding=utf-8&useSSL=false
+
 # mybatis
 mybatis:
   mapper-locations: classpath:com/lming/zhang/hospital/dao/mapper/*.xml
   typeAliasesPackage: com.lming.zhang.hospital.dao.model
   config-location: classpath:/config/mybatis-config.xml
   check-config-location: true
+
+# dubbo
+dubbo:
+  name: dubbo-provider
+  port: 20883
+  address: zookeeper://127.0.0.1:2181

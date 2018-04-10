@@ -161,5 +161,4 @@
     set subject_name = #{subjectName,jdbcType=VARCHAR}
     where subject_id = #{subjectId,jdbcType=VARCHAR}
   </update>
-  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

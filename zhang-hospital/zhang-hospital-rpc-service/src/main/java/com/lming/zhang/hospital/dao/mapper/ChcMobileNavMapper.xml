@@ -208,5 +208,4 @@
       sort = #{sort,jdbcType=INTEGER}
     where nav_id = #{navId,jdbcType=VARCHAR}
   </update>
-  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

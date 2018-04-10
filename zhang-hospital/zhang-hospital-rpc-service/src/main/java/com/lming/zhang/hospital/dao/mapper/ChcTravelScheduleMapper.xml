@@ -288,5 +288,4 @@
       status = #{status,jdbcType=VARCHAR}
     where travel_id = #{travelId,jdbcType=INTEGER}
   </update>
-  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

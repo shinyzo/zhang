@@ -9,6 +9,7 @@ import com.lming.zhang.hospital.rpc.api.ChcSubjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,6 +25,7 @@ import java.util.List;
 @Service
 @Transactional
 @BaseService
+@CacheConfig(cacheNames = "subject")
 public class ChcSubjectServiceImpl extends BaseServiceImpl<ChcSubjectMapper, ChcSubject, ChcSubjectExample> implements ChcSubjectService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChcSubjectServiceImpl.class);
@@ -33,12 +35,13 @@ public class ChcSubjectServiceImpl extends BaseServiceImpl<ChcSubjectMapper, Chc
     @Autowired
     ChcSubjectMapper chcSubjectMapper;
 
-    @CacheEvict(value="subjectCache",key="SUBJECT_CACHE_KEY+'#id'")
+    @CacheEvict(key = "SUBJECT_CACHE_KEY+'#p0'")
     @Override
     public int deleteByPrimaryKey(Integer id) {
         return super.deleteByPrimaryKey(id);
     }
-    @CachePut(value="subjectCache",key="SUBJECT_CACHE_KEY+'#chcSubject.subjectId'")
+
+    @CachePut(key = "SUBJECT_CACHE_KEY+'#p0.subjectId'")
     @Override
     public int insert(ChcSubject chcSubject) {
         return super.insert(chcSubject);
@@ -50,12 +53,13 @@ public class ChcSubjectServiceImpl extends BaseServiceImpl<ChcSubjectMapper, Chc
         return super.selectByExample(chcSubjectExample);
     }
 
-    @Cacheable(value="subjectCache",key="SUBJECT_CACHE_KEY+'#id'")
+    @Cacheable(key="SUBJECT_CACHE_KEY+'#p0'")
     @Override
     public ChcSubject selectByPrimaryKey(Integer id) {
         return super.selectByPrimaryKey(id);
     }
 
+    @CachePut(key = "SUBJECT_CACHE_KEY+'#p0.subjectId'")
     @Override
     public int updateByExampleSelective(ChcSubject chcSubject, ChcSubjectExample chcSubjectExample) {
         return super.updateByExampleSelective(chcSubject, chcSubjectExample);

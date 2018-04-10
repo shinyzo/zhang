@@ -255,5 +255,4 @@
       total_price = #{totalPrice,jdbcType=DECIMAL}
     where detail_id = #{detailId,jdbcType=VARCHAR}
   </update>
-  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

@@ -256,5 +256,4 @@
       lng = #{lng,jdbcType=VARCHAR}
     where hospital_id = #{hospitalId,jdbcType=INTEGER}
   </update>
-  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>
