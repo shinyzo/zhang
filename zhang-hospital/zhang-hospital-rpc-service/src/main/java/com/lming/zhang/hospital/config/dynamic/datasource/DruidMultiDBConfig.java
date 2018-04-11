@@ -1,12 +1,12 @@
-package com.lming.zhang.hospital.dynamic.datasource;
+package com.lming.zhang.hospital.config.dynamic.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import com.lming.zhang.common.db.DataSourceEnum;
 import com.lming.zhang.common.db.DynamicDataSource;
-import com.lming.zhang.hospital.config.MasterDbConfig;
-import com.lming.zhang.hospital.config.SlaveDbConfig;
+import com.lming.zhang.hospital.properties.MasterDbConfig;
+import com.lming.zhang.hospital.properties.SlaveDbConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -22,8 +22,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 

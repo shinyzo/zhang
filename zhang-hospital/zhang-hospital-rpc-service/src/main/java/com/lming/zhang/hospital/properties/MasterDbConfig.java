@@ -1,4 +1,4 @@
-package com.lming.zhang.hospital.config;
+package com.lming.zhang.hospital.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

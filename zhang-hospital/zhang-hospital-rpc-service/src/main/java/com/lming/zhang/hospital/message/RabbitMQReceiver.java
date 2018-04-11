@@ -1,13 +1,17 @@
 package com.lming.zhang.hospital.message;
 
+import com.lming.zhang.hospital.common.constants.QueueConstatns;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+import reactor.util.concurrent.Queues;
 
 /**
+ *
+ * rabbitmq 消息接受
  * Auth : shinyzo
  * Date : 2018/4/11
  * description : xxxx
@@ -36,35 +40,6 @@ public class RabbitMQReceiver {
 
 
     /**
-     * 直接匹配AA
-     * @param message
-     */
-    @RabbitListener(bindings = @QueueBinding(
-            exchange = @Exchange(value = EXCHANGE_B),
-            key = "AA",
-            value = @Queue(QUEUE_B)
-    ))
-    public void process1(String message){
-
-        log.info("process1 receive message:" + message);
-    }
-
-    /**
-     * 匹配AA.*
-     * @param message
-     */
-//    @RabbitListener(bindings = @QueueBinding(
-//            exchange = @Exchange(value = EXCHANGE_A,type = "topic"),
-//            key = "*.AA.*",
-//            value = @Queue(QUEUE_B)
-//    ))
-//    public void process2(String message){
-//
-//        log.info("process2 receive message:" + message);
-//    }
-
-
-    /**
      * 匹配AA开头的所有
      * @param message
      */
@@ -77,19 +52,19 @@ public class RabbitMQReceiver {
 
         log.info("process3 receive message:" + message);
     }
-    /**
-     * 消息分组 key
-     *
-     * @param message
-     */
-//    @RabbitListener(bindings = @QueueBinding(
-//            exchange=@Exchange("order"),
-//            key="fruit",
-//            value=@Queue("fruitOrder")
-//    ))
-//    public void  processFruit(String message){
-//        log.info("mq receiver : {}" ,message);
-//
-//    }
+
+
+
+    @RabbitListener(queues = QueueConstatns.QUEUE_ORDER)
+    public void orderQueueMessage(String message){
+
+        log.info("orderQueueMessage receive message:" + message);
+    }
+
+    @RabbitListener(queues = QueueConstatns.QUEUE_PRODUCT)
+    public void productQueueMessage(String message){
+
+        log.info("productQueueMessage receive message:" + message);
+    }
 
 }

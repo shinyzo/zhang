@@ -1,5 +1,6 @@
 package com.lming.zhang.chc.personal.app.controller;
 
+import com.lming.zhang.hospital.common.constants.ExchangeConstants;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -21,8 +22,13 @@ public class RabbitMQSenderController {
     @RequestMapping(value = "/send",method = RequestMethod.GET)
     public void send(){
 
-        amqpTemplate.convertAndSend("exchangeB","AA","hello workd 2");
-        amqpTemplate.convertAndSend("exchangeA","MM.AA.bb","hello workd 3");
-        amqpTemplate.convertAndSend("exchangeA","KK.AA.cc.FF","hello workd 4");
+        amqpTemplate.convertAndSend(ExchangeConstants.EXCHANGE_ORDER,"order.xxx","hello order 1");
+
+        amqpTemplate.convertAndSend(ExchangeConstants.EXCHANGE_ORDER,"xxxx.order.xxx","hello order 2");
+
+        amqpTemplate.convertAndSend(ExchangeConstants.EXCHANGE_PRODUCT,"xxxx.product.xxx","hello product 3");
+
+        amqpTemplate.convertAndSend(ExchangeConstants.EXCHANGE_PRODUCT,"xxxx.product.xxx.yyyyy","hello product 4");
+
     }
 }
