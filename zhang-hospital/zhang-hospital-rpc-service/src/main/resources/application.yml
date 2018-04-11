@@ -23,7 +23,7 @@ spring:
       maxPoolPreparedStatementPerConnectionSize: 20
       filters: stat,wall,log4j
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-
+# redis
   redis:
     host: 127.0.0.1
     port: 6379
@@ -32,10 +32,17 @@ spring:
     pool:
       min-idle: 0
       max-idle: 8
+# dubbo
   dubbo:
     name: dubbo-provider
     port: 20883
     address: zookeeper://127.0.0.1:2181
+# rabbitMq
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
 # mybatis
 mybatis:
   mapper-locations: classpath:com/lming/zhang/hospital/dao/mapper/*.xml
