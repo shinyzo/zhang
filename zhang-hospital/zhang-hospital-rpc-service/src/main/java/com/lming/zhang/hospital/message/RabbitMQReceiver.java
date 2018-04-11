@@ -19,12 +19,8 @@ public class RabbitMQReceiver {
     public static final String QUEUE_A = "queue_A";
     public static final String QUEUE_B = "queue_B";
     public static final String EXCHANGE_A = "exchangeA";
+    public static final String EXCHANGE_B = "exchangeB";
 
-    /**
-     *
-     * type = "topic" 需要人工自己去建立，
-     * 系统只会建立 type="direct"
-     */
 
     /**
      * 直接匹配AA
@@ -44,7 +40,7 @@ public class RabbitMQReceiver {
      * @param message
      */
     @RabbitListener(bindings = @QueueBinding(
-            exchange = @Exchange(value = EXCHANGE_A),
+            exchange = @Exchange(value = EXCHANGE_B),
             key = "AA",
             value = @Queue(QUEUE_B)
     ))
@@ -57,15 +53,15 @@ public class RabbitMQReceiver {
      * 匹配AA.*
      * @param message
      */
-    @RabbitListener(bindings = @QueueBinding(
-            exchange = @Exchange(value = EXCHANGE_A,type = "topic"),
-            key = "*.AA.*",
-            value = @Queue(QUEUE_B)
-    ))
-    public void process2(String message){
-
-        log.info("process2 receive message:" + message);
-    }
+//    @RabbitListener(bindings = @QueueBinding(
+//            exchange = @Exchange(value = EXCHANGE_A,type = "topic"),
+//            key = "*.AA.*",
+//            value = @Queue(QUEUE_B)
+//    ))
+//    public void process2(String message){
+//
+//        log.info("process2 receive message:" + message);
+//    }
 
 
     /**
