@@ -102,7 +102,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 	@Override
 	public int insert(Record record) {
 		try {
-		 	DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
+		 	// DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
 			initMapper();
 			Method insert = mapper.getClass().getDeclaredMethod("insert", record.getClass());
 			Object result = insert.invoke(mapper, record);
@@ -114,14 +114,14 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		}
-		 DynamicDataSource.clearDataSource();
+		// DynamicDataSource.clearDataSource();
 		return 0;
 	}
 
 	@Override
 	public int insertSelective(Record record) {
 		try {
-			// DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
+			DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
 			initMapper();
 			Method insertSelective = mapper.getClass().getDeclaredMethod("insertSelective", record.getClass());
 			Object result = insertSelective.invoke(mapper, record);
@@ -133,7 +133,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		}
-		// DynamicDataSource.clearDataSource();
+			DynamicDataSource.clearDataSource();
 		return 0;
 	}
 
@@ -141,7 +141,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 	@Override
 	public List<Record> selectByExample(Example example) {
 		try {
-			// DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
+			DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
 			initMapper();
 			Method selectByExample = mapper.getClass().getDeclaredMethod("selectByExample", example.getClass());
 			Object result = selectByExample.invoke(mapper, example);
@@ -153,7 +153,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		}
-		// DynamicDataSource.clearDataSource();
+		DynamicDataSource.clearDataSource();
 		return null;
 	}
 

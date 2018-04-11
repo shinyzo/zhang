@@ -17,7 +17,7 @@ import java.sql.SQLException;
 /**
  * Created by arnold.zhu on 6/13/2017.
  */
-@Configuration
+// @Configuration
 public class DruidConfig {
 
     private Logger logger = LoggerFactory.getLogger(DruidConfig.class);

@@ -29,9 +29,10 @@ spring:
     port: 6379
     password:
     timeout: 0
-    pool:
-      min-idle: 0
-      max-idle: 8
+    jedis:
+      pool:
+        min-idle: 0
+        max-idle: 8
 # dubbo
   dubbo:
     name: dubbo-provider
@@ -49,3 +50,52 @@ mybatis:
   typeAliasesPackage: com.lming.zhang.hospital.dao.model
   config-location: classpath:/config/mybatis-config.xml
   check-config-location: true
+
+#Hikari DataSource master slave
+hikari:
+  db:
+    master:
+      driverClassName: com.mysql.jdbc.Driver
+      username: root
+      password: hnboTAnExe
+      jdbcUrl: jdbc:mysql://localhost:3306/chc?characterEncoding=utf-8&useSSL=false
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      filters: stat,wall,log4j
+    slave:
+      driverClassName: com.mysql.jdbc.Driver
+      username: root
+      password: hnboTAnExe
+      jdbcUrl: jdbc:mysql://localhost:3306/chc_slave?characterEncoding=utf-8&useSSL=false
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      filters: stat,wall,log4j
+
+druid:
+  username: root
+  password: 123456
+  db:
+    master:
+      driver-class-name: com.mysql.jdbc.Driver
+      username: root
+      password: hnboTAnExe
+      url: jdbc:mysql://localhost:3306/chc?characterEncoding=utf-8&useSSL=false
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      filters: stat,wall,log4j
+    slave:
+      driver-class-name: com.mysql.jdbc.Driver
+      username: root
+      password: hnboTAnExe
+      url: jdbc:mysql://localhost:3306/chc_slave?characterEncoding=utf-8&useSSL=false
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      filters: stat,wall,log4j
