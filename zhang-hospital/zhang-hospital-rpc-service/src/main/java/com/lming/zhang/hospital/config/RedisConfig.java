@@ -82,7 +82,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     public CacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
         Map<String, Long> expires=new HashMap<String, Long>();
-        expires.put("subject", 6000L);
+        expires.put("subject", 6000L);  // 6000s
         cacheManager.setExpires(expires);
         // Number of seconds before expiration. Defaults to unlimited (0)
         cacheManager.setDefaultExpiration(600); //设置key-value超时时间

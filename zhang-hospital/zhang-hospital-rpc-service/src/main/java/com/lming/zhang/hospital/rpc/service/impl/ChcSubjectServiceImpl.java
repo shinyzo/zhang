@@ -35,43 +35,43 @@ public class ChcSubjectServiceImpl extends BaseServiceImpl<ChcSubjectMapper, Chc
     @Autowired
     ChcSubjectMapper chcSubjectMapper;
 
-    @CacheEvict(key = SUBJECT_CACHE_KEY + "+#p0")
+    @CacheEvict
     @Override
     public int deleteByPrimaryKey(Integer id) {
         return super.deleteByPrimaryKey(id);
     }
 
-    @CachePut(key = "#p0.subjectId")
+    @CachePut
     @Override
     public int insert(ChcSubject chcSubject) {
         return super.insert(chcSubject);
     }
 
-    @Cacheable(key = "#p0")
+    @Cacheable
     @Override
     public List<ChcSubject> selectByExample(ChcSubjectExample chcSubjectExample) {
         return super.selectByExample(chcSubjectExample);
     }
 
-    @Cacheable(key = "#p0")
+    @Cacheable
     @Override
     public ChcSubject selectByPrimaryKey(Integer id) {
         return super.selectByPrimaryKey(id);
     }
 
-    @Cacheable(key = "#p0")
+    @Cacheable
     @Override
     public ChcSubject selectByPrimaryKey(String key) {
         return super.selectByPrimaryKey(key);
     }
 
-    @CachePut(key =  "#p0.subjectId")
+    @CachePut
     @Override
     public int updateByExampleSelective(ChcSubject chcSubject, ChcSubjectExample chcSubjectExample) {
         return super.updateByExampleSelective(chcSubject, chcSubjectExample);
     }
 
-    @CachePut(key =  "#p0.subjectId")
+    @CachePut
     @Override
     public int updateByPrimaryKey(ChcSubject chcSubject) {
         return super.updateByPrimaryKey(chcSubject);

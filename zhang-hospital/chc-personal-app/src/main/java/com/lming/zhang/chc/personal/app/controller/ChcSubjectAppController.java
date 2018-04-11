@@ -41,7 +41,8 @@ public class ChcSubjectAppController {
      */
     @RequestMapping(value="/subject/{subjectId}",method = RequestMethod.GET)
     public ResultVO findOne(@PathVariable("subjectId") String subjectId){
-        return ResultVOUtils.success(chcSubjectService.selectByPrimaryKey(subjectId));
+        ChcSubject subject = chcSubjectService.selectByPrimaryKey(subjectId);
+        return ResultVOUtils.success(subject);
     }
 
     /**
