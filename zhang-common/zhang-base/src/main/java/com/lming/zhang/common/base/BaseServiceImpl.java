@@ -246,7 +246,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 	@Override
 	public Record selectByPrimaryKey(String key) {
 		try {
-			// DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
+			DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
 			initMapper();
 			Method selectByPrimaryKey = mapper.getClass().getDeclaredMethod("selectByPrimaryKey", key.getClass());
 			Object result = selectByPrimaryKey.invoke(mapper, key);
@@ -258,7 +258,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		}
-		// DynamicDataSource.clearDataSource();
+		DynamicDataSource.clearDataSource();
 		return null;
 	}
 
@@ -325,7 +325,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 	@Override
 	public int updateByPrimaryKey(Record record) {
 		try {
-			// DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
+			DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
 			initMapper();
 			Method updateByPrimaryKey = mapper.getClass().getDeclaredMethod("updateByPrimaryKey", record.getClass());
 			Object result = updateByPrimaryKey.invoke(mapper, record);
@@ -337,7 +337,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		}
-		// DynamicDataSource.clearDataSource();
+		DynamicDataSource.clearDataSource();
 		return 0;
 	}
 

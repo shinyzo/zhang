@@ -25,6 +25,7 @@ import java.util.List;
 @Service
 @Transactional
 @BaseService
+@CacheConfig(cacheNames = "subject")
 public class ChcSubjectServiceImpl extends BaseServiceImpl<ChcSubjectMapper, ChcSubject, ChcSubjectExample> implements ChcSubjectService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChcSubjectServiceImpl.class);
@@ -51,7 +52,7 @@ public class ChcSubjectServiceImpl extends BaseServiceImpl<ChcSubjectMapper, Chc
         return super.selectByExample(chcSubjectExample);
     }
 
-
+    @Cacheable(key = "#p0")
     @Override
     public ChcSubject selectByPrimaryKey(Integer id) {
         return super.selectByPrimaryKey(id);

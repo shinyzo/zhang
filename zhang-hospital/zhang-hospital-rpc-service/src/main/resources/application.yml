@@ -23,16 +23,20 @@ spring:
       maxPoolPreparedStatementPerConnectionSize: 20
       filters: stat,wall,log4j
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-# redis
+# redis 单机
   redis:
-    host: 127.0.0.1
-    port: 6379
-    password:
-    timeout: 0
-    jedis:
-      pool:
-        min-idle: 0
-        max-idle: 8
+#    host: 127.0.0.1
+#    port: 6379
+#    password:
+#    timeout: 0
+#    jedis:
+#      pool:
+#        min-idle: 0
+#        max-idle: 8
+# redis sentinel 哨兵模式，监控主从节点，当master节点挂掉之后，从salve节点中选择一个作为新的主节点，并更新其他从节点信息
+    sentinel:
+      master: redis-sentinel
+      nodes: 127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381
 # dubbo
   dubbo:
     name: dubbo-provider
