@@ -35,8 +35,8 @@ spring:
 #        max-idle: 8
 # redis sentinel 哨兵模式，监控主从节点，当master节点挂掉之后，从salve节点中选择一个作为新的主节点，并更新其他从节点信息
     sentinel:
-      master: redis-sentinel
-      nodes: 127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381
+      master: master
+      nodes: 127.0.0.1:26379
 # dubbo
   dubbo:
     name: dubbo-provider

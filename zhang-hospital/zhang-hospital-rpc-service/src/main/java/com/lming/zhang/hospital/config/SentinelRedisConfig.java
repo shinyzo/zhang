@@ -23,20 +23,19 @@ import java.util.Set;
  * Date : 2018/4/12
  * description : xxxx
  */
-@Configuration
-@EnableCaching
+//@Configuration
 public class SentinelRedisConfig {
 
     /**
      * 哨兵模式
      */
     @Value("${spring.redis.sentinel.master}")
-    private String masterName;
+    private String master;
     @Value("${spring.redis.sentinel.nodes}")
     private String nodes;
 
     @Bean
-    public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+    public RedisCacheManager cacheManager(JedisConnectionFactory redisConnectionFactory) {
         return RedisCacheManager.create(redisConnectionFactory);
 //        RedisCacheManager cm = RedisCacheManager.builder(connectionFactory)
 //                .cacheDefaults(defaultCacheConfig())
@@ -46,20 +45,19 @@ public class SentinelRedisConfig {
 //        return cm;
     }
 
-    @Bean
+    @Bean("redisConnectionFactory")
     public JedisConnectionFactory redisConnectionFactory(RedisSentinelConfiguration redisSentinelConfiguration, JedisPoolConfig jedisPoolConfig) {
         //JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
         return new JedisConnectionFactory(redisSentinelConfiguration,jedisPoolConfig);
     }
 
-    @Bean
+    @Bean("redisSentinelConfiguration")
     public RedisSentinelConfiguration redisSentinelConfiguration(){
-
         Set<String> sentinelHostAndPorts = StringUtils.commaDelimitedListToSet(nodes);
 
         //sentinelHostAndPorts.add("127.0.0.1:6379");
         //sentinelHostAndPorts.add("127.0.0.1:6380");
-        return new RedisSentinelConfiguration("master",sentinelHostAndPorts);
+        return new RedisSentinelConfiguration(master,sentinelHostAndPorts);
     }
 
     /**
@@ -67,7 +65,7 @@ public class SentinelRedisConfig {
      * @Description:
      * @return
      */
-    @Bean
+    @Bean("jedisPoolConfig")
     public JedisPoolConfig jedisPoolConfig() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxIdle(8);
@@ -77,7 +75,7 @@ public class SentinelRedisConfig {
 
 
     @Bean
-    public RedisCacheConfiguration defaultCacheConfig(){
+    public RedisCacheConfiguration redisCacheConfiguration(){
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofSeconds(1000))
                 .disableCachingNullValues();
