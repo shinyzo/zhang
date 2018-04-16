@@ -37,6 +37,11 @@ spring:
     sentinel:
       master: redis-sentinel
       nodes: 127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381
+
+    cluster:
+      max-redirects: 6
+      nodes: 127.0.0.1:6380,127.0.0.1:6381,127.0.0.1:6382,127.0.0.1:6383,127.0.0.1:6384,127.0.0.1:6385
+
 # dubbo
   dubbo:
     name: dubbo-provider
@@ -48,6 +53,11 @@ spring:
     port: 5672
     username: guest
     password: guest
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+    in-memory: true
 # mybatis
 mybatis:
   mapper-locations: classpath:com/lming/zhang/hospital/dao/mapper/*.xml
