@@ -6,6 +6,7 @@ import com.lming.zhang.hospital.dao.model.ChcSubject;
 import com.lming.zhang.hospital.dao.model.ChcSubjectExample;
 import com.lming.zhang.hospital.rpc.api.ChcSubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,12 +25,18 @@ public class ChcSubjectAppController {
     private ChcSubjectService chcSubjectService;
 
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+
     /**
      * 查询所有
      * @return
      */
     @RequestMapping(value="/subject",method = RequestMethod.GET)
     public ResultVO findAll(){
+
+        // stringRedisTemplate.opsForValue().set("RRRR","RRRRR");
         ChcSubjectExample example = new ChcSubjectExample();
         return ResultVOUtils.success(chcSubjectService.selectByExample(example));
     }

@@ -3,9 +3,9 @@ server:
 spring:
   dubbo:
     name: dubbo-customer
-    address: zookeeper://127.0.0.1:2181
+    address: zookeeper://192.168.99.100:2181
   rabbitmq:
-    host: 127.0.0.1
+    host: 192.168.99.100
     port: 5672
     username: guest
     password: guest

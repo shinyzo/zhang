@@ -13,6 +13,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,9 @@ public class ChcSubjectServiceImpl extends BaseServiceImpl<ChcSubjectMapper, Chc
     @Autowired
     ChcSubjectMapper chcSubjectMapper;
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
 
     @Override
     public int deleteByPrimaryKey(Integer id) {
@@ -49,6 +53,7 @@ public class ChcSubjectServiceImpl extends BaseServiceImpl<ChcSubjectMapper, Chc
 
     @Override
     public List<ChcSubject> selectByExample(ChcSubjectExample chcSubjectExample) {
+        stringRedisTemplate.opsForValue().set("TTTTT","TTTTT");
         return super.selectByExample(chcSubjectExample);
     }
 
