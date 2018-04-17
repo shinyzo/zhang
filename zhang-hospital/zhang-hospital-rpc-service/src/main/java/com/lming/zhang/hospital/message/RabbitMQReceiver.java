@@ -43,28 +43,28 @@ public class RabbitMQReceiver {
      * 匹配AA开头的所有
      * @param message
      */
-    @RabbitListener(bindings = @QueueBinding(
-            exchange = @Exchange(value = EXCHANGE_A,type = "topic"),
-            key = "*.AA.#",
-            value = @Queue(QUEUE_B)
-    ))
-    public void process3(String message){
+//    @RabbitListener(bindings = @QueueBinding(
+//            exchange = @Exchange(value = EXCHANGE_A,type = "topic"),
+//            key = "*.AA.#",
+//            value = @Queue(QUEUE_B)
+//    ))
+//    public void process3(String message){
+//
+//        log.info("process3 receive message:" + message);
+//    }
 
-        log.info("process3 receive message:" + message);
-    }
 
 
-
-    @RabbitListener(queues = QueueConstatns.QUEUE_ORDER)
-    public void orderQueueMessage(String message){
-
-        log.info("orderQueueMessage receive message:" + message);
-    }
-
-    @RabbitListener(queues = QueueConstatns.QUEUE_PRODUCT)
-    public void productQueueMessage(String message){
-
-        log.info("productQueueMessage receive message:" + message);
-    }
+//    @RabbitListener(queues = QueueConstatns.QUEUE_ORDER)
+//    public void orderQueueMessage(String message){
+//
+//        log.info("orderQueueMessage receive message:" + message);
+//    }
+//
+//    @RabbitListener(queues = QueueConstatns.QUEUE_PRODUCT)
+//    public void productQueueMessage(String message){
+//
+//        log.info("productQueueMessage receive message:" + message);
+//    }
 
 }

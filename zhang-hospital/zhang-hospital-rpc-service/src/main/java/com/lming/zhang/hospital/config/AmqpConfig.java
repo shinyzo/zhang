@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Created by Jony 
  */
-@Configuration
+// @Configuration
 public class AmqpConfig {
 
 
