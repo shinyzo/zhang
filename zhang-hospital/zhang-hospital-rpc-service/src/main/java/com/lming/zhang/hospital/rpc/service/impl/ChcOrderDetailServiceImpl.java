@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
 * ChcOrderDetailService实现
-* Created by shuzheng on 2018/4/9.
+* Created by zhanglm on 2018/4/19.
 */
 @Service
 @Transactional

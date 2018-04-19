@@ -7,7 +7,7 @@ import com.lming.zhang.hospital.dao.model.ChcHospitalExample;
 
 /**
 * 降级实现ChcHospitalService接口
-* Created by zhanglm on 2018/4/9.
+* Created by zhanglm on 2018/4/19.
 */
 public class ChcHospitalServiceMock extends BaseServiceMock<ChcHospitalMapper, ChcHospital, ChcHospitalExample> implements ChcHospitalService {
 

@@ -7,7 +7,7 @@ import com.lming.zhang.hospital.dao.model.ChcDoctorInfoExample;
 
 /**
 * 降级实现ChcDoctorInfoService接口
-* Created by zhanglm on 2018/4/9.
+* Created by zhanglm on 2018/4/19.
 */
 public class ChcDoctorInfoServiceMock extends BaseServiceMock<ChcDoctorInfoMapper, ChcDoctorInfo, ChcDoctorInfoExample> implements ChcDoctorInfoService {
 

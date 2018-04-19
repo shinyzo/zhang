@@ -470,3 +470,215 @@
 2018-04-10 10:08:41,398 - Null reference [template 'generatorConfig.vm', line 49, column 38] : ${generator.jdbc.driver} cannot be resolved.
 2018-04-10 10:08:41,398 - Null reference [template 'generatorConfig.vm', line 50, column 40] : ${generator.jdbc.url} cannot be resolved.
 2018-04-10 10:08:41,398 - Null reference [template 'generatorConfig.vm', line 51, column 33] : ${generator.jdbc.username} cannot be resolved.
+2018-04-19 15:24:04,399 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-19 15:24:04,410 - Initializing Velocity, Calling init()...
+2018-04-19 15:24:04,410 - Starting Apache Velocity v1.7 (compiled: 2010-11-19 12:14:37)
+2018-04-19 15:24:04,411 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-19 15:24:04,411 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-19 15:24:04,412 - Target log system for org.apache.velocity.runtime.log.AvalonLogChute is not available (java.lang.NoClassDefFoundError: org/apache/log/format/Formatter).  Falling back to next log system...
+2018-04-19 15:24:04,414 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-19 15:24:04,419 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-19 15:24:04,439 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:04,449 - Do unicode file recognition:  false
+2018-04-19 15:24:04,449 - FileResourceLoader : adding path 'E:/repo/java/zhang/zhang-common/zhang-base/target/classes/template/'
+2018-04-19 15:24:04,496 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl) with class java.util.Collections$SynchronizedMap cache map.
+2018-04-19 15:24:04,501 - Loaded System Directive: org.apache.velocity.runtime.directive.Stop
+2018-04-19 15:24:04,506 - Loaded System Directive: org.apache.velocity.runtime.directive.Define
+2018-04-19 15:24:04,509 - Loaded System Directive: org.apache.velocity.runtime.directive.Break
+2018-04-19 15:24:04,521 - Loaded System Directive: org.apache.velocity.runtime.directive.Evaluate
+2018-04-19 15:24:04,524 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-19 15:24:04,529 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-19 15:24:04,534 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-19 15:24:04,539 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-19 15:24:04,543 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-19 15:24:04,669 - Created '20' parsers.
+2018-04-19 15:24:04,696 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-19 15:24:04,696 - Velocimacro : Default library not found.
+2018-04-19 15:24:04,697 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-19 15:24:04,697 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-19 15:24:04,697 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-19 15:24:04,697 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-19 15:24:04,924 - ResourceManager : found generatorConfig.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:04,937 - Null reference [template 'generatorConfig.vm', line 49, column 38] : ${generator.jdbc.driver} cannot be resolved.
+2018-04-19 15:24:04,937 - Null reference [template 'generatorConfig.vm', line 50, column 40] : ${generator.jdbc.url} cannot be resolved.
+2018-04-19 15:24:04,937 - Null reference [template 'generatorConfig.vm', line 51, column 33] : ${generator.jdbc.username} cannot be resolved.
+2018-04-19 15:24:08,023 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,031 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,041 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,047 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,053 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,098 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,105 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,110 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,115 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,121 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,126 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,133 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,137 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,147 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,154 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,160 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,180 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,259 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,264 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,269 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:24:08,274 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:47:54,811 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-19 15:47:54,813 - Initializing Velocity, Calling init()...
+2018-04-19 15:47:54,814 - Starting Apache Velocity v1.7 (compiled: 2010-11-19 12:14:37)
+2018-04-19 15:47:54,814 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-19 15:47:54,814 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-19 15:47:54,814 - Target log system for org.apache.velocity.runtime.log.AvalonLogChute is not available (java.lang.NoClassDefFoundError: org/apache/log/format/Formatter).  Falling back to next log system...
+2018-04-19 15:47:54,814 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-19 15:47:54,814 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-19 15:47:54,832 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:47:54,836 - Do unicode file recognition:  false
+2018-04-19 15:47:54,837 - FileResourceLoader : adding path 'E:/repo/java/zhang/zhang-common/zhang-base/target/classes/template/'
+2018-04-19 15:47:54,879 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl) with class java.util.Collections$SynchronizedMap cache map.
+2018-04-19 15:47:54,884 - Loaded System Directive: org.apache.velocity.runtime.directive.Stop
+2018-04-19 15:47:54,889 - Loaded System Directive: org.apache.velocity.runtime.directive.Define
+2018-04-19 15:47:54,892 - Loaded System Directive: org.apache.velocity.runtime.directive.Break
+2018-04-19 15:47:54,895 - Loaded System Directive: org.apache.velocity.runtime.directive.Evaluate
+2018-04-19 15:47:54,898 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-19 15:47:54,902 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-19 15:47:54,907 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-19 15:47:54,912 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-19 15:47:54,916 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-19 15:47:55,092 - Created '20' parsers.
+2018-04-19 15:47:55,119 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-19 15:47:55,120 - Velocimacro : Default library not found.
+2018-04-19 15:47:55,120 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-19 15:47:55,120 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-19 15:47:55,121 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-19 15:47:55,121 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-19 15:47:55,195 - ResourceManager : found generatorConfig.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:47:55,207 - Null reference [template 'generatorConfig.vm', line 49, column 38] : ${generator.jdbc.driver} cannot be resolved.
+2018-04-19 15:47:55,207 - Null reference [template 'generatorConfig.vm', line 50, column 40] : ${generator.jdbc.url} cannot be resolved.
+2018-04-19 15:47:55,207 - Null reference [template 'generatorConfig.vm', line 51, column 33] : ${generator.jdbc.username} cannot be resolved.
+2018-04-19 15:50:37,124 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-19 15:50:37,126 - Initializing Velocity, Calling init()...
+2018-04-19 15:50:37,127 - Starting Apache Velocity v1.7 (compiled: 2010-11-19 12:14:37)
+2018-04-19 15:50:37,127 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-19 15:50:37,127 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-19 15:50:37,127 - Target log system for org.apache.velocity.runtime.log.AvalonLogChute is not available (java.lang.NoClassDefFoundError: org/apache/log/format/Formatter).  Falling back to next log system...
+2018-04-19 15:50:37,127 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-19 15:50:37,127 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-19 15:50:37,146 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:37,151 - Do unicode file recognition:  false
+2018-04-19 15:50:37,151 - FileResourceLoader : adding path 'E:/repo/java/zhang/zhang-common/zhang-base/target/classes/template/'
+2018-04-19 15:50:37,186 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl) with class java.util.Collections$SynchronizedMap cache map.
+2018-04-19 15:50:37,215 - Loaded System Directive: org.apache.velocity.runtime.directive.Stop
+2018-04-19 15:50:37,221 - Loaded System Directive: org.apache.velocity.runtime.directive.Define
+2018-04-19 15:50:37,224 - Loaded System Directive: org.apache.velocity.runtime.directive.Break
+2018-04-19 15:50:37,227 - Loaded System Directive: org.apache.velocity.runtime.directive.Evaluate
+2018-04-19 15:50:37,229 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-19 15:50:37,234 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-19 15:50:37,240 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-19 15:50:37,245 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-19 15:50:37,249 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-19 15:50:37,444 - Created '20' parsers.
+2018-04-19 15:50:37,562 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-19 15:50:37,564 - Velocimacro : Default library not found.
+2018-04-19 15:50:37,564 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-19 15:50:37,565 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-19 15:50:37,565 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-19 15:50:37,565 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-19 15:50:37,712 - ResourceManager : found generatorConfig.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:37,724 - Null reference [template 'generatorConfig.vm', line 49, column 38] : ${generator.jdbc.driver} cannot be resolved.
+2018-04-19 15:50:37,724 - Null reference [template 'generatorConfig.vm', line 50, column 40] : ${generator.jdbc.url} cannot be resolved.
+2018-04-19 15:50:37,724 - Null reference [template 'generatorConfig.vm', line 51, column 33] : ${generator.jdbc.username} cannot be resolved.
+2018-04-19 15:50:40,220 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,227 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,245 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,253 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,260 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,280 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,288 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,294 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,300 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,306 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,314 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,320 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,326 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,331 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,349 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,354 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,359 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,364 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,371 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,379 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,385 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,398 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,406 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,411 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,421 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,426 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,432 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,437 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,445 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,453 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,460 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,466 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,472 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,479 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,489 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,494 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,502 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,506 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,512 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,519 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,525 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,540 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,548 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,554 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,561 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,568 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,596 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,607 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,613 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,621 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,629 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,636 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,644 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,653 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,665 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,676 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,683 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,690 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,697 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,705 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,715 - ResourceManager : found Service.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,723 - ResourceManager : found ServiceMock.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:50:40,730 - ResourceManager : found ServiceImpl.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:54:24,958 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-19 15:54:24,963 - Initializing Velocity, Calling init()...
+2018-04-19 15:54:24,963 - Starting Apache Velocity v1.7 (compiled: 2010-11-19 12:14:37)
+2018-04-19 15:54:24,963 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-19 15:54:24,963 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-19 15:54:24,964 - Target log system for org.apache.velocity.runtime.log.AvalonLogChute is not available (java.lang.NoClassDefFoundError: org/apache/log/format/Formatter).  Falling back to next log system...
+2018-04-19 15:54:24,964 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-19 15:54:24,964 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-19 15:54:24,984 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:54:24,989 - Do unicode file recognition:  false
+2018-04-19 15:54:24,989 - FileResourceLoader : adding path 'E:/repo/java/zhang/zhang-common/zhang-base/target/classes/template/'
+2018-04-19 15:54:25,020 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl) with class java.util.Collections$SynchronizedMap cache map.
+2018-04-19 15:54:25,045 - Loaded System Directive: org.apache.velocity.runtime.directive.Stop
+2018-04-19 15:54:25,049 - Loaded System Directive: org.apache.velocity.runtime.directive.Define
+2018-04-19 15:54:25,052 - Loaded System Directive: org.apache.velocity.runtime.directive.Break
+2018-04-19 15:54:25,055 - Loaded System Directive: org.apache.velocity.runtime.directive.Evaluate
+2018-04-19 15:54:25,069 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-19 15:54:25,075 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-19 15:54:25,080 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-19 15:54:25,086 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-19 15:54:25,090 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-19 15:54:25,244 - Created '20' parsers.
+2018-04-19 15:54:25,272 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-19 15:54:25,273 - Velocimacro : Default library not found.
+2018-04-19 15:54:25,273 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-19 15:54:25,273 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-19 15:54:25,274 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-19 15:54:25,274 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-19 15:54:25,343 - ResourceManager : found generatorConfig.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2018-04-19 15:54:25,355 - Null reference [template 'generatorConfig.vm', line 49, column 38] : ${generator.jdbc.driver} cannot be resolved.
+2018-04-19 15:54:25,355 - Null reference [template 'generatorConfig.vm', line 50, column 40] : ${generator.jdbc.url} cannot be resolved.
+2018-04-19 15:54:25,355 - Null reference [template 'generatorConfig.vm', line 51, column 33] : ${generator.jdbc.username} cannot be resolved.

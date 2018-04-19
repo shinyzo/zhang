@@ -7,7 +7,7 @@ import com.lming.zhang.hospital.dao.model.ChcCommunityHsplExample;
 
 /**
 * 降级实现ChcCommunityHsplService接口
-* Created by zhanglm on 2018/4/9.
+* Created by zhanglm on 2018/4/19.
 */
 public class ChcCommunityHsplServiceMock extends BaseServiceMock<ChcCommunityHsplMapper, ChcCommunityHspl, ChcCommunityHsplExample> implements ChcCommunityHsplService {
 

@@ -22,5 +22,8 @@
     <dubbo:service interface="com.lming.zhang.hospital.rpc.api.ChcSubjectService" ref="chcSubjectService" timeout="10000"/>
     <bean id="chcSubjectService" class="com.lming.zhang.hospital.rpc.service.impl.ChcSubjectServiceImpl" />
 
+    <dubbo:service interface="com.lming.zhang.hospital.rpc.api.AclUserService" ref="aclUserService" timeout="10000"/>
+    <bean id="aclUserService" class="com.lming.zhang.hospital.rpc.service.impl.AclUserServiceImpl" />
+
 
 </beans>

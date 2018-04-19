@@ -6,9 +6,8 @@ import com.lming.zhang.hospital.dao.model.ChcDoctorInfoExample;
 
 /**
 * ChcDoctorInfoService接口
-* Created by zhanglm on 2018/4/9.
+* Created by zhanglm on 2018/4/19.
 */
 public interface ChcDoctorInfoService extends BaseService<ChcDoctorInfo, ChcDoctorInfoExample> {
-
 
 }

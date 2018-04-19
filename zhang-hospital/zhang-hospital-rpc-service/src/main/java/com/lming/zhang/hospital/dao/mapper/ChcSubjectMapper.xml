@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lming.zhang.hospital.dao.mapper.ChcSubjectMapper">
   <resultMap id="BaseResultMap" type="com.lming.zhang.hospital.dao.model.ChcSubject">
-    <id column="subject_id" jdbcType="VARCHAR" property="subjectId" />
+    <id column="subject_id" jdbcType="INTEGER" property="subjectId" />
+    <result column="subject_no" jdbcType="VARCHAR" property="subjectNo" />
     <result column="subject_name" jdbcType="VARCHAR" property="subjectName" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -64,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    subject_id, subject_name
+    subject_id, subject_no, subject_name
   </sql>
   <select id="selectByExample" parameterType="com.lming.zhang.hospital.dao.model.ChcSubjectExample" resultMap="BaseResultMap">
     select
@@ -80,15 +81,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from chc_subject
-    where subject_id = #{subjectId,jdbcType=VARCHAR}
+    where subject_id = #{subjectId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from chc_subject
-    where subject_id = #{subjectId,jdbcType=VARCHAR}
+    where subject_id = #{subjectId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.lming.zhang.hospital.dao.model.ChcSubjectExample">
     delete from chc_subject
@@ -97,8 +98,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.lming.zhang.hospital.dao.model.ChcSubject">
-    insert into chc_subject (subject_id, subject_name)
-    values (#{subjectId,jdbcType=VARCHAR}, #{subjectName,jdbcType=VARCHAR})
+    insert into chc_subject (subject_id, subject_no, subject_name
+      )
+    values (#{subjectId,jdbcType=INTEGER}, #{subjectNo,jdbcType=VARCHAR}, #{subjectName,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.lming.zhang.hospital.dao.model.ChcSubject">
     insert into chc_subject
@@ -106,13 +109,19 @@
       <if test="subjectId != null">
         subject_id,
       </if>
+      <if test="subjectNo != null">
+        subject_no,
+      </if>
       <if test="subjectName != null">
         subject_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="subjectId != null">
-        #{subjectId,jdbcType=VARCHAR},
+        #{subjectId,jdbcType=INTEGER},
+      </if>
+      <if test="subjectNo != null">
+        #{subjectNo,jdbcType=VARCHAR},
       </if>
       <if test="subjectName != null">
         #{subjectName,jdbcType=VARCHAR},
@@ -129,7 +138,10 @@
     update chc_subject
     <set>
       <if test="record.subjectId != null">
-        subject_id = #{record.subjectId,jdbcType=VARCHAR},
+        subject_id = #{record.subjectId,jdbcType=INTEGER},
+      </if>
+      <if test="record.subjectNo != null">
+        subject_no = #{record.subjectNo,jdbcType=VARCHAR},
       </if>
       <if test="record.subjectName != null">
         subject_name = #{record.subjectName,jdbcType=VARCHAR},
@@ -141,7 +153,8 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update chc_subject
-    set subject_id = #{record.subjectId,jdbcType=VARCHAR},
+    set subject_id = #{record.subjectId,jdbcType=INTEGER},
+      subject_no = #{record.subjectNo,jdbcType=VARCHAR},
       subject_name = #{record.subjectName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -150,15 +163,19 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.lming.zhang.hospital.dao.model.ChcSubject">
     update chc_subject
     <set>
+      <if test="subjectNo != null">
+        subject_no = #{subjectNo,jdbcType=VARCHAR},
+      </if>
       <if test="subjectName != null">
         subject_name = #{subjectName,jdbcType=VARCHAR},
       </if>
     </set>
-    where subject_id = #{subjectId,jdbcType=VARCHAR}
+    where subject_id = #{subjectId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lming.zhang.hospital.dao.model.ChcSubject">
     update chc_subject
-    set subject_name = #{subjectName,jdbcType=VARCHAR}
-    where subject_id = #{subjectId,jdbcType=VARCHAR}
+    set subject_no = #{subjectNo,jdbcType=VARCHAR},
+      subject_name = #{subjectName,jdbcType=VARCHAR}
+    where subject_id = #{subjectId,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -7,7 +7,7 @@ import com.lming.zhang.hospital.dao.model.ChcOrderDetailExample;
 
 /**
 * 降级实现ChcOrderDetailService接口
-* Created by zhanglm on 2018/4/9.
+* Created by zhanglm on 2018/4/19.
 */
 public class ChcOrderDetailServiceMock extends BaseServiceMock<ChcOrderDetailMapper, ChcOrderDetail, ChcOrderDetailExample> implements ChcOrderDetailService {
 

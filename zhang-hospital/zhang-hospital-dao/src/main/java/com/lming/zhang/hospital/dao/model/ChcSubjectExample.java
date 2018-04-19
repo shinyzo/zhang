@@ -117,63 +117,123 @@ public class ChcSubjectExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andSubjectIdEqualTo(String value) {
+        public Criteria andSubjectIdEqualTo(Integer value) {
             addCriterion("subject_id =", value, "subjectId");
             return (Criteria) this;
         }
 
-        public Criteria andSubjectIdNotEqualTo(String value) {
+        public Criteria andSubjectIdNotEqualTo(Integer value) {
             addCriterion("subject_id <>", value, "subjectId");
             return (Criteria) this;
         }
 
-        public Criteria andSubjectIdGreaterThan(String value) {
+        public Criteria andSubjectIdGreaterThan(Integer value) {
             addCriterion("subject_id >", value, "subjectId");
             return (Criteria) this;
         }
 
-        public Criteria andSubjectIdGreaterThanOrEqualTo(String value) {
+        public Criteria andSubjectIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("subject_id >=", value, "subjectId");
             return (Criteria) this;
         }
 
-        public Criteria andSubjectIdLessThan(String value) {
+        public Criteria andSubjectIdLessThan(Integer value) {
             addCriterion("subject_id <", value, "subjectId");
             return (Criteria) this;
         }
 
-        public Criteria andSubjectIdLessThanOrEqualTo(String value) {
+        public Criteria andSubjectIdLessThanOrEqualTo(Integer value) {
             addCriterion("subject_id <=", value, "subjectId");
             return (Criteria) this;
         }
 
-        public Criteria andSubjectIdLike(String value) {
-            addCriterion("subject_id like", value, "subjectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSubjectIdNotLike(String value) {
-            addCriterion("subject_id not like", value, "subjectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSubjectIdIn(List<String> values) {
+        public Criteria andSubjectIdIn(List<Integer> values) {
             addCriterion("subject_id in", values, "subjectId");
             return (Criteria) this;
         }
 
-        public Criteria andSubjectIdNotIn(List<String> values) {
+        public Criteria andSubjectIdNotIn(List<Integer> values) {
             addCriterion("subject_id not in", values, "subjectId");
             return (Criteria) this;
         }
 
-        public Criteria andSubjectIdBetween(String value1, String value2) {
+        public Criteria andSubjectIdBetween(Integer value1, Integer value2) {
             addCriterion("subject_id between", value1, value2, "subjectId");
             return (Criteria) this;
         }
 
-        public Criteria andSubjectIdNotBetween(String value1, String value2) {
+        public Criteria andSubjectIdNotBetween(Integer value1, Integer value2) {
             addCriterion("subject_id not between", value1, value2, "subjectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNoIsNull() {
+            addCriterion("subject_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNoIsNotNull() {
+            addCriterion("subject_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNoEqualTo(String value) {
+            addCriterion("subject_no =", value, "subjectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNoNotEqualTo(String value) {
+            addCriterion("subject_no <>", value, "subjectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNoGreaterThan(String value) {
+            addCriterion("subject_no >", value, "subjectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNoGreaterThanOrEqualTo(String value) {
+            addCriterion("subject_no >=", value, "subjectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNoLessThan(String value) {
+            addCriterion("subject_no <", value, "subjectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNoLessThanOrEqualTo(String value) {
+            addCriterion("subject_no <=", value, "subjectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNoLike(String value) {
+            addCriterion("subject_no like", value, "subjectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNoNotLike(String value) {
+            addCriterion("subject_no not like", value, "subjectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNoIn(List<String> values) {
+            addCriterion("subject_no in", values, "subjectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNoNotIn(List<String> values) {
+            addCriterion("subject_no not in", values, "subjectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNoBetween(String value1, String value2) {
+            addCriterion("subject_no between", value1, value2, "subjectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNoNotBetween(String value1, String value2) {
+            addCriterion("subject_no not between", value1, value2, "subjectNo");
             return (Criteria) this;
         }
 

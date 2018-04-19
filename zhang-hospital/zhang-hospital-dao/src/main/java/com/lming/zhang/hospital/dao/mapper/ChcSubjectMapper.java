@@ -10,7 +10,7 @@ public interface ChcSubjectMapper {
 
     int deleteByExample(ChcSubjectExample example);
 
-    int deleteByPrimaryKey(String subjectId);
+    int deleteByPrimaryKey(Integer subjectId);
 
     int insert(ChcSubject record);
 
@@ -18,7 +18,7 @@ public interface ChcSubjectMapper {
 
     List<ChcSubject> selectByExample(ChcSubjectExample example);
 
-    ChcSubject selectByPrimaryKey(String subjectId);
+    ChcSubject selectByPrimaryKey(Integer subjectId);
 
     int updateByExampleSelective(@Param("record") ChcSubject record, @Param("example") ChcSubjectExample example);
 

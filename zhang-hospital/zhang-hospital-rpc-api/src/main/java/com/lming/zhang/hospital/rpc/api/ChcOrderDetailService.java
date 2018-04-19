@@ -6,7 +6,7 @@ import com.lming.zhang.hospital.dao.model.ChcOrderDetailExample;
 
 /**
 * ChcOrderDetailService接口
-* Created by zhanglm on 2018/4/9.
+* Created by zhanglm on 2018/4/19.
 */
 public interface ChcOrderDetailService extends BaseService<ChcOrderDetail, ChcOrderDetailExample> {
 

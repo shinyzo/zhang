@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
 * ChcDoctorInfoService实现
-* Created by shuzheng on 2018/4/9.
+* Created by zhanglm on 2018/4/19.
 */
 @Service
 @Transactional
@@ -26,10 +26,4 @@ public class ChcDoctorInfoServiceImpl extends BaseServiceImpl<ChcDoctorInfoMappe
     @Autowired
     ChcDoctorInfoMapper chcDoctorInfoMapper;
 
-
-    @Override
-    public ChcDoctorInfo selectByPrimaryKey(Integer id) {
-        LOGGER.info("==========> 从数据库中查找...");
-        return chcDoctorInfoMapper.selectByPrimaryKey(id,"360622198809201536");
-    }
 }

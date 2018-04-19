@@ -1,0 +1,770 @@
+// 查询URL
+var querymypurchaseUrl ="admin/order/querymycgorder.do";
+var logqueryUrl        ="admin/order/logquery.do";
+var querypaydetailUrl = "admin/order/querymycgorderpaydetail.do";
+var queryprodetailUrl = "admin/order/queryprodetail.do";
+
+var onlinepayurl =    "admin/order/onlinepayview.do";
+	
+	
+$(function(){
+	// 隐藏其他组件
+	
+	$("#logBox").hide();
+	$("#dtalBox").hide();
+	$("#payBox").hide();
+	$("#helpBox").hide();
+	
+	$("#begintime").datetimebox('setValue',formatterDate(new Date()));	
+	$("#endtime").datetimebox('setValue',formatterTime(new Date()));	
+	
+	var begintime = $("#begintime").datetimebox('getValue');
+	
+	// 初始化加载数据
+	$("#dgBox").datagrid({  
+		url:querymypurchaseUrl,
+    	isField:"fldId",
+    	frozenColumns:[[{field:'ck',checkbox:true}]],  // 冻结列在左侧
+    	queryParams:{"tokenid":getTokenid(),"begintime":begintime,'ordertype':'BB'},
+    	striped:true,
+		rownumbers:true,       // 显示行号
+		remotesort: true,
+		pagination:true,       // 显示分页
+		singleSelect:false,     // 只能选中单行
+		pageSize: pageSize,
+		pageList:pageList,
+		loadMsg:'数据加载中，请稍等...', 
+    	fit:false,				 // 自适应大小，为true数据不展示
+    	fitColumns:true,         //自动使列适应表格宽度以防止出现水平滚动
+    	nowrap:true,             //超出列宽自动截取
+    	columns:getColumnsOpt(), // 列数据
+    	toolbar:'#headBox',       // 工具栏
+    	showFooter:true,
+    	sortName:'ordertime',
+    	sortOrder:'desc',
+    	onLoadError : function() {
+    		error('数据加载失败！');
+    	}
+    });  
+
+	 //设置分页控件 
+	$('#dgBox').datagrid('getPager').pagination({ 
+        beforePageText: '第',//页数文本框前显示的汉字 
+        afterPageText: '页    共 {pages} 页', 
+        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+    }); 
+	
+	
+	initLoadingData();
+	
+	// 初始化表单验证
+	initValidateBox();
+	
+	$("#helpBtn").click(function(){
+		
+		$("#helpBox").show();
+		$("#helpBox").dialog({ 
+		    title: "按钮操作及权限说明",    
+		    iconCls:'icon-help',
+		    width:550,
+		    height:380,
+		    closed: false,    
+		    cache: false,   
+		    modal: false,
+		    resizable:true,
+		    buttons:[{
+				iconCls: 'icon-ok',
+				text:'确定',
+				handler: function(){	
+		    	 $("#helpBox").dialog('close');
+		    	}
+			}]
+		}); 
+	})
+
+});
+
+function initLoadingData()
+{
+	
+	$("#corpid").combobox({
+		url:'public/getUpCorp.json',
+		valueField:'corpid',
+		textField:'corpname',
+		loadFilter:function(data){
+			return [{corpname:'--请选择上游企业--',corpid:'',selected:"true"}].concat(data);
+		}
+	})
+	
+
+
+}
+
+
+function initValidateBox()
+{
+
+	
+}
+
+
+/**
+ * 加载数据表格列表项
+ * @return
+ */
+function getColumnsOpt()
+{
+
+	var opt = 
+		[[
+			{field:'orderno',title:'采购单号',width:27,align:'left',sortable:true},
+			{field:'ordertime',title:'采购单日期',width:24,align:'left',sortable:true,formatter:parseTime},		  
+		  	{field:'tcorpid',title:'供货商编号',width:10,align:'left',sortable:true,hidden:true},	
+	   		{field:'tofullname',title:'企业名称',width:25,align:'left',sortable:true},
+	   		{field:'orderfee',title:'采购单原始金额(元)',width:24,align:'left',sortable:true,formatter:formateF2Y},
+	   		{field:'payfee',title:'采购单折后金额(元)',width:24,align:'left',sortable:true,formatter:formateF2Y},
+	   		{field:'havepayfee',title:'已付金额(元)',width:20,align:'left',sortable:true,formatter:formateF2Y},
+	   		{field:'remainfee',title:'待付金额(元)',width:20,align:'left',sortable:true,formatter:formateRedAmountF2Y},
+	   		{field:'orderstatus',title:'采购单状态',width:20,align:'left',sortable:true,formatter:formateOrderstatus},
+	   		{field:'ordertype',title:'采购单类型',width:20,align:'left',sortable:true,formatter:formateOrdertype},
+	   		{field:'transstatus',title:'交易状态',width:20,align:'left',sortable:true,formatter:formatetransstatus},
+	   		
+	   		{field:'issendstoragerk',title:'是否推送至仓库',width:20,align:'left',sortable:true,formatter:formateSendStorage},
+	   		{field:'rkstatus',title:'入库状态',width:25,align:'left',sortable:true,formatter:formateRKStatus},
+	   		{field:'orderdetail',title:'采购单详情',width:15,align:'left',sortable:true,formatter:formatepurchasedetail},	
+	   		{field:'paydetail',title:'支付详情',width:15,align:'left',sortable:true,formatter:formatepaydetail},
+	   		{field:'develiydetail',title:'配送详情',width:15,align:'left',sortable:true,formatter:formatedeveliydetail},
+	   		{field:'onlinepay',title:'在线支付',width:20,align:'left',sortable:true,formatter:fromateOnlinepay},
+	   		{field:'ordermemo',title:'订单备注',width:20,align:'left'}
+	   	]];
+	   	return opt;
+}
+/**
+ * 在线支付
+ * @param val
+ * @param row
+ * @param index
+ * @return
+ */
+function fromateOnlinepay(val,row,index)
+{
+	
+	if(row.transstatus=="0000")
+	{
+		return "支付完成";
+	}
+	else
+	{
+		return "<a href='javascript:void(0);' onclick='javascript:onlinepay("+index+")'>在线支付</a>";
+	}
+	
+
+}
+/**
+ * 在线支付
+ * @param index
+ * @return
+ */
+function onlinepay(index)
+{
+	
+	 var title="在线支付";
+	 var rows = $('#dgBox').datagrid('getRows');
+
+	
+	 
+	 var row = rows[index];
+	 var tcorpid = row.tcorpid;
+	 var orderno = row.orderno;
+	 var tokenid = getTokenid();
+	 var righturl = onlinepayurl +"?orderno="+orderno+"&tcorpid="+tcorpid+"&tokenid="+tokenid;
+	 var orderstatus =row.orderstatus;
+	 
+	 if(orderstatus=="0002")
+	 {
+		 alert("该订单已被取消，无法进行支付!");
+		 return false;
+	 }
+	 if (self.parent.$('#tab_area').tabs('exists', title))
+	 {    
+	 	self.parent.$('#tab_area').tabs('close', title);  
+	 }
+  
+	 self.parent.$('#tab_area').tabs('add',{
+    	iframeUrl:righturl,
+        title:title,       
+        closable:true
+    });    
+   
+}
+
+
+
+
+/**
+ * 采购单日志列头
+ * @return
+ */
+function getPurchaseLogCols()
+{
+	var opt = 
+		[[
+		  	{field:'logid',title:'日志编号',width:10,align:'left',sortable:true},	
+			{field:'purchaseno',title:'采购单号',width:15,align:'left',sortable:true},
+			{field:'operuserid',title:'操作人员',width:15,align:'left',sortable:true},
+			{field:'opertime',title:'操作时间',width:25,align:'left',sortable:true,formatter:parseTime},  
+			{field:'opertype',title:'操作类型',width:20,align:'left',sortable:true},
+	   		{field:'operdesc',title:'操作说明',width:20,align:'left',sortable:true}
+	   	]];
+	   	return opt;
+}
+
+
+function getPurchaseDetailCols(){
+	
+	var opt = 
+		[[
+		  	{field:'id',title:'编号',width:10,align:'left',sortable:true},	
+			{field:'orderno',title:'采购单号',width:27,align:'left',sortable:true},
+			{field:'productid',title:'产品编号',width:15,align:'left',sortable:true},
+			{field:'productname',title:'产品名称',width:25,align:'left',sortable:true},
+			{field:'productcode',title:'产品条码',width:15,align:'left',sortable:true},
+			{field:'totalprice',title:'采购金额',width:15,align:'left',sortable:true},
+			{field:'productprice',title:'采购单价',width:15,align:'left',sortable:true},			
+			{field:'buycount',title:'采购数量',width:15,align:'left',sortable:true},
+			{field:'overrkcount',title:'已入库数量',width:15,align:'left',sortable:true,hidden:true}
+	   	]];
+	   	return opt;
+	
+}
+
+/**
+ * 支付详情
+ * @param value
+ * @param row
+ * @param index
+ * @return
+ */
+function formatedeveliydetail(value,row,index)
+{
+	return "<a href='javascript:void(0);' onclick='javascript:showdeveliydetail("+index+")'>配送详情</a>";
+}
+/**
+ * 支付详情
+ * @param value
+ * @param row
+ * @param index
+ * @return
+ */
+function formatepaydetail(value,row,index)
+{
+	return "<a href='javascript:void(0);' onclick='javascript:showpaydetail("+index+")'>支付详情</a>";
+}
+/**
+ * 查看详情格式化
+ * @param value
+ * @param rowData
+ * @param index
+ * @return
+ */
+function formatepurchasedetail(value,rowData,index)
+{
+	return "<a href='javascript:void(0);' onclick='showpurchasedetail(" + index + ")'>采购详情</a>";
+
+}
+
+/**
+ * 展示支付详情列表
+ * @param index
+ * @return
+ */
+function showpaydetail(index)
+{
+	 var rows = $('#dgBox').datagrid('getRows');
+	 var row = rows[index];
+	 var orderno = row.orderno;	 
+	 
+	 var queryParams={};
+	 queryParams['orderno']=orderno;
+	 queryParams['tokenid']=getTokenid();
+	// 初始化加载数据
+	 $("#paydg").datagrid({  
+		url:querypaydetailUrl,
+    	isField:"fldId",
+    	frozenColumns:[[{field:'ck',checkbox:true}]],  // 冻结列在左侧
+    	queryParams:queryParams,
+    	striped:true,
+		rownumbers:true,       // 显示行号
+		remotesort: true,
+		pagination:true,       // 显示分页
+		singleSelect:true,     // 只能选中单行
+		pageSize: pageSize,
+		pageList:pageList,
+		loadMsg:'数据加载中，请稍等...', 
+    	fit:false,				 // 自适应大小，为true数据不展示
+    	fitColumns:true,         //自动使列适应表格宽度以防止出现水平滚动
+    	nowrap:true,             //超出列宽自动截取
+    	columns:getPaydetailCols(), // 列数据
+    	toolbar:'',       // 工具栏
+    	onLoadError : function() {
+    		error('数据加载失败！');
+    	}
+	 });  
+
+	 //设置分页控件 
+	 $('#paydg').datagrid('getPager').pagination({ 
+        beforePageText: '第',//页数文本框前显示的汉字 
+        afterPageText: '页    共 {pages} 页', 
+        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+     }); 
+	 
+	 
+	 $("#payBox").show();
+	 $("#payBox").dialog({
+		 title:'支付详情',
+		 width: 1000,    
+		 height:400,   
+		 closed: false,    
+		 cache: false,   
+		 modal: true,
+		 buttons:[{
+			 	   iconCls: 'icon-ok',
+				   text:'确定',
+				   handler: function(){
+		    	 	
+			 			$("#payBox").dialog('close');
+		    	   }
+		 		}]
+	 })
+
+	 $("#payBox").window('center');
+
+
+}
+
+
+function getPaydetailCols()
+{
+	var opt = 
+		[[
+		  	{field:'msgdatetime',title:'消息时间',width:25,align:'left',sortable:true,formatter:parseTime},	
+		  	{field:'orderno',title:'订单号',width:15,align:'left',sortable:true,hidden:true},
+			{field:'transno',title:'交易号',width:30,align:'left',sortable:true},
+		  	{field:'operuserid',title:'操作人员',width:10,align:'left',sortable:true},	
+			{field:'payfee',title:'交易金额(元)',width:15,align:'left',sortable:true,formatter:formateF2Y},  
+			{field:'transfee',title:'到账金额(元)',width:15,align:'left',sortable:true,formatter:formateF2Y},
+	   		{field:'paymodeid',title:'支付方式id',width:20,align:'left',sortable:true,hidden:true},
+			{field:'paymodename',title:'支付方式名称',width:20,align:'left',sortable:true},
+			{field:'transstatus',title:'交易状态',width:20,align:'left',sortable:true,formatter:formatetransstatus},
+			{field:'transtime',title:'交易时间',width:25,align:'left',sortable:true,formatter:parseTime},
+			{field:'lastupdatetime',title:'最后修改时间',width:20,align:'left',sortable:true,formatter:parseTime,hidden:true}
+	   	]];
+	   	return opt;
+}
+
+/**
+ * 显示采购单详情
+ * @param index
+ * @return
+ */
+function showpurchasedetail(index)
+{	
+	 var rows = $('#dgBox').datagrid('getRows');
+	 var row = rows[index];
+	 var orderno = row.orderno;
+	 
+	 var queryParams={};
+	 queryParams['orderno']=orderno;
+	 queryParams['tokenid']=getTokenid();
+	// 初始化加载数据
+	 $("#dtaldg").datagrid({  
+		url:queryprodetailUrl,
+    	isField:"fldId",
+    	frozenColumns:[[{field:'ck',checkbox:true}]],  // 冻结列在左侧
+    	queryParams:queryParams,
+    	striped:true,
+		rownumbers:true,       // 显示行号
+		remotesort: true,
+		pagination:true,       // 显示分页
+		singleSelect:true,     // 只能选中单行
+		pageSize: pageSize,
+		pageList:pageList,
+		loadMsg:'数据加载中，请稍等...', 
+    	fit:false,				 // 自适应大小，为true数据不展示
+    	fitColumns:true,         //自动使列适应表格宽度以防止出现水平滚动
+    	nowrap:true,             //超出列宽自动截取
+    	columns:getPurchaseDetailCols(), // 列数据
+    	toolbar:'',       // 工具栏
+    	onLoadError : function() {
+    		error('数据加载失败！');
+    	}
+	 });  
+
+	 //设置分页控件 
+	 $('#dtaldg').datagrid('getPager').pagination({ 
+        beforePageText: '第',//页数文本框前显示的汉字 
+        afterPageText: '页    共 {pages} 页', 
+        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+     }); 
+ 
+	 $("#dtalBox").show();
+	 $("#dtalBox").dialog({
+		 title:'采购单-产品明细',
+		 width: 1000,    
+		 height:400,   
+		 closed: false,    
+		 cache: false,   
+		 modal: true,
+		 buttons:[{
+			 	   iconCls: 'icon-print',
+				   text:'打印',
+				   handler: function(){
+		    	 	
+			 			alert("打印中...");
+		 			}
+	 			  },
+	 			  {
+				 	   iconCls: 'icon-export',
+					   text:'导出',
+					   handler: function(){
+			    	 	
+				 			alert("导出中...");
+			 			}
+		 		  },
+		          {
+			 	   iconCls: 'icon-ok',
+				   text:'确定',
+				   handler: function(){
+		    	 	
+			 			$("#dtalBox").dialog('close');
+		    	   }
+		 		}]
+	 })
+
+	 $("#dtalBox").window('center');
+	 
+	 
+	 
+}
+
+
+function showpurchaselog(index)
+{
+	 var rows = $('#dgBox').datagrid('getRows');
+	 var row = rows[index];
+	 var purchaseno = row.purchaseno;
+	 var queryParams={};
+	 queryParams['purchaseno']=purchaseno;
+	 queryParams['tokenid']=getTokenid();
+	// 初始化加载数据
+	 $("#logdg").datagrid({  
+		url:logqueryUrl,
+    	isField:"fldId",
+    	frozenColumns:[[{field:'ck',checkbox:true}]],  // 冻结列在左侧
+    	queryParams:queryParams,
+    	striped:true,
+		rownumbers:true,       // 显示行号
+		remotesort: true,
+		pagination:true,       // 显示分页
+		singleSelect:true,     // 只能选中单行
+		pageSize: pageSize,
+		pageList:pageList,
+		loadMsg:'数据加载中，请稍等...', 
+    	fit:false,				 // 自适应大小，为true数据不展示
+    	fitColumns:true,         //自动使列适应表格宽度以防止出现水平滚动
+    	nowrap:true,             //超出列宽自动截取
+    	columns:getPurchaseLogCols(), // 列数据
+    	toolbar:'',       // 工具栏
+    	onLoadError : function() {
+    		error('数据加载失败！');
+    	}
+	 });  
+
+	 //设置分页控件 
+	 $('#logdg').datagrid('getPager').pagination({ 
+        beforePageText: '第',//页数文本框前显示的汉字 
+        afterPageText: '页    共 {pages} 页', 
+        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+     }); 
+ 
+	 $("#logBox").show();
+	 $("#logBox").dialog({
+		 title:'采购单-操作详情',
+		 width: 700,    
+		 height:400,   
+		 closed: false,    
+		 cache: false,   
+		 modal: true,
+		 buttons:[{
+			 	   iconCls: 'icon-ok',
+				   text:'确定',
+				   handler: function(){
+		    	 	
+			 			$("#logBox").dialog('close');
+		    	   }
+		 		}]
+	 })
+
+	 $("#logBox").window('center');
+	
+}
+
+
+
+/**
+ * 按钮操作
+ * @param title
+ * @param opttype
+ * @param righturl
+ * @return
+ */
+function btnopt(opttype,title,righturl,rightid)
+{
+	switch (opttype) {
+	case '1':
+		cancelPurchase(title,righturl,rightid);
+		break;
+	case '3':
+		sendtostorage(title,righturl,rightid);
+		break;
+	case '2':
+		orderprint(title,righturl,rightid);
+		break;
+		
+	default:
+		alert('没有此操作类型对应的方法，请核查！');
+		break;
+	}
+}
+
+function orderprint(title,righturl,rightid){
+	
+	var rows = $("#dgBox").datagrid('getSelections');
+	
+	if(rows.length<=0)
+	{
+		alert("请选择需要打印的销售单！");
+		return false;
+	}
+	
+	
+	if(rows.length >1)
+	{
+		alert("仅能选择一个销售单进行打印！");
+		return false;
+	}
+	
+	orderno = rows[0].orderno;
+	
+	publicorderprint(title,righturl,rightid,orderno);
+	
+	
+}
+
+
+/**
+ * 付款补录
+ * @param title
+ * @param righturl
+ * @param rightid
+ * @return
+ */
+function addPayLog(title,righturl,rightid){
+	
+
+	
+}
+
+
+
+/**
+ * 发送采购单至仓库
+ * @param title
+ * @param righturl
+ * @param rightid
+ * @return
+ */
+function sendtostorage(title,righturl,rightid)
+{
+	 var rows = $('#dgBox').datagrid('getSelections');
+
+	 if(rows.length>0)
+	 {
+
+		 
+		 var ordernoArray =[];
+		 $.each(rows,function(index,row){
+			 
+			 var issendstoragerk = row.issendstoragerk;
+			 var orderstatus = row.orderstatus;
+			 // 已推送且已取消的订单不进行推送
+			 if(issendstoragerk =="0" && orderstatus =="0001")
+			 {
+				 ordernoArray.push(row.orderno);
+			 }
+			 
+		 })
+		 
+		 if(ordernoArray.length==0)
+		 {
+			 alert("未推送且生效的订单才允许推送至仓库！");
+			 return false;
+		 }
+		 
+		var ordernolist = ordernoArray.join(',');
+		 
+		var data={};
+		data['tokenid']=getTokenid();
+		data['rightid']= rightid;				
+		data['ordernolist']=ordernolist;
+		$.ajax( {
+			url:righturl,
+			async:false,
+			type:"post",
+			data:data,
+			dataType:'json',
+			success:function(retData){
+				if(retData.retCode == successCode)
+				{
+					show(retData.retMsg);
+					searchOrReload();
+				}
+				else if(retData.retCode == loginTimeoutCode)
+				{
+					alert(retData.retMsg);
+					top.location.href = loginUrl;
+				}
+				else
+				{
+					alert(retData.retMsg);
+				}
+			},
+			error:function(){
+				error('系统错误,请稍后重试！');
+			}
+		});
+		 
+	}
+	 else
+	{
+		 alert('请选择需要操作的记录！');
+		 return false;		 
+	}
+	
+}
+
+
+/**
+ * 采购单取消
+ * @param title
+ * @param righturl
+ * @param rightid
+ * @return
+ */
+function cancelPurchase(title,righturl,rightid)
+{
+	 var rows = $('#dgBox').datagrid('getSelections');
+	 
+	 if(rows.length<=0)
+	 {
+		 alert('请选择需要操作的记录！');
+		 return false;
+	 }
+	 
+	 if(rows.length>1)
+	 {
+		alert("只能操作一条记录！");
+		return false;
+	 }
+	 
+	 var row = rows[0];
+	 var orderno = rows[0].orderno;
+	 var orderstatus = rows[0].orderstatus;
+	 
+	 if(orderstatus=="0001")
+	 {
+		 $.messager.confirm(title,"确认取消采购单编号：["+orderno+"]吗？",function(result){
+			 
+			 if(result)
+			 {
+				var data={};
+				data['tokenid']=getTokenid();
+				data['rightid']= rightid;				
+				data['orderno']=orderno;
+				$.ajax( {
+					url:righturl,
+					async:false,
+					type:"post",
+					data:data,
+					dataType:'json',
+					success:function(retData){
+						if(retData.retCode == successCode)
+						{
+							show(retData.retMsg);
+							searchOrReload();
+						}
+						else if(retData.retCode == loginTimeoutCode)
+						{
+							alert(retData.retMsg);
+							top.location.href = loginUrl;
+						}
+						else
+						{
+							alert(retData.retMsg);
+						}
+					},
+					error:function(){
+						error('系统错误,请稍后重试！');
+					}
+				});
+				 
+				 
+			 }
+			 
+		 })
+		
+	 }
+	 else
+	 {
+		 
+		 alert('该采购单状态无法取消！');
+		 return false;
+	 }
+
+}
+
+
+
+/**
+ * 查询或重新加载组件
+ * @param goodCode
+ * @param goodName
+ * @param goodTypeName
+ * @param goodState
+ * @return
+ */
+function searchOrReload(){
+
+	var queryParams = $("#dgBox").datagrid('options').queryParams;
+
+	var tcorpid = $("#corpid").combobox('getValue');	
+	queryParams['tcorpid']=tcorpid;
+	queryParams['begintime']=$("#begintime").datetimebox('getValue');
+	queryParams['endtime']=$("#endtime").datetimebox('getValue');
+	queryParams['orderno']=$("#orderno").val();
+	
+	$("#dgBox").datagrid('options').queryParams = queryParams;
+	$("#dgBox").datagrid('reload');
+}
+
+// 重置查询表单
+function clearForm()
+{
+	$("#queryfm").form('clear');
+	$("#corpid").combobox('reload');
+	$("#begintime").datetimebox('setValue',formatterDate(new Date()));	
+	$("#endtime").datetimebox('setValue',formatterTime(new Date()));	
+}
+
+
+

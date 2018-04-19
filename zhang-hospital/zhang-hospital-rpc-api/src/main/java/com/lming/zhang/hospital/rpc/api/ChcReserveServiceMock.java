@@ -7,7 +7,7 @@ import com.lming.zhang.hospital.dao.model.ChcReserveExample;
 
 /**
 * 降级实现ChcReserveService接口
-* Created by zhanglm on 2018/4/9.
+* Created by zhanglm on 2018/4/19.
 */
 public class ChcReserveServiceMock extends BaseServiceMock<ChcReserveMapper, ChcReserve, ChcReserveExample> implements ChcReserveService {
 
