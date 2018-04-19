@@ -10,10 +10,199 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-04-10 20:36:35
+Date: 2018-04-19 17:48:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `acl_log`
+-- ----------------------------
+DROP TABLE IF EXISTS `acl_log`;
+CREATE TABLE `acl_log` (
+  `log_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `description` varchar(100) DEFAULT NULL COMMENT '操作描述',
+  `login_name` varchar(20) DEFAULT NULL COMMENT '操作用户',
+  `start_time` bigint(20) DEFAULT NULL COMMENT '操作时间',
+  `spend_time` int(11) DEFAULT NULL COMMENT '消耗时间',
+  `base_path` varchar(500) DEFAULT NULL COMMENT '根路径',
+  `uri` varchar(500) DEFAULT NULL COMMENT 'URI',
+  `url` varchar(500) DEFAULT NULL COMMENT 'URL',
+  `method` varchar(10) DEFAULT NULL COMMENT '请求类型',
+  `parameter` mediumtext,
+  `user_agent` varchar(500) DEFAULT NULL COMMENT '用户标识',
+  `ip` varchar(30) DEFAULT NULL COMMENT 'IP地址',
+  `result` mediumtext,
+  `permissions` varchar(100) DEFAULT NULL COMMENT '权限值',
+  PRIMARY KEY (`log_id`),
+  KEY `log_id` (`log_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
+
+-- ----------------------------
+-- Records of acl_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `acl_permission`
+-- ----------------------------
+DROP TABLE IF EXISTS `acl_permission`;
+CREATE TABLE `acl_permission` (
+  `permission_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `system_id` int(10) unsigned NOT NULL COMMENT '所属系统',
+  `pid` int(10) DEFAULT NULL COMMENT '所属上级',
+  `name` varchar(20) DEFAULT NULL COMMENT '名称',
+  `type` tinyint(4) DEFAULT NULL COMMENT '类型(1:目录,2:菜单,3:按钮)',
+  `permission_value` varchar(50) DEFAULT NULL COMMENT '权限值',
+  `uri` varchar(100) DEFAULT NULL COMMENT '路径',
+  `icon` varchar(50) DEFAULT NULL COMMENT '图标',
+  `status` tinyint(4) DEFAULT NULL COMMENT '状态(0:禁止,1:正常)',
+  `ctime` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `orders` bigint(20) DEFAULT NULL COMMENT '排序',
+  PRIMARY KEY (`permission_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COMMENT='权限';
+
+-- ----------------------------
+-- Records of acl_permission
+-- ----------------------------
+INSERT INTO `acl_permission` VALUES ('1', '1', '0', '系统组织管理', '1', '', '', 'zmdi zmdi-accounts-list', '1', '1', '1');
+INSERT INTO `acl_permission` VALUES ('2', '1', '1', '系统管理', '2', 'upms:system:read', '/manage/system/index', '', '1', '2', '2');
+INSERT INTO `acl_permission` VALUES ('3', '1', '1', '组织管理', '2', 'upms:organization:read', '/manage/organization/index', '', '1', '3', '3');
+INSERT INTO `acl_permission` VALUES ('4', '1', '0', '角色用户管理', '1', '', '', 'zmdi zmdi-accounts', '1', '4', '4');
+INSERT INTO `acl_permission` VALUES ('5', '1', '4', '角色管理', '2', 'upms:role:read', '/manage/role/index', '', '1', '6', '6');
+INSERT INTO `acl_permission` VALUES ('6', '1', '4', '用户管理', '2', 'upms:user:read', '/manage/user/index', '', '1', '5', '5');
+INSERT INTO `acl_permission` VALUES ('7', '1', '0', '权限资源管理', '1', '', '', 'zmdi zmdi-lock-outline', '1', '7', '7');
+INSERT INTO `acl_permission` VALUES ('12', '1', '0', '其他数据管理', '1', '', '', 'zmdi zmdi-more', '1', '12', '12');
+INSERT INTO `acl_permission` VALUES ('14', '1', '12', '会话管理', '2', 'upms:session:read', '/manage/session/index', '', '1', '14', '14');
+INSERT INTO `acl_permission` VALUES ('15', '1', '12', '日志记录', '2', 'upms:log:read', '/manage/log/index', '', '1', '15', '15');
+INSERT INTO `acl_permission` VALUES ('24', '1', '2', '新增系统', '3', 'upms:system:create', '/manage/system/create', 'zmdi zmdi-plus', '1', '24', '24');
+INSERT INTO `acl_permission` VALUES ('25', '1', '2', '编辑系统', '3', 'upms:system:update', '/manage/system/update', 'zmdi zmdi-edit', '1', '25', '25');
+INSERT INTO `acl_permission` VALUES ('26', '1', '2', '删除系统', '3', 'upms:system:delete', '/manage/system/delete', 'zmdi zmdi-close', '1', '26', '26');
+INSERT INTO `acl_permission` VALUES ('27', '1', '3', '新增组织', '3', 'upms:organization:create', '/manage/organization/create', 'zmdi zmdi-plus', '1', '27', '27');
+INSERT INTO `acl_permission` VALUES ('28', '1', '3', '编辑组织', '3', 'upms:organization:update', '/manage/organization/update', 'zmdi zmdi-edit', '1', '28', '28');
+INSERT INTO `acl_permission` VALUES ('29', '1', '3', '删除组织', '3', 'upms:organization:delete', '/manage/organization/delete', 'zmdi zmdi-close', '1', '29', '29');
+INSERT INTO `acl_permission` VALUES ('30', '1', '6', '新增用户', '3', 'upms:user:create', '/manage/user/create', 'zmdi zmdi-plus', '1', '30', '30');
+INSERT INTO `acl_permission` VALUES ('31', '1', '6', '编辑用户', '3', 'upms:user:update', '/manage/user/update', 'zmdi zmdi-edit', '1', '31', '31');
+INSERT INTO `acl_permission` VALUES ('32', '1', '6', '删除用户', '3', 'upms:user:delete', '/manage/user/delete', 'zmdi zmdi-close', '1', '32', '32');
+INSERT INTO `acl_permission` VALUES ('33', '1', '5', '新增角色', '3', 'upms:role:create', '/manage/role/create', 'zmdi zmdi-plus', '1', '33', '33');
+INSERT INTO `acl_permission` VALUES ('34', '1', '5', '编辑角色', '3', 'upms:role:update', '/manage/role/update', 'zmdi zmdi-edit', '1', '34', '34');
+INSERT INTO `acl_permission` VALUES ('35', '1', '5', '删除角色', '3', 'upms:role:delete', '/manage/role/delete', 'zmdi zmdi-close', '1', '35', '35');
+INSERT INTO `acl_permission` VALUES ('36', '1', '39', '新增权限', '3', 'upms:permission:create', '/manage/permission/create', 'zmdi zmdi-plus', '1', '36', '36');
+INSERT INTO `acl_permission` VALUES ('37', '1', '39', '编辑权限', '3', 'upms:permission:update', '/manage/permission/update', 'zmdi zmdi-edit', '1', '37', '37');
+INSERT INTO `acl_permission` VALUES ('38', '1', '39', '删除权限', '3', 'upms:permission:delete', '/manage/permission/delete', 'zmdi zmdi-close', '1', '38', '38');
+INSERT INTO `acl_permission` VALUES ('39', '1', '7', '权限管理', '2', 'upms:permission:read', '/manage/permission/index', null, '1', '39', '39');
+INSERT INTO `acl_permission` VALUES ('46', '1', '5', '角色权限', '3', 'upms:role:permission', '/manage/role/permission', 'zmdi zmdi-key', '1', '1488091928257', '1488091928257');
+INSERT INTO `acl_permission` VALUES ('48', '1', '6', '用户组织', '3', 'upms:user:organization', '/manage/user/organization', 'zmdi zmdi-accounts-list', '1', '1488120011165', '1488120011165');
+INSERT INTO `acl_permission` VALUES ('50', '1', '6', '用户角色', '3', 'upms:user:role', '/manage/user/role', 'zmdi zmdi-accounts', '1', '1488120554175', '1488120554175');
+INSERT INTO `acl_permission` VALUES ('51', '1', '6', '用户权限', '3', 'upms:user:permission', '/manage/user/permission', 'zmdi zmdi-key', '1', '1488092013302', '1488092013302');
+INSERT INTO `acl_permission` VALUES ('53', '1', '14', '强制退出', '3', 'upms:session:forceout', '/manage/session/forceout', 'zmdi zmdi-run', '1', '1488379514715', '1488379514715');
+INSERT INTO `acl_permission` VALUES ('57', '1', '15', '删除权限', '3', 'upms:log:delete', '/manage/log/delete', 'zmdi zmdi-close', '1', '1489503867909', '1489503867909');
+
+-- ----------------------------
+-- Table structure for `acl_role`
+-- ----------------------------
+DROP TABLE IF EXISTS `acl_role`;
+CREATE TABLE `acl_role` (
+  `role_id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_name` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`role_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of acl_role
+-- ----------------------------
+INSERT INTO `acl_role` VALUES ('1', '系统管理员');
+INSERT INTO `acl_role` VALUES ('2', '企业管理员');
+INSERT INTO `acl_role` VALUES ('3', '企业操作员');
+INSERT INTO `acl_role` VALUES ('4', '游客');
+
+-- ----------------------------
+-- Table structure for `acl_role_permission`
+-- ----------------------------
+DROP TABLE IF EXISTS `acl_role_permission`;
+CREATE TABLE `acl_role_permission` (
+  `role_permission_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `role_id` int(10) unsigned NOT NULL COMMENT '角色编号',
+  `permission_id` int(10) unsigned NOT NULL COMMENT '权限编号',
+  PRIMARY KEY (`role_permission_id`),
+  KEY `FK_Reference_23` (`role_id`),
+  CONSTRAINT `acl_role_permission_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `upms_role` (`role_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8mb4 COMMENT='角色权限关联表';
+
+-- ----------------------------
+-- Records of acl_role_permission
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `acl_system`
+-- ----------------------------
+DROP TABLE IF EXISTS `acl_system`;
+CREATE TABLE `acl_system` (
+  `system_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `icon` varchar(50) DEFAULT NULL COMMENT '图标',
+  `banner` varchar(150) DEFAULT NULL COMMENT '背景',
+  `theme` varchar(50) DEFAULT NULL COMMENT '主题',
+  `basepath` varchar(100) DEFAULT NULL COMMENT '根目录',
+  `status` tinyint(4) DEFAULT NULL COMMENT '状态(-1:黑名单,1:正常)',
+  `name` varchar(20) DEFAULT NULL COMMENT '系统名称',
+  `title` varchar(20) DEFAULT NULL COMMENT '系统标题',
+  `description` varchar(300) DEFAULT NULL COMMENT '系统描述',
+  `ctime` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `orders` bigint(20) DEFAULT NULL COMMENT '排序',
+  PRIMARY KEY (`system_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='系统';
+
+-- ----------------------------
+-- Records of acl_system
+-- ----------------------------
+INSERT INTO `acl_system` VALUES ('1', 'zmdi zmdi-shield-security', '/resources/zheng-admin/images/zheng-upms.png', '#29A176', 'http://upms.zhangshuzheng.cn:1111', '1', 'zheng-upms-server', '权限管理系统', '用户权限管理系统（RBAC细粒度用户权限、统一后台、单点登录、会话管理）', '1', '1');
+INSERT INTO `acl_system` VALUES ('6', 'zmdi zmdi-cloud', '/resources/zheng-admin/images/zheng-oss.png', '#0B8DE5', 'http://hospital.zhangshuzheng.cn:5555', '1', 'zheng-hospital-admin', '医药管理系统', '医药传力系统', '6', '6');
+
+-- ----------------------------
+-- Table structure for `acl_user`
+-- ----------------------------
+DROP TABLE IF EXISTS `acl_user`;
+CREATE TABLE `acl_user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `login_name` varchar(32) NOT NULL,
+  `login_pass` varchar(32) DEFAULT NULL,
+  `nick_name` varchar(16) DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  `mobile_no` varchar(11) DEFAULT NULL,
+  `openid` varchar(32) NOT NULL,
+  `usertype` varchar(4) DEFAULT NULL,
+  `email` varchar(64) DEFAULT NULL,
+  `user_status` varchar(4) DEFAULT NULL,
+  `login_count` int(10) DEFAULT NULL,
+  `last_login_ip` varchar(16) DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`,`openid`,`login_name`),
+  UNIQUE KEY `IDX_OPENID` (`openid`) USING BTREE,
+  UNIQUE KEY `IDX_LOGINNAME` (`login_name`) USING BTREE,
+  UNIQUE KEY `IDX_MOBILENO` (`mobile_no`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of acl_user
+-- ----------------------------
+INSERT INTO `acl_user` VALUES ('1', 'shinyzo', '123456', null, null, '15501700742', '123456789', '1', null, '0', '1', '127.0.0.1', '2018-04-19 10:33:21');
+INSERT INTO `acl_user` VALUES ('2', 'admin', 'e997ae2621ca17c838a4f0aa6648ee2a', null, null, '15501700743', '123456787', '2', null, '1', '2', '127.0.0.1', '2018-04-08 10:30:00');
+
+-- ----------------------------
+-- Table structure for `acl_user_role`
+-- ----------------------------
+DROP TABLE IF EXISTS `acl_user_role`;
+CREATE TABLE `acl_user_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of acl_user_role
+-- ----------------------------
+INSERT INTO `acl_user_role` VALUES ('1', '1', '1');
+INSERT INTO `acl_user_role` VALUES ('2', '2', '2');
 
 -- ----------------------------
 -- Table structure for `chc_community_hspl`
@@ -358,25 +547,25 @@ INSERT INTO `chc_reserve` VALUES ('20171128125533559794', '1', null, '2', null, 
 -- ----------------------------
 DROP TABLE IF EXISTS `chc_subject`;
 CREATE TABLE `chc_subject` (
-  `subject_id` varchar(10) NOT NULL DEFAULT '',
-  `subject_name` varchar(64) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `subject_id` int(10) NOT NULL AUTO_INCREMENT,
+  `subject_no` varchar(20) DEFAULT NULL COMMENT '自定义编号',
+  `subject_name` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`subject_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of chc_subject
 -- ----------------------------
-INSERT INTO `chc_subject` VALUES ('S000001', 'MMMMMM');
-INSERT INTO `chc_subject` VALUES ('S000003', '妇科');
-INSERT INTO `chc_subject` VALUES ('S000004', '脑外科');
-INSERT INTO `chc_subject` VALUES ('S000005', '肿瘤科');
-INSERT INTO `chc_subject` VALUES ('S000006', '皮肤科');
-INSERT INTO `chc_subject` VALUES ('S000007', '心外科');
-INSERT INTO `chc_subject` VALUES ('S000008', '放射科');
-INSERT INTO `chc_subject` VALUES ('A00002', 'test');
-INSERT INTO `chc_subject` VALUES ('A00002', 'test');
-INSERT INTO `chc_subject` VALUES ('0000002', 'wwwwww');
-INSERT INTO `chc_subject` VALUES ('0000003', 'YYYYYYY');
-INSERT INTO `chc_subject` VALUES ('0000004', 'nnnnnn');
+INSERT INTO `chc_subject` VALUES ('1', 'A0001', 'wwwwww');
+INSERT INTO `chc_subject` VALUES ('2', null, 'YYYYYYY');
+INSERT INTO `chc_subject` VALUES ('3', null, 'MMMM7');
+INSERT INTO `chc_subject` VALUES ('4', null, 'MMMMMM');
+INSERT INTO `chc_subject` VALUES ('5', null, '妇科');
+INSERT INTO `chc_subject` VALUES ('6', null, '脑外科');
+INSERT INTO `chc_subject` VALUES ('7', null, '肿瘤科');
+INSERT INTO `chc_subject` VALUES ('8', null, '皮肤科');
+INSERT INTO `chc_subject` VALUES ('9', null, '心外科');
+INSERT INTO `chc_subject` VALUES ('10', null, '放射科');
 
 -- ----------------------------
 -- Table structure for `chc_travel_schedule`
@@ -402,32 +591,74 @@ CREATE TABLE `chc_travel_schedule` (
 INSERT INTO `chc_travel_schedule` VALUES ('1', '1', null, '2017-11-21', '7:00', '11:00', '海南省人民医院', '0.33311', '2.3312112', '1');
 
 -- ----------------------------
--- Table structure for `chc_user_info`
+-- Procedure structure for `init_shiro_demo`
 -- ----------------------------
-DROP TABLE IF EXISTS `chc_user_info`;
-CREATE TABLE `chc_user_info` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `login_name` varchar(32) DEFAULT NULL,
-  `login_pass` varchar(32) DEFAULT NULL,
-  `user_name` varchar(16) DEFAULT NULL,
-  `birthday` date DEFAULT NULL,
-  `mobile_no` varchar(11) DEFAULT NULL,
-  `openid` varchar(32) NOT NULL,
-  `usertype` varchar(4) DEFAULT NULL,
-  `role_id` int(11) DEFAULT NULL,
-  `email` varchar(64) DEFAULT NULL,
-  `user_status` varchar(4) DEFAULT NULL,
-  `login_count` int(10) DEFAULT NULL,
-  `last_login_ip` varchar(16) DEFAULT NULL,
-  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`,`openid`),
-  UNIQUE KEY `IDX_OPENID` (`openid`) USING BTREE,
-  UNIQUE KEY `IDX_MOBILENO` (`mobile_no`) USING BTREE,
-  UNIQUE KEY `IDX_LOGINNAME` (`login_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of chc_user_info
--- ----------------------------
-INSERT INTO `chc_user_info` VALUES ('1', 'shinyzo', 'e997ae2621ca17c838a4f0aa6648ee2a', null, null, '15501700742', '123456789', '1', '1', null, '1', '1', '127.0.0.1', '2017-11-21 10:23:09');
-INSERT INTO `chc_user_info` VALUES ('2', 'admin', 'e997ae2621ca17c838a4f0aa6648ee2a', null, null, '15501700743', '123456787', '2', '2', null, '1', '2', '127.0.0.1', '2018-04-08 10:30:00');
+DROP PROCEDURE IF EXISTS `init_shiro_demo`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `init_shiro_demo`()
+BEGIN	
+/*
+SQLyog 企业版 - MySQL GUI v7.14 
+MySQL - 5.6.16-log : Database - 
+*********************************************************************
+*/
+/*表结构插入*/
+DROP TABLE IF EXISTS `u_permission`;
+CREATE TABLE `u_permission` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `url` varchar(256) DEFAULT NULL COMMENT 'url地址',
+  `name` varchar(64) DEFAULT NULL COMMENT 'url描述',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+/*Table structure for table `u_role` */
+DROP TABLE IF EXISTS `u_role`;
+CREATE TABLE `u_role` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) DEFAULT NULL COMMENT '角色名称',
+  `type` varchar(10) DEFAULT NULL COMMENT '角色类型',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*Table structure for table `u_role_permission` */
+DROP TABLE IF EXISTS `u_role_permission`;
+CREATE TABLE `u_role_permission` (
+  `rid` bigint(20) DEFAULT NULL COMMENT '角色ID',
+  `pid` bigint(20) DEFAULT NULL COMMENT '权限ID'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*Table structure for table `u_user` */
+DROP TABLE IF EXISTS `u_user`;
+CREATE TABLE `u_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nickname` varchar(20) DEFAULT NULL COMMENT '用户昵称',
+  `email` varchar(128) DEFAULT NULL COMMENT '邮箱|登录帐号',
+  `pswd` varchar(32) DEFAULT NULL COMMENT '密码',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
+  `status` bigint(1) DEFAULT '1' COMMENT '1:有效，0:禁止登录',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+/*Table structure for table `u_user_role` */
+DROP TABLE IF EXISTS `u_user_role`;
+CREATE TABLE `u_user_role` (
+  `uid` bigint(20) DEFAULT NULL COMMENT '用户ID',
+  `rid` bigint(20) DEFAULT NULL COMMENT '角色ID'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*
+SQLyog 企业版 - MySQL GUI v7.14 
+MySQL - 5.6.16-log : Database - i_wenyiba_com
+*********************************************************************
+*/
+/*所有的表数据插入*/
+/*Data for the table `u_permission` */
+insert  into `u_permission`(`id`,`url`,`name`) values (4,'/permission/index.shtml','权限列表'),(6,'/permission/addPermission.shtml','权限添加'),(7,'/permission/deletePermissionById.shtml','权限删除'),(8,'/member/list.shtml','用户列表'),(9,'/member/online.shtml','在线用户'),(10,'/member/changeSessionStatus.shtml','用户Session踢出'),(11,'/member/forbidUserById.shtml','用户激活&禁止'),(12,'/member/deleteUserById.shtml','用户删除'),(13,'/permission/addPermission2Role.shtml','权限分配'),(14,'/role/clearRoleByUserIds.shtml','用户角色分配清空'),(15,'/role/addRole2User.shtml','角色分配保存'),(16,'/role/deleteRoleById.shtml','角色列表删除'),(17,'/role/addRole.shtml','角色列表添加'),(18,'/role/index.shtml','角色列表'),(19,'/permission/allocation.shtml','权限分配'),(20,'/role/allocation.shtml','角色分配');
+/*Data for the table `u_role` */
+insert  into `u_role`(`id`,`name`,`type`) values (1,'系统管理员','888888'),(3,'权限角色','100003'),(4,'用户中心','100002');
+/*Data for the table `u_role_permission` */
+insert  into `u_role_permission`(`rid`,`pid`) values (4,8),(4,9),(4,10),(4,11),(4,12),(3,4),(3,6),(3,7),(3,13),(3,14),(3,15),(3,16),(3,17),(3,18),(3,19),(3,20),(1,4),(1,6),(1,7),(1,8),(1,9),(1,10),(1,11),(1,12),(1,13),(1,14),(1,15),(1,16),(1,17),(1,18),(1,19),(1,20);
+/*Data for the table `u_user` */
+insert  into `u_user`(`id`,`nickname`,`email`,`pswd`,`create_time`,`last_login_time`,`status`) values (1,'管理员','admin','9c3250081c7b1f5c6cbb8096e3e1cd04','2016-06-16 11:15:33','2016-06-16 11:24:10',1),(11,'soso','8446666@qq.com','d57ffbe486910dd5b26d0167d034f9ad','2016-05-26 20:50:54','2016-06-16 11:24:35',1),(12,'8446666','8446666','4afdc875a67a55528c224ce088be2ab8','2016-05-27 22:34:19','2016-06-15 17:03:16',1);
+/*Data for the table `u_user_role` */
+insert  into `u_user_role`(`uid`,`rid`) values (12,4),(11,3),(11,4),(1,1);
+   
+    END
+;;
+DELIMITER ;

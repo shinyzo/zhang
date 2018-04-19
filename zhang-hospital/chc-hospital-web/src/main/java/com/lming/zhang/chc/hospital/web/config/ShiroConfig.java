@@ -72,6 +72,7 @@ public class ShiroConfig {
         shiroFilterMap.put("/manage/hello","anon");
         shiroFilterMap.put("/loadvercode","anon");
         shiroFilterMap.put("/static/**","anon");
+        shiroFilterMap.put("/manage/loginAuthen","anon");
 
         // 登录,首页,
         shiroFilterFactoryBean.setLoginUrl("/manage/login");
