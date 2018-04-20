@@ -22,7 +22,7 @@ public class AclLog implements Serializable {
      *
      * @mbg.generated
      */
-    private String username;
+    private String loginName;
 
     /**
      * 操作时间
@@ -109,12 +109,12 @@ public class AclLog implements Serializable {
         this.description = description;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLoginName() {
+        return loginName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
     public Long getStartTime() {
@@ -213,7 +213,7 @@ public class AclLog implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", logId=").append(logId);
         sb.append(", description=").append(description);
-        sb.append(", username=").append(username);
+        sb.append(", loginName=").append(loginName);
         sb.append(", startTime=").append(startTime);
         sb.append(", spendTime=").append(spendTime);
         sb.append(", basePath=").append(basePath);
@@ -243,7 +243,7 @@ public class AclLog implements Serializable {
         AclLog other = (AclLog) that;
         return (this.getLogId() == null ? other.getLogId() == null : this.getLogId().equals(other.getLogId()))
             && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
-            && (this.getUsername() == null ? other.getUsername() == null : this.getUsername().equals(other.getUsername()))
+            && (this.getLoginName() == null ? other.getLoginName() == null : this.getLoginName().equals(other.getLoginName()))
             && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
             && (this.getSpendTime() == null ? other.getSpendTime() == null : this.getSpendTime().equals(other.getSpendTime()))
             && (this.getBasePath() == null ? other.getBasePath() == null : this.getBasePath().equals(other.getBasePath()))
@@ -263,7 +263,7 @@ public class AclLog implements Serializable {
         int result = 1;
         result = prime * result + ((getLogId() == null) ? 0 : getLogId().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
-        result = prime * result + ((getUsername() == null) ? 0 : getUsername().hashCode());
+        result = prime * result + ((getLoginName() == null) ? 0 : getLoginName().hashCode());
         result = prime * result + ((getStartTime() == null) ? 0 : getStartTime().hashCode());
         result = prime * result + ((getSpendTime() == null) ? 0 : getSpendTime().hashCode());
         result = prime * result + ((getBasePath() == null) ? 0 : getBasePath().hashCode());

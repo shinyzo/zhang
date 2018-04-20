@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.lming.zhang.hospital.dao.model.AclLog">
     <id column="log_id" jdbcType="INTEGER" property="logId" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
     <result column="start_time" jdbcType="BIGINT" property="startTime" />
     <result column="spend_time" jdbcType="INTEGER" property="spendTime" />
     <result column="base_path" jdbcType="VARCHAR" property="basePath" />
@@ -78,7 +78,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    log_id, description, username, start_time, spend_time, base_path, uri, url, method, 
+    log_id, description, login_name, start_time, spend_time, base_path, uri, url, method, 
     user_agent, ip, permissions
   </sql>
   <sql id="Blob_Column_List">
@@ -133,12 +133,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.lming.zhang.hospital.dao.model.AclLog">
-    insert into acl_log (log_id, description, username, 
+    insert into acl_log (log_id, description, login_name, 
       start_time, spend_time, base_path, 
       uri, url, method, user_agent, 
       ip, permissions, parameter, 
       result)
-    values (#{logId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+    values (#{logId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
       #{startTime,jdbcType=BIGINT}, #{spendTime,jdbcType=INTEGER}, #{basePath,jdbcType=VARCHAR}, 
       #{uri,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{userAgent,jdbcType=VARCHAR}, 
       #{ip,jdbcType=VARCHAR}, #{permissions,jdbcType=VARCHAR}, #{parameter,jdbcType=LONGVARCHAR}, 
@@ -153,8 +153,8 @@
       <if test="description != null">
         description,
       </if>
-      <if test="username != null">
-        username,
+      <if test="loginName != null">
+        login_name,
       </if>
       <if test="startTime != null">
         start_time,
@@ -197,8 +197,8 @@
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
       </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null">
         #{startTime,jdbcType=BIGINT},
@@ -250,8 +250,8 @@
       <if test="record.description != null">
         description = #{record.description,jdbcType=VARCHAR},
       </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
+      <if test="record.loginName != null">
+        login_name = #{record.loginName,jdbcType=VARCHAR},
       </if>
       <if test="record.startTime != null">
         start_time = #{record.startTime,jdbcType=BIGINT},
@@ -295,7 +295,7 @@
     update acl_log
     set log_id = #{record.logId,jdbcType=INTEGER},
       description = #{record.description,jdbcType=VARCHAR},
-      username = #{record.username,jdbcType=VARCHAR},
+      login_name = #{record.loginName,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=BIGINT},
       spend_time = #{record.spendTime,jdbcType=INTEGER},
       base_path = #{record.basePath,jdbcType=VARCHAR},
@@ -315,7 +315,7 @@
     update acl_log
     set log_id = #{record.logId,jdbcType=INTEGER},
       description = #{record.description,jdbcType=VARCHAR},
-      username = #{record.username,jdbcType=VARCHAR},
+      login_name = #{record.loginName,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=BIGINT},
       spend_time = #{record.spendTime,jdbcType=INTEGER},
       base_path = #{record.basePath,jdbcType=VARCHAR},
@@ -335,8 +335,8 @@
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
       </if>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
+      <if test="loginName != null">
+        login_name = #{loginName,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null">
         start_time = #{startTime,jdbcType=BIGINT},
@@ -377,7 +377,7 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lming.zhang.hospital.dao.model.AclLog">
     update acl_log
     set description = #{description,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
+      login_name = #{loginName,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=BIGINT},
       spend_time = #{spendTime,jdbcType=INTEGER},
       base_path = #{basePath,jdbcType=VARCHAR},
@@ -394,7 +394,7 @@
   <update id="updateByPrimaryKey" parameterType="com.lming.zhang.hospital.dao.model.AclLog">
     update acl_log
     set description = #{description,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
+      login_name = #{loginName,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=BIGINT},
       spend_time = #{spendTime,jdbcType=INTEGER},
       base_path = #{basePath,jdbcType=VARCHAR},

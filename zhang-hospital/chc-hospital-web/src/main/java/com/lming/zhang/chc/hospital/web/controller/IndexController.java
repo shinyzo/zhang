@@ -18,7 +18,10 @@ public class IndexController {
     @RequestMapping(value = "/index",method = RequestMethod.GET)
     public String index(){
 
-        return "index_bussiness";
+        // 加载所有的系统
+        // 加载改用户拥有系统的权限
+
+        return "index_business";
     }
 
     @RequestMapping(value = "/home",method = RequestMethod.GET)

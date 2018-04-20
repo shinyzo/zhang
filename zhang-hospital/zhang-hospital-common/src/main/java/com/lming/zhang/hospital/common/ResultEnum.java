@@ -15,6 +15,8 @@ public enum ResultEnum{
      * 失败
      */
     FAILED(1, "失败"),
+
+    SYS_ERROR(2,"系统错误！"),
     ;
 
     public int code;

@@ -7,14 +7,14 @@
     <id column="login_name" jdbcType="VARCHAR" property="loginName" />
     <result column="login_pass" jdbcType="VARCHAR" property="loginPass" />
     <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
-    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
     <result column="mobile_no" jdbcType="VARCHAR" property="mobileNo" />
     <result column="usertype" jdbcType="VARCHAR" property="usertype" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="user_status" jdbcType="VARCHAR" property="userStatus" />
     <result column="login_count" jdbcType="INTEGER" property="loginCount" />
     <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -119,10 +119,10 @@
       user_status, login_count, last_login_ip, 
       update_time)
     values (#{userId,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
-      #{loginPass,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, 
+      #{loginPass,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, 
       #{mobileNo,jdbcType=VARCHAR}, #{usertype,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{userStatus,jdbcType=VARCHAR}, #{loginCount,jdbcType=INTEGER}, #{lastLoginIp,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{updateTime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lming.zhang.hospital.dao.model.AclUser">
     insert into acl_user
@@ -184,7 +184,7 @@
         #{nickName,jdbcType=VARCHAR},
       </if>
       <if test="birthday != null">
-        #{birthday,jdbcType=DATE},
+        #{birthday,jdbcType=VARCHAR},
       </if>
       <if test="mobileNo != null">
         #{mobileNo,jdbcType=VARCHAR},
@@ -205,7 +205,7 @@
         #{lastLoginIp,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -234,7 +234,7 @@
         nick_name = #{record.nickName,jdbcType=VARCHAR},
       </if>
       <if test="record.birthday != null">
-        birthday = #{record.birthday,jdbcType=DATE},
+        birthday = #{record.birthday,jdbcType=VARCHAR},
       </if>
       <if test="record.mobileNo != null">
         mobile_no = #{record.mobileNo,jdbcType=VARCHAR},
@@ -255,7 +255,7 @@
         last_login_ip = #{record.lastLoginIp,jdbcType=VARCHAR},
       </if>
       <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        update_time = #{record.updateTime,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -269,14 +269,14 @@
       login_name = #{record.loginName,jdbcType=VARCHAR},
       login_pass = #{record.loginPass,jdbcType=VARCHAR},
       nick_name = #{record.nickName,jdbcType=VARCHAR},
-      birthday = #{record.birthday,jdbcType=DATE},
+      birthday = #{record.birthday,jdbcType=VARCHAR},
       mobile_no = #{record.mobileNo,jdbcType=VARCHAR},
       usertype = #{record.usertype,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
       user_status = #{record.userStatus,jdbcType=VARCHAR},
       login_count = #{record.loginCount,jdbcType=INTEGER},
       last_login_ip = #{record.lastLoginIp,jdbcType=VARCHAR},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      update_time = #{record.updateTime,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -291,7 +291,7 @@
         nick_name = #{nickName,jdbcType=VARCHAR},
       </if>
       <if test="birthday != null">
-        birthday = #{birthday,jdbcType=DATE},
+        birthday = #{birthday,jdbcType=VARCHAR},
       </if>
       <if test="mobileNo != null">
         mobile_no = #{mobileNo,jdbcType=VARCHAR},
@@ -312,7 +312,7 @@
         last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=VARCHAR},
       </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
@@ -323,14 +323,14 @@
     update acl_user
     set login_pass = #{loginPass,jdbcType=VARCHAR},
       nick_name = #{nickName,jdbcType=VARCHAR},
-      birthday = #{birthday,jdbcType=DATE},
+      birthday = #{birthday,jdbcType=VARCHAR},
       mobile_no = #{mobileNo,jdbcType=VARCHAR},
       usertype = #{usertype,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       user_status = #{userStatus,jdbcType=VARCHAR},
       login_count = #{loginCount,jdbcType=INTEGER},
       last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
       and openid = #{openid,jdbcType=VARCHAR}
       and login_name = #{loginName,jdbcType=VARCHAR}

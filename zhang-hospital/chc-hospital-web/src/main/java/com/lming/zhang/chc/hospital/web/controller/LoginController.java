@@ -1,6 +1,7 @@
 package com.lming.zhang.chc.hospital.web.controller;
 
 
+import com.lming.zhang.chc.hospital.web.util.PasswordHelper;
 import com.lming.zhang.hospital.common.ResultEnum;
 import com.lming.zhang.hospital.common.ResultVO;
 import com.lming.zhang.hospital.common.ResultVOUtils;
@@ -11,6 +12,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Auth : shinyzo
@@ -33,11 +35,12 @@ public class LoginController {
 
 
     @RequestMapping(value = "/loginAuthen")
+    @ResponseBody
     public ResultVO loginAuthen(@RequestParam("loginName") String loginName,
                                 @RequestParam("loginPass") String loginPass,
                                 @RequestParam("vercode") String vercode){
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token=new UsernamePasswordToken(loginName,loginPass);
+        UsernamePasswordToken token=new UsernamePasswordToken(loginName, loginPass);
         subject.login(token);
         if(subject.isAuthenticated())
         {

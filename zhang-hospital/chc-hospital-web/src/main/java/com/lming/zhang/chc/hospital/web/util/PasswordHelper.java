@@ -6,10 +6,10 @@ import org.apache.shiro.util.ByteSource;
 
 public class PasswordHelper {
 	//private RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
-	private String algorithmName = "md5";
-	private int hashIterations = 2;
+	private static String algorithmName = "md5";
+	private static int hashIterations = 2;
 
-	public String  encryptPassword(String password,String salt) {
+	public static String  encryptPassword(String password,String salt) {
 		//String salt=randomNumberGenerator.nextBytes().toHex();
 		String newPassword = new SimpleHash(algorithmName, password,  ByteSource.Util.bytes(salt), hashIterations).toHex();
 		//String newPassword = new SimpleHash(algorithmName, user.getPassword()).toHex();

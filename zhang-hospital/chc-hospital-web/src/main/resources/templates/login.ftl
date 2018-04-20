@@ -20,7 +20,7 @@
             <table>
                 <tr>
                     <td>用户名：</td>
-                    <td><input  type="text" class="easyui-textbox w152" name="loginName" id="loginname" value="hnnx"   data-options="iconCls:'icon-man'" /></td>
+                    <td><input  type="text" class="easyui-textbox w152" name="loginName" id="loginname" value="admin"   data-options="iconCls:'icon-man'" /></td>
                 </tr>
                 <tr>
                     <td>密 码：</td>

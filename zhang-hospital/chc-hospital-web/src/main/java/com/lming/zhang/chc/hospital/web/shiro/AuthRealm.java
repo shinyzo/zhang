@@ -1,5 +1,6 @@
 package com.lming.zhang.chc.hospital.web.shiro;
 
+import com.lming.zhang.chc.hospital.web.util.PasswordHelper;
 import com.lming.zhang.hospital.dao.model.AclUser;
 import com.lming.zhang.hospital.dao.model.AclUserExample;
 import com.lming.zhang.hospital.rpc.api.AclUserService;
@@ -30,9 +31,9 @@ public class AuthRealm extends AuthorizingRealm {
             return null;
         }
         //获取用户信息
-        String name = authenticationToken.getPrincipal().toString();
+        String loginName = authenticationToken.getPrincipal().toString();
         AclUserExample example = new AclUserExample();
-        example.or().andLoginNameEqualTo(name);
+        example.or().andLoginNameEqualTo(loginName);
         AclUser user = aclUserService.selectFirstByExample(example);
         if (user == null) {
             //这里返回后会报出对应异常
@@ -40,7 +41,7 @@ public class AuthRealm extends AuthorizingRealm {
         } else {
             //这里验证authenticationToken和simpleAuthenticationInfo的信息
             SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(
-                    name,
+                    loginName,
                     user.getLoginPass().toString(),
                     getName()
             );

@@ -1,7 +1,6 @@
 package com.lming.zhang.hospital.dao.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class AclUser implements Serializable {
     private Integer userId;
@@ -14,7 +13,7 @@ public class AclUser implements Serializable {
 
     private String nickName;
 
-    private Date birthday;
+    private String birthday;
 
     private String mobileNo;
 
@@ -28,7 +27,7 @@ public class AclUser implements Serializable {
 
     private String lastLoginIp;
 
-    private Date updateTime;
+    private String updateTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -72,11 +71,11 @@ public class AclUser implements Serializable {
         this.nickName = nickName;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -128,11 +127,11 @@ public class AclUser implements Serializable {
         this.lastLoginIp = lastLoginIp;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
