@@ -1,0 +1,12 @@
+server:
+  port: 7001
+  servlet:
+    context-path: /upms
+spring:
+  dubbo:
+    name: dubbo-customer
+    address: zookeeper://127.0.0.1:2181
+
+
+
+

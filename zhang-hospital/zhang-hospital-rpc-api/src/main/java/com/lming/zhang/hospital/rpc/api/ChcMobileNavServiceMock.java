@@ -7,7 +7,7 @@ import com.lming.zhang.hospital.dao.model.ChcMobileNavExample;
 
 /**
 * 降级实现ChcMobileNavService接口
-* Created by zhanglm on 2018/4/19.
+* Created by zhanglm on 2018/4/23.
 */
 public class ChcMobileNavServiceMock extends BaseServiceMock<ChcMobileNavMapper, ChcMobileNav, ChcMobileNavExample> implements ChcMobileNavService {
 

@@ -12,6 +12,7 @@
     <modules>
         <module>zhang-common</module>
         <module>zhang-hospital</module>
+        <module>zhang-upms</module>
     </modules>
 
 

@@ -21,6 +21,8 @@ import static com.lming.zhang.common.util.StringUtil.lineToHump;
  */
 public class MybatisGeneratorUtil {
 
+	public static final String JAVA_PATH = "/src/main/java/";
+
 	// generatorConfig模板路径
 	private static String generatorConfig_vm = "/template/generatorConfig.vm";
 	// Service模板路径
@@ -90,6 +92,9 @@ public class MybatisGeneratorUtil {
 			jdbcUtil.release();
 			String targetProjectApi = basePath + module + "/" +module + "-rpc-api";
 			String targetProjectSqlMap = basePath + module + "/" + module + "-rpc-service";
+
+
+
 			context.put("tables", tables);
 			context.put("generator_javaModelGenerator_targetPackage", packageName + ".dao.model");
 			context.put("generator_sqlMapGenerator_targetPackage", packageName + ".dao.mapper");
@@ -101,16 +106,43 @@ public class MybatisGeneratorUtil {
 			VelocityUtil.generate(generatorConfig_vm, generatorConfigXml, context);
 			// 删除旧代码
 			// 删除dao
-			deleteDir(new File(targetProject + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/dao/model"));
-			deleteDir(new File(targetProject + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/dao/mapper"));
+			deleteDir(new File(targetProject + JAVA_PATH + packageName.replaceAll("\\.", "/") + "/dao/model"));
+			deleteDir(new File(targetProject + JAVA_PATH + packageName.replaceAll("\\.", "/") + "/dao/mapper"));
 			// 删除service
 			//deleteDir(new File(targetProjectApi + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/rpc/api"));
 			// 删除xml
-			deleteDir(new File(targetProjectSqlMap + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/dao/mapper"));
+			deleteDir(new File(targetProjectSqlMap + JAVA_PATH + packageName.replaceAll("\\.", "/") + "/dao/mapper"));
+
+			/**
+			 * 让依赖的其他模块进行文件夹创建
+			 */
+			// 校验文件夹是否存在 dao 模块
+			String modelPath = targetProject +JAVA_PATH+packageName.replaceAll("\\.", "/") + "/dao/model";
+			String mapperPath = targetProject +JAVA_PATH+packageName.replaceAll("\\.", "/") + "/dao/mapper";
+			// rpc-api 模块
+			String apiPath = targetProjectApi + JAVA_PATH + packageName.replaceAll("\\.", "/") + "/rpc/api";
+			// rpc-service
+			String xmlPath = targetProjectSqlMap + JAVA_PATH + packageName.replaceAll("\\.", "/") + "/dao/mapper";
+			String implPath = targetProjectSqlMap + JAVA_PATH + packageName.replaceAll("\\.", "/") + "/rpc/service/impl";
+
+			File modelFile = new File(modelPath);
+			if(!modelFile.exists()) modelFile.mkdirs();
+			File mapperFile = new File(mapperPath);
+			if(!mapperFile.exists()) mapperFile.mkdirs();
+			File apiFile = new File(apiPath);
+			if(!apiFile.exists()) apiFile.mkdirs();
+			File xmlFile = new File(xmlPath);
+			if(!xmlFile.exists()) xmlFile.mkdirs();
+			File implFile = new File(implPath);
+			if(!implFile.exists()) implFile.mkdirs();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println("========== 结束生成generatorConfig.xml文件 ==========");
+
+
+
 
 		System.out.println("========== 开始运行MybatisGenerator ==========");
 		List<String> warnings = new ArrayList<>();

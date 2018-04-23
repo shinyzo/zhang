@@ -60,14 +60,7 @@
         <javaClientGenerator targetPackage="com.lming.zhang.hospital.dao.mapper" targetProject="E:/repo/java/zhang/zhang-hospital/zhang-hospital-dao/src/main/java" type="XMLMAPPER" />
 
         <!-- 需要映射的表 -->
-                                    <table tableName="acl_log" domainObjectName="AclLog"></table>
-                                                <table tableName="acl_permission" domainObjectName="AclPermission"></table>
-                                                <table tableName="acl_role" domainObjectName="AclRole"></table>
-                                                <table tableName="acl_role_permission" domainObjectName="AclRolePermission"></table>
-                                                <table tableName="acl_system" domainObjectName="AclSystem"></table>
-                                                <table tableName="acl_user" domainObjectName="AclUser"></table>
-                                                <table tableName="acl_user_role" domainObjectName="AclUserRole"></table>
-                                                <table tableName="chc_community_hspl" domainObjectName="ChcCommunityHspl"></table>
+                                    <table tableName="chc_community_hspl" domainObjectName="ChcCommunityHspl"></table>
                                                 <table tableName="chc_corp_info" domainObjectName="ChcCorpInfo"></table>
                                                 <table tableName="chc_doctor_info" domainObjectName="ChcDoctorInfo"></table>
                                                 <table tableName="chc_doctor_level" domainObjectName="ChcDoctorLevel"></table>

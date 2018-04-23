@@ -6,7 +6,7 @@ import com.lming.zhang.hospital.dao.model.ChcMobileNavExample;
 
 /**
 * ChcMobileNavService接口
-* Created by zhanglm on 2018/4/19.
+* Created by zhanglm on 2018/4/23.
 */
 public interface ChcMobileNavService extends BaseService<ChcMobileNav, ChcMobileNavExample> {
 

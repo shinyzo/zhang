@@ -26,27 +26,4 @@ public class LoginController {
 
 
 
-    @RequestMapping(value = "/login")
-    public String login(){
-
-        return "login";
-    }
-
-
-
-    @RequestMapping(value = "/loginAuthen")
-    @ResponseBody
-    public ResultVO loginAuthen(@RequestParam("loginName") String loginName,
-                                @RequestParam("loginPass") String loginPass,
-                                @RequestParam("vercode") String vercode){
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token=new UsernamePasswordToken(loginName, loginPass);
-        subject.login(token);
-        if(subject.isAuthenticated())
-        {
-            return ResultVOUtils.success();
-        }
-        return ResultVOUtils.error(ResultEnum.FAILED);
-    }
-
 }

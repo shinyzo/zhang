@@ -7,7 +7,7 @@ import com.lming.zhang.hospital.dao.model.ChcPlatNavExample;
 
 /**
 * 降级实现ChcPlatNavService接口
-* Created by zhanglm on 2018/4/19.
+* Created by zhanglm on 2018/4/23.
 */
 public class ChcPlatNavServiceMock extends BaseServiceMock<ChcPlatNavMapper, ChcPlatNav, ChcPlatNavExample> implements ChcPlatNavService {
 

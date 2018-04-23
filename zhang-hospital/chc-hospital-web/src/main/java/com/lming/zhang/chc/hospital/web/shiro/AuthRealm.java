@@ -1,9 +1,5 @@
 package com.lming.zhang.chc.hospital.web.shiro;
 
-import com.lming.zhang.chc.hospital.web.util.PasswordHelper;
-import com.lming.zhang.hospital.dao.model.AclUser;
-import com.lming.zhang.hospital.dao.model.AclUserExample;
-import com.lming.zhang.hospital.rpc.api.AclUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;

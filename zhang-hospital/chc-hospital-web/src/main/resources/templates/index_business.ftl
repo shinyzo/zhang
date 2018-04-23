@@ -17,32 +17,17 @@
 		<div data-options="region:'north',border:true,minHeight:70" style="height:72px">
 			
 			<div class="logo" style="font-size:22px;font-weight:bold;">
-				${corpInfo.corpName}
+				111111
 			</div>
 			 
 			<div class="exit">
-				${user.loginName} , 上次登录时间： ${user.lastLoginTime!},上次登录IP:${user.lastLoginIp}
-				<a href="javascript:void(0)" class="easyui-linkbutton" target="_self" onClick="javascript:logout();">
-						安全退出
-				</a>          		
+
 			</div>		
 		</div>
 		
 		<div data-options="region:'west',split:true,title:'菜单导航栏'" style="width:240px;">
 			<div class="easyui-accordion" data-options="border:false,fit:true">
-			<#list rights as pitem>
-				<#if pitem.parentId=='0'>
-                    <div title="${pitem.rightName}" data-options="iconCls:'icon-application-cascade'" style="padding:5px;">
-						<#list rights as citem>
-                            <ul class="easyui-tree">
-								<#if citem.parentId == pitem.rightId>
-                                    <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation"  onclick="addTab('${citem.rightName}','${basepath}/${citem.requestUri}?rightid=${citem.rightId}','true')"  iframe="0">${citem.rightName}</a></li>
-								</#if>
-                            </ul>
-						</#list>
-                    </div>
-				</#if>
-			</#list>
+
 			</div>
 		</div>
 		

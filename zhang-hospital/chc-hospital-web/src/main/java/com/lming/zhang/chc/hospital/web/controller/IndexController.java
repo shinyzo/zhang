@@ -1,9 +1,14 @@
 package com.lming.zhang.chc.hospital.web.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
 
 /**
  * Auth : shinyzo
@@ -15,24 +20,5 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/manage")
 public class IndexController {
 
-    @RequestMapping(value = "/index",method = RequestMethod.GET)
-    public String index(){
 
-        // 加载所有的系统
-        // 加载改用户拥有系统的权限
-
-        return "index_business";
-    }
-
-    @RequestMapping(value = "/home",method = RequestMethod.GET)
-    public String home(){
-
-        return "home";
-    }
-
-    @RequestMapping(value = "/hello",method = RequestMethod.GET)
-    public String hello(){
-
-        return "hello";
-    }
 }
