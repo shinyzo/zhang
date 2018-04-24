@@ -38,4 +38,13 @@ public class LoginController {
         return "login";
     }
 
+
+    @RequestMapping("/logout")
+    public String logout(){
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return "login";
+    }
+
+
 }

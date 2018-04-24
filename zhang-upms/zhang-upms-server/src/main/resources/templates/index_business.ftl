@@ -21,7 +21,7 @@
 			</div>
 			 
 			<div class="exit">
-
+				<a href="${basepath}/manage/logout">安全退出</a>
 			</div>		
 		</div>
 		

@@ -30,7 +30,7 @@ public class ShiroConfig {
     @Bean
     public UpmsRealm upmsRealm() {
         UpmsRealm authRealm = new UpmsRealm();
-        //authRealm.setCredentialsMatcher( hashedCredentialsMatcher() );
+        authRealm.setCredentialsMatcher( hashedCredentialsMatcher() );
         return authRealm;
     }
 

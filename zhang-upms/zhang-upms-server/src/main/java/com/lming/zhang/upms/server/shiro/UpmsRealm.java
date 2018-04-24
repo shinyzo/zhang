@@ -8,6 +8,7 @@ import com.lming.zhang.upms.dao.model.UpmsRole;
 import com.lming.zhang.upms.dao.model.UpmsUser;
 import com.lming.zhang.upms.rpc.api.UpmsApiService;
 import com.lming.zhang.upms.server.util.PasswordHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -27,6 +28,7 @@ import java.util.Set;
  * 用户认证和授权
  * Created by shuzheng on 2017/1/20.
  */
+@Slf4j
 public class UpmsRealm extends AuthorizingRealm {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UpmsRealm.class);
@@ -88,6 +90,9 @@ public class UpmsRealm extends AuthorizingRealm {
         if (upmsUser.getLocked() == 1) {
             throw new LockedAccountException();
         }
+
+        log.info("loginUser:{}",username);
+        log.info("loginPass:{}",password);
 
         return new SimpleAuthenticationInfo(username, password, ByteSource.Util.bytes(upmsUser.getSalt()), getName());
     }
