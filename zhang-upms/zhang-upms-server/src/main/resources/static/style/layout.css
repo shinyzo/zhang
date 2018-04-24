@@ -11,13 +11,14 @@ table{
 li{
 	list-style-type: none;
 }
-.exit{
+.rightC{
 	height:70px;
 	line-height:70px;
 	float:right;
 	padding-right:20px;
 	font-size:14px;
 }
+
 
 
 .logo{

@@ -13,6 +13,9 @@ spring:
     expose-session-attributes: true
     request-context-attribute: request
     suffix: .ftl
+    settings:
+      template_update_delay: 0
+
   mvc:
     static-path-pattern: /static/**
   dubbo:

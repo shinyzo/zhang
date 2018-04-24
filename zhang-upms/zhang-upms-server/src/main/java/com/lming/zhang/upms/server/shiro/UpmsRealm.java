@@ -3,10 +3,13 @@ package com.lming.zhang.upms.server.shiro;
 
 import com.lming.zhang.common.util.MD5Util;
 import com.lming.zhang.common.util.PropertiesFileUtil;
+import com.lming.zhang.upms.common.UpmsResultEnum;
 import com.lming.zhang.upms.dao.model.UpmsPermission;
 import com.lming.zhang.upms.dao.model.UpmsRole;
 import com.lming.zhang.upms.dao.model.UpmsUser;
 import com.lming.zhang.upms.rpc.api.UpmsApiService;
+import com.lming.zhang.upms.server.enums.UserStatusEnum;
+import com.lming.zhang.upms.server.exception.UpmsProcessException;
 import com.lming.zhang.upms.server.util.PasswordHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -79,7 +82,7 @@ public class UpmsRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String username = (String) authenticationToken.getPrincipal();
-        String password = new String((char[]) authenticationToken.getCredentials());
+        //String password = new String((char[]) authenticationToken.getCredentials());
         // 查询用户信息
         UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
 
@@ -87,14 +90,18 @@ public class UpmsRealm extends AuthorizingRealm {
             throw new UnknownAccountException();
         }
 
-        if (upmsUser.getLocked() == 1) {
+        if (UserStatusEnum.LOCKED.getCode().toString().equals(upmsUser.getLocked().toString())) {
             throw new LockedAccountException();
         }
 
         log.info("loginUser:{}",username);
-        log.info("loginPass:{}",password);
+        //log.info("loginPass:{}",password);
 
-        return new SimpleAuthenticationInfo(username, password, ByteSource.Util.bytes(upmsUser.getSalt()), getName());
+        return new SimpleAuthenticationInfo(
+                username,
+                upmsUser.getPassword(),
+                ByteSource.Util.bytes(upmsUser.getSalt()),
+                getName());
     }
 
 }

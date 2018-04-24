@@ -19,9 +19,18 @@
 			<div class="logo" style="font-size:22px;font-weight:bold;">
 				111111
 			</div>
-			 
-			<div class="exit">
-				<a href="${basepath}/manage/logout">安全退出</a>
+
+
+			<div class="rightC">
+
+					<select class="easyui-combobox" style="width:172px;">
+						<#list systemList as item>
+							<option value="${item.systemId}">${item.title}</option>
+						</#list>
+					</select>
+
+					<a class="easyui-linkbutton" href="${basepath}/manage/logout">安全退出</a>
+
 			</div>		
 		</div>
 		

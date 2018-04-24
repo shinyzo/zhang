@@ -108,6 +108,11 @@
 			</exclusions>
 		</dependency>
 
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
 
 		<!-- 解决java8 与tomcat7 java.io.IOException: invalid constant type: 15 -->
 		<dependency>
@@ -116,6 +121,13 @@
 			<version>3.18.2-GA</version>
 		</dependency>
 
+		<!-- optional=true,依赖不会传递，该项目依赖devtools；之后依赖myboot项目的项目如果想要使用devtools，需要重新引入 -->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-devtools</artifactId>-->
+			<!--<optional>true</optional>-->
+		<!--</dependency>-->
+
 	</dependencies>
 
 	<build>
@@ -123,6 +135,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>true</fork>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

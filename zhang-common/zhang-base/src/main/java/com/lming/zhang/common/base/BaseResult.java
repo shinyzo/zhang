@@ -14,7 +14,7 @@ public class BaseResult<T> {
     /**
      * 成功为success，其他为失败原因
      */
-    public String message;
+    public String msg;
 
     /**
      * 数据结果集
@@ -25,13 +25,13 @@ public class BaseResult<T> {
 
     }
 
-    public BaseResult(Integer code, String message, T data) {
+    public BaseResult(Integer code, String msg, T data) {
         this.code = code;
-        this.message = message;
+        this.msg = msg;
         this.data = data;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
@@ -39,20 +39,11 @@ public class BaseResult<T> {
         this.code = code;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
 }

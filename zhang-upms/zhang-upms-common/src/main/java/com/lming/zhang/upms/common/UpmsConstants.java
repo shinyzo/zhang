@@ -9,4 +9,8 @@ public class UpmsConstants {
 
     public static final String UPMS_TYPE = "zheng.upms.type";
 
+    public static final String RAND_KEY = "zhang_upms_server_rand_key";
+
+    public static final Long RAND_KEY_EXPIRE_TIME = 1200L;
+
 }

@@ -25,7 +25,7 @@ $(function(){
 			type:"post",
 			data:data,
 			dataType:'json',
-			success:function(resultData){		
+			success:function(resultData){
 				if(resultData.code == SUCCESS_CODE)
 				{
 					// 解决ie多一层目录的问题，location都将基础项目路径加上
