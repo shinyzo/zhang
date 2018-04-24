@@ -1,0 +1,20 @@
+@CHARSET "UTF-8";
+
+#content{
+	width:100%;
+
+}
+
+.content_lft{
+	float:left;
+	width:670px;
+}
+
+.content_rgt{
+	float:left;
+
+}
+
+#btnBox{
+	margin-left:100px;
+}

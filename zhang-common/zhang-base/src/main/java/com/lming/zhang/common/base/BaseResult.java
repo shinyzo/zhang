@@ -4,7 +4,7 @@ package com.lming.zhang.common.base;
  * 统一返回结果类
  * Created by shuzheng on 2017/2/18.
  */
-public class BaseResult<Data> {
+public class BaseResult<T> {
 
     /**
      * 状态码：1成功，其他为失败
@@ -19,9 +19,13 @@ public class BaseResult<Data> {
     /**
      * 数据结果集
      */
-    public Data data;
+    public T data;
 
-    public BaseResult(Integer code, String message, Data data) {
+    public BaseResult() {
+
+    }
+
+    public BaseResult(Integer code, String message, T data) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -47,7 +51,7 @@ public class BaseResult<Data> {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(T data) {
         this.data = data;
     }
 

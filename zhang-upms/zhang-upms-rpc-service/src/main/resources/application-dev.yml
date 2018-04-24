@@ -30,7 +30,7 @@ spring:
     address: zookeeper://127.0.0.1:2181
 # mybatis
 mybatis:
-  mapper-locations: classpath:com/lming/zhang/upms/dao/mapper/*.xml
+  mapper-locations: classpath:com/lming/zhang/upms/dao/mapper/*.xml,com/lming/zhang/upms/rpc/dao/mapper/*.xml
   typeAliasesPackage: com.lming.zhang.upms.dao.model
   config-location: classpath:/config/mybatis-config.xml
   check-config-location: true

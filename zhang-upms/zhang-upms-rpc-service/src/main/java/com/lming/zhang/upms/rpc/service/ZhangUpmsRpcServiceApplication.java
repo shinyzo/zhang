@@ -10,7 +10,9 @@ import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
 @ComponentScan("com.lming.zhang.upms")
-@MapperScan("com.lming.zhang.upms.dao.mapper")
+@MapperScan(value = {
+        "com.lming.zhang.upms.**.dao.mapper"
+})
 @ImportResource(value = {"classpath:dubbo-provider.xml"}) // 引入资源文件
 public class ZhangUpmsRpcServiceApplication {
 

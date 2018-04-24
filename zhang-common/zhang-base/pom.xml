@@ -127,6 +127,11 @@
             <artifactId>velocity</artifactId>
             <version>${velocity.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>RELEASE</version>
+        </dependency>
 
 
     </dependencies>
