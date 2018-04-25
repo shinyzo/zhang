@@ -25,7 +25,7 @@ spring:
 #        max-idle: 8
 # dubbo
   dubbo:
-    name: dubbo-provider
+    name: upms-provider
     port: 20881
     address: zookeeper://127.0.0.1:2181
 # mybatis

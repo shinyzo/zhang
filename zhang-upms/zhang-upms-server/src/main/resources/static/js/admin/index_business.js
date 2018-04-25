@@ -2,9 +2,83 @@
 $(document).ready(function(){
 	initTab();
 	initBgIndex();
+    changeSystem(1,"");
 	document.onkeydown = rewriteKeydown;//重写键盘事件，防止退格退回到登陆页
 
+    // 系统切换
+    $("#system_switch").combobox({
+        onChange: function (newValue,oldValue) {
+            var systemId = newValue.split(",")[0];
+            var systemUrl = newValue.split(",")[1];
+            changeSystem(systemId,systemUrl);
+        }
+    })
 });
+
+/**
+ * 系统切换加载菜单
+ * @param systemId
+ */
+function changeSystem(systemId,systemUrl){
+    if(!systemId) return;
+    if(systemUrl=="") systemUrl = BASE_PATH;
+    var data = {};
+    data['systemId']= systemId;
+    var url = BASE_PATH + '/manage/getSystemPermission';
+
+    $.ajax({
+        url : url,
+        data: data,
+        type : 'POST',
+        async: false,
+        dataType : "json",
+        success : function(retData) {
+            if(retData.code == SUCCESS_CODE)
+            {
+                $.each(retData.data, function(i, permission) {//加载父类节点即一级菜单
+                    if(permission.pid==0)
+                    {
+                        var firstSelected = false;
+                        if(i == 0) firstSelected = true;
+                        var content = "<ul class=\"easyui-tree\">";
+                        var secondPermission = "";
+                        $.each(retData.data,function (j,subPermission) {
+                            if(subPermission.pid == permission.permissionId)
+                            {
+                                secondPermission +=
+                                    "<li iconCls='icon-chart-organisation'>" +
+                                       "<a href='javascript:void(0)' data-icon='icon-chart-organisation' onclick=\"addTab('"+subPermission.name+"','"+systemUrl + subPermission.uri+"','true')\">"+subPermission.name+"</a>"
+                                    "</li>";
+                            }
+                        })
+                        content += secondPermission;
+                        content +="</ul>"
+                        $('.menu_accordion').accordion('add', {
+                            title : permission.name,
+                            iconCls : permission.icon,
+                            selected : firstSelected,
+                            content : content,
+                        });
+                    }
+                });
+                // 重新渲染页面
+                $.parser.parse();
+
+
+            }else
+            {
+                alert(retData.msg);
+            }
+
+        }
+    });
+
+
+
+
+
+}
+
 
 
 //重写键盘事件，防止退格退回到登陆页
@@ -22,7 +96,6 @@ function rewriteKeydown(e) {
         event.keyCode = 0;    
         event.returnValue = false;
     }
-    //alert(e.keyCode);
     return true;   
 }
 
@@ -41,8 +114,6 @@ function initTab(){
 }
 //初始化后台页面 bgIndex
 function initBgIndex(){
-	//var url=ctx+"/SysLogin!initBgIndex.do";
-	//url = '';
 	addTab('首页',HOME_URL,false);
 }
 

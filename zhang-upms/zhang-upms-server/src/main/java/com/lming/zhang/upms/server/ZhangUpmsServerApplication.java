@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-@ComponentScan("com.lming.zhang.upms.server")
+@ComponentScan("com.lming.zhang.**")
 @ImportResource(value = {"classpath:dubbo-customer.xml"})
 public class ZhangUpmsServerApplication {
 

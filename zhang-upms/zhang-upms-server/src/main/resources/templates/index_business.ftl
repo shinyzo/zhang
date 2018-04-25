@@ -17,17 +17,23 @@
 		<div data-options="region:'north',border:true,minHeight:70" style="height:72px">
 			
 			<div class="logo" style="font-size:22px;font-weight:bold;">
-				111111
+				企萌科技后台管理平台
 			</div>
 
 
 			<div class="rightC">
 
-					<select class="easyui-combobox" style="width:172px;">
-						<#list systemList as item>
-							<option value="${item.systemId}">${item.title}</option>
+					<select class="easyui-combobox" id="system_switch" style="width:172px;">
+						<#list upmsSystems as upmsSystem>
+                            <#if upmsSystem_index==0>
+                                <option value="${upmsSystem.systemId},${upmsSystem.basepath}" system="${upmsSystem.basepath}" selected="selected">${upmsSystem.title}</option>
+                            <#else >
+                                <option value="${upmsSystem.systemId},${upmsSystem.basepath}" system="${upmsSystem.basepath}">${upmsSystem.title}</option>
+                            </#if>
 						</#list>
 					</select>
+
+					${upmsUser.realname} ,
 
 					<a class="easyui-linkbutton" href="${basepath}/manage/logout">安全退出</a>
 
@@ -35,16 +41,21 @@
 		</div>
 		
 		<div data-options="region:'west',split:true,title:'菜单导航栏'" style="width:240px;">
-			<div class="easyui-accordion" data-options="border:false,fit:true">
+
+			<div class="easyui-accordion menu_accordion"  data-options="border:false,fit:true">
+
+
+
 
 			</div>
+
 		</div>
 		
 			
 
 		<div data-options="region:'south',border:true" style="height:50px;">
 
-			<p style="text-align:center;width:100%;height:25px;line-height:25px;">11111</p>
+			<p style="text-align:center;width:100%;height:25px;line-height:25px;">版权所有：企萌科技有限公司 CopyRight@2016-2018 </p>
 
 		</div>
 		<div region="center">

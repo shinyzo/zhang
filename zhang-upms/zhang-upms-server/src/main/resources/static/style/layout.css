@@ -76,6 +76,10 @@ a:link{
 	width:15px;
 
 }
+.system_menu{
+	padding:5px;
+}
+
 .content{
 	float:left;
 	margin-left:10px;

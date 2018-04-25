@@ -18,6 +18,9 @@ public class UpmsResult<T> extends BaseResult {
         super(upmsResultEnum.getCode(),upmsResultEnum.getMsg(),data);
     }
 
+    public UpmsResult(T data) {
+        super(UpmsResultEnum.SUCCESS.getCode(),UpmsResultEnum.SUCCESS.getMsg(),data);
+    }
 
     public UpmsResult(Integer code,String msg) {
         super(code,msg,null);

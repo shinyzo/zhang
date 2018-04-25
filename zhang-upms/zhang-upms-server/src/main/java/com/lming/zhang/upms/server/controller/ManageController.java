@@ -1,5 +1,6 @@
 package com.lming.zhang.upms.server.controller;
 
+import com.lming.zhang.upms.common.UpmsResult;
 import com.lming.zhang.upms.dao.model.UpmsPermission;
 import com.lming.zhang.upms.dao.model.UpmsSystem;
 import com.lming.zhang.upms.dao.model.UpmsSystemExample;
@@ -15,8 +16,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Auth : shinyzo
@@ -37,25 +41,49 @@ public class ManageController {
 
     @RequestMapping(value = "/index",method = RequestMethod.GET)
     public String index(ModelMap modelMap){
-        // 加载所有可用的系统
+
+        // 已注册系统
         UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
-        upmsSystemExample.createCriteria().andStatusEqualTo(new Byte("1"));
-        List<UpmsSystem> upmsSystemList = upmsSystemService.selectByExample(upmsSystemExample);
-        // 加载当前用户所有系统的操作权限
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        log.info("current user:{}",username);
-//        List<UpmsPermission> upmsPermissionList = upmsApiService.selectUpmsPermissionByUpmsUserId(user.getUserId());
-//
-//        //
-//        log.info("加载用户的操作权限：userId:{},permissions:{}",user.getUsername(),upmsPermissionList);
+        upmsSystemExample.createCriteria()
+                .andStatusEqualTo((byte) 1);
+        List<UpmsSystem> upmsSystems = upmsSystemService.selectByExample(upmsSystemExample);
 
+        // 当前登录用户权限
+        Subject subject = SecurityUtils.getSubject();
+        String username = (String) subject.getPrincipal();
+        UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
+        List<UpmsPermission> upmsPermissions = upmsApiService.selectUpmsPermissionByUpmsUserId(upmsUser.getUserId());
 
-
-        modelMap.put("systemList",upmsSystemList);
-
+        modelMap.put("upmsUser",upmsUser);
+        modelMap.put("upmsSystems", upmsSystems);
+        modelMap.put("upmsPermissions", upmsPermissions);
         return "index_business";
     }
 
+
+    @RequestMapping("/home")
+    public String index(){
+        return "home";
+    }
+
+
+    @RequestMapping(value = "/getSystemPermission",method = RequestMethod.POST)
+    @ResponseBody
+    public UpmsResult getSystemPermission(@RequestParam("systemId") Integer systemId){
+
+        // 当前登录用户权限
+        Subject subject = SecurityUtils.getSubject();
+        String username = (String) subject.getPrincipal();
+        UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
+        List<UpmsPermission> upmsPermissions = upmsApiService.selectUpmsPermissionByUpmsUserId(upmsUser.getUserId());
+
+        List<UpmsPermission> filterPermissions =
+                upmsPermissions.stream()
+                .filter(upmsPermission -> upmsPermission.getSystemId() == systemId)
+                        .collect(Collectors.toList());
+
+        return new UpmsResult(filterPermissions);
+    }
 
 
 }

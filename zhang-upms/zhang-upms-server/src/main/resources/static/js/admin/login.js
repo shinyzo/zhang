@@ -8,43 +8,19 @@ $(function(){
 		height:250,
 		modal:true,
 		buttons:'#btn'
-	}); 
-	
+	});
+
+
+    // 回车事件
+    $('#loginname, #loginpass').keypress(function (event) {
+        if (13 == event.keyCode) {
+            ajaxLogin();
+        }
+    });
 	
 	// 登录按钮
 	$("#loginBtn").click(function(){
-		
-		// 校验验证是否通过
-		if(!$("#loginfm").form('validate')){
-			return false;
-		}		
-		var data={};
-		var options ={
-			url:LOGIN_AUTHEN_URL,
-			async:true,
-			type:"post",
-			data:data,
-			dataType:'json',
-			success:function(resultData){
-				if(resultData.code == SUCCESS_CODE)
-				{
-					// 解决ie多一层目录的问题，location都将基础项目路径加上
-					
-					// var basepath = $("#basepath").val();
-					// var indexurl = BASE_PATH+"/manage/index";
-					location.href = INDEX_URL;
-					//window.open('index.do','_self');
-				}
-				else
-				{
-					alert(resultData.msg);
-				}
-			},
-			error:function(){
-				alert('系统错误,请稍后重试！');
-			}
-		};
-		$("#loginfm").ajaxSubmit(options); 		
+        ajaxLogin();
 	});
 	
 	
@@ -56,6 +32,40 @@ $(function(){
 	
 	initValidateBox();
 })
+
+function ajaxLogin(){
+    // 校验验证是否通过
+    if(!$("#loginfm").form('validate')){
+        return false;
+    }
+    var data={};
+    var options ={
+        url:LOGIN_AUTHEN_URL,
+        async:true,
+        type:"post",
+        data:data,
+        dataType:'json',
+        success:function(resultData){
+            if(resultData.code == SUCCESS_CODE)
+            {
+                // 解决ie多一层目录的问题，location都将基础项目路径加上
+
+                // var basepath = $("#basepath").val();
+                // var indexurl = BASE_PATH+"/manage/index";
+                location.href = INDEX_URL;
+                //window.open('index.do','_self');
+            }
+            else
+            {
+                alert(resultData.msg);
+            }
+        },
+        error:function(){
+            alert('系统错误,请稍后重试！');
+        }
+    };
+    $("#loginfm").ajaxSubmit(options);
+}
 
 
 function initValidateBox()
