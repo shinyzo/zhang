@@ -307,6 +307,76 @@ public class UpmsLogExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andOperTimeIsNull() {
+            addCriterion("oper_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperTimeIsNotNull() {
+            addCriterion("oper_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperTimeEqualTo(String value) {
+            addCriterion("oper_time =", value, "operTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperTimeNotEqualTo(String value) {
+            addCriterion("oper_time <>", value, "operTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperTimeGreaterThan(String value) {
+            addCriterion("oper_time >", value, "operTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperTimeGreaterThanOrEqualTo(String value) {
+            addCriterion("oper_time >=", value, "operTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperTimeLessThan(String value) {
+            addCriterion("oper_time <", value, "operTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperTimeLessThanOrEqualTo(String value) {
+            addCriterion("oper_time <=", value, "operTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperTimeLike(String value) {
+            addCriterion("oper_time like", value, "operTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperTimeNotLike(String value) {
+            addCriterion("oper_time not like", value, "operTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperTimeIn(List<String> values) {
+            addCriterion("oper_time in", values, "operTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperTimeNotIn(List<String> values) {
+            addCriterion("oper_time not in", values, "operTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperTimeBetween(String value1, String value2) {
+            addCriterion("oper_time between", value1, value2, "operTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperTimeNotBetween(String value1, String value2) {
+            addCriterion("oper_time not between", value1, value2, "operTime");
+            return (Criteria) this;
+        }
+
         public Criteria andStartTimeIsNull() {
             addCriterion("start_time is null");
             return (Criteria) this;

@@ -24,6 +24,8 @@ public class UpmsLog implements Serializable {
      */
     private String username;
 
+    private String operTime;
+
     /**
      * 操作时间
      *
@@ -115,6 +117,14 @@ public class UpmsLog implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getOperTime() {
+        return operTime;
+    }
+
+    public void setOperTime(String operTime) {
+        this.operTime = operTime;
     }
 
     public Long getStartTime() {
@@ -214,6 +224,7 @@ public class UpmsLog implements Serializable {
         sb.append(", logId=").append(logId);
         sb.append(", description=").append(description);
         sb.append(", username=").append(username);
+        sb.append(", operTime=").append(operTime);
         sb.append(", startTime=").append(startTime);
         sb.append(", spendTime=").append(spendTime);
         sb.append(", basePath=").append(basePath);
@@ -244,6 +255,7 @@ public class UpmsLog implements Serializable {
         return (this.getLogId() == null ? other.getLogId() == null : this.getLogId().equals(other.getLogId()))
             && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
             && (this.getUsername() == null ? other.getUsername() == null : this.getUsername().equals(other.getUsername()))
+            && (this.getOperTime() == null ? other.getOperTime() == null : this.getOperTime().equals(other.getOperTime()))
             && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
             && (this.getSpendTime() == null ? other.getSpendTime() == null : this.getSpendTime().equals(other.getSpendTime()))
             && (this.getBasePath() == null ? other.getBasePath() == null : this.getBasePath().equals(other.getBasePath()))
@@ -264,6 +276,7 @@ public class UpmsLog implements Serializable {
         result = prime * result + ((getLogId() == null) ? 0 : getLogId().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
         result = prime * result + ((getUsername() == null) ? 0 : getUsername().hashCode());
+        result = prime * result + ((getOperTime() == null) ? 0 : getOperTime().hashCode());
         result = prime * result + ((getStartTime() == null) ? 0 : getStartTime().hashCode());
         result = prime * result + ((getSpendTime() == null) ? 0 : getSpendTime().hashCode());
         result = prime * result + ((getBasePath() == null) ? 0 : getBasePath().hashCode());

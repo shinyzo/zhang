@@ -1,6 +1,6 @@
 package com.lming.zhang.upms.config;
 
-import com.lming.zhang.upms.shiro.UpmsRealm;
+import com.lming.zhang.upms.shiro.realm.UpmsRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;

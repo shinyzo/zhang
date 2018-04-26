@@ -1,10 +1,12 @@
 package com.lming.zhang.upms.interceptor;
 
 
+import com.lming.zhang.common.util.DateUtil;
 import com.lming.zhang.common.util.RequestUtil;
 import com.lming.zhang.upms.dao.model.UpmsLog;
 import com.lming.zhang.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.json.util.JSONUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -34,9 +36,9 @@ import java.util.Map;
  */
 @Aspect
 @Component
+@Slf4j
 public class LogAspect {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(LogAspect.class);
 
 	// 开始时间
 	private long startTime = 0L;
@@ -48,13 +50,13 @@ public class LogAspect {
 
 	@Before("execution(* *..controller..*.*(..))")
 	public void doBeforeInServiceLayer(JoinPoint joinPoint) {
-		LOGGER.debug("doBeforeInServiceLayer");
+		log.debug("doBeforeInServiceLayer");
 		startTime = System.currentTimeMillis();
 	}
 
 	@After("execution(* *..controller..*.*(..))")
 	public void doAfterInServiceLayer(JoinPoint joinPoint) {
-		LOGGER.debug("doAfterInServiceLayer");
+		log.debug("doAfterInServiceLayer");
 	}
 
 	@Around("execution(* *..controller..*.*(..))")
@@ -82,11 +84,12 @@ public class LogAspect {
 			}
 		}
 		endTime = System.currentTimeMillis();
-		LOGGER.debug("doAround>>>result={},耗时：{}", result, endTime - startTime);
+		log.debug("doAround>>>result={},耗时：{}", result, endTime - startTime);
 
 		upmsLog.setBasePath(RequestUtil.getBasePath(request));
 		upmsLog.setIp(RequestUtil.getIpAddr(request));
 		upmsLog.setMethod(request.getMethod());
+		upmsLog.setOperTime(DateUtil.getCurrentTime());
 		if ("GET".equalsIgnoreCase(request.getMethod())) {
 			upmsLog.setParameter(request.getQueryString());
 		} else {

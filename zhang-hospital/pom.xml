@@ -15,6 +15,7 @@
 		<module>chc-hospital-web</module>
         <module>zhang-hospital-rpc-api</module>
         <module>zhang-hospital-rpc-service</module>
+		<module>zhang-hospital-admin</module>
     </modules>
 	<packaging>pom</packaging>
 

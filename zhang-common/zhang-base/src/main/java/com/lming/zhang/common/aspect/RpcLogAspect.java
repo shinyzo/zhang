@@ -1,6 +1,7 @@
 package com.lming.zhang.common.aspect;
 
 import com.alibaba.dubbo.rpc.RpcContext;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -19,9 +20,9 @@ import java.util.Map;
  */
 @Aspect
 @Component
+@Slf4j
 public class RpcLogAspect {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RpcLogAspect.class);
 
 	// 开始时间
 	private long startTime = 0L;
@@ -30,15 +31,15 @@ public class RpcLogAspect {
 
 	@Before("execution(* *..rpc..*.*(..))")
 	public void doBeforeInServiceLayer(JoinPoint joinPoint) {
-		LOGGER.info("==> doBeforeInServiceLayer");
+		log.debug("==> doBeforeInServiceLayer");
 		startTime = System.currentTimeMillis();
 	}
 
 	@After("execution(* *..rpc..*.*(..))")
 	public void doAfterInServiceLayer(JoinPoint joinPoint) {
-		LOGGER.info("==> doAfterInServiceLayer");
+		log.debug("==> doAfterInServiceLayer");
 		endTime =  System.currentTimeMillis();
-		LOGGER.info("耗时：{}ms",(endTime-startTime));
+		log.debug("耗时：{}ms",(endTime-startTime));
 	}
 
 	@Around("execution(* *..rpc..*.*(..))")
@@ -54,7 +55,7 @@ public class RpcLogAspect {
         Map<String,String> parameterMap = rpcContext.getUrl().getParameters();
 		// 服务url
 		String appName = rpcContext.getUrl().getParameter("application");
-		LOGGER.info("appName={},consumerSide={}, ip={}, interfaceName={},methodName={}",
+		log.info("appName={},consumerSide={}, ip={}, interfaceName={},methodName={}",
                 appName,
                 consumerSide,
                 ip ,

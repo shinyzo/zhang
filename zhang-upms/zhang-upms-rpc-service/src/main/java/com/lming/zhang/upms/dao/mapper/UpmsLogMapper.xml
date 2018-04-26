@@ -5,6 +5,7 @@
     <id column="log_id" jdbcType="INTEGER" property="logId" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="oper_time" jdbcType="VARCHAR" property="operTime" />
     <result column="start_time" jdbcType="BIGINT" property="startTime" />
     <result column="spend_time" jdbcType="INTEGER" property="spendTime" />
     <result column="base_path" jdbcType="VARCHAR" property="basePath" />
@@ -78,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    log_id, description, username, start_time, spend_time, base_path, uri, url, method, 
-    user_agent, ip, permissions
+    log_id, description, username, oper_time, start_time, spend_time, base_path, uri, 
+    url, method, user_agent, ip, permissions
   </sql>
   <sql id="Blob_Column_List">
     parameter, result
@@ -134,15 +135,17 @@
   </delete>
   <insert id="insert" parameterType="com.lming.zhang.upms.dao.model.UpmsLog">
     insert into upms_log (log_id, description, username, 
-      start_time, spend_time, base_path, 
-      uri, url, method, user_agent, 
-      ip, permissions, parameter, 
-      result)
+      oper_time, start_time, spend_time, 
+      base_path, uri, url, 
+      method, user_agent, ip, 
+      permissions, parameter, result
+      )
     values (#{logId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=BIGINT}, #{spendTime,jdbcType=INTEGER}, #{basePath,jdbcType=VARCHAR}, 
-      #{uri,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{userAgent,jdbcType=VARCHAR}, 
-      #{ip,jdbcType=VARCHAR}, #{permissions,jdbcType=VARCHAR}, #{parameter,jdbcType=LONGVARCHAR}, 
-      #{result,jdbcType=LONGVARCHAR})
+      #{operTime,jdbcType=VARCHAR}, #{startTime,jdbcType=BIGINT}, #{spendTime,jdbcType=INTEGER}, 
+      #{basePath,jdbcType=VARCHAR}, #{uri,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{method,jdbcType=VARCHAR}, #{userAgent,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{permissions,jdbcType=VARCHAR}, #{parameter,jdbcType=LONGVARCHAR}, #{result,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.lming.zhang.upms.dao.model.UpmsLog">
     insert into upms_log
@@ -155,6 +158,9 @@
       </if>
       <if test="username != null">
         username,
+      </if>
+      <if test="operTime != null">
+        oper_time,
       </if>
       <if test="startTime != null">
         start_time,
@@ -199,6 +205,9 @@
       </if>
       <if test="username != null">
         #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null">
+        #{operTime,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null">
         #{startTime,jdbcType=BIGINT},
@@ -253,6 +262,9 @@
       <if test="record.username != null">
         username = #{record.username,jdbcType=VARCHAR},
       </if>
+      <if test="record.operTime != null">
+        oper_time = #{record.operTime,jdbcType=VARCHAR},
+      </if>
       <if test="record.startTime != null">
         start_time = #{record.startTime,jdbcType=BIGINT},
       </if>
@@ -296,6 +308,7 @@
     set log_id = #{record.logId,jdbcType=INTEGER},
       description = #{record.description,jdbcType=VARCHAR},
       username = #{record.username,jdbcType=VARCHAR},
+      oper_time = #{record.operTime,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=BIGINT},
       spend_time = #{record.spendTime,jdbcType=INTEGER},
       base_path = #{record.basePath,jdbcType=VARCHAR},
@@ -316,6 +329,7 @@
     set log_id = #{record.logId,jdbcType=INTEGER},
       description = #{record.description,jdbcType=VARCHAR},
       username = #{record.username,jdbcType=VARCHAR},
+      oper_time = #{record.operTime,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=BIGINT},
       spend_time = #{record.spendTime,jdbcType=INTEGER},
       base_path = #{record.basePath,jdbcType=VARCHAR},
@@ -337,6 +351,9 @@
       </if>
       <if test="username != null">
         username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null">
+        oper_time = #{operTime,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null">
         start_time = #{startTime,jdbcType=BIGINT},
@@ -378,6 +395,7 @@
     update upms_log
     set description = #{description,jdbcType=VARCHAR},
       username = #{username,jdbcType=VARCHAR},
+      oper_time = #{operTime,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=BIGINT},
       spend_time = #{spendTime,jdbcType=INTEGER},
       base_path = #{basePath,jdbcType=VARCHAR},
@@ -395,6 +413,7 @@
     update upms_log
     set description = #{description,jdbcType=VARCHAR},
       username = #{username,jdbcType=VARCHAR},
+      oper_time = #{operTime,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=BIGINT},
       spend_time = #{spendTime,jdbcType=INTEGER},
       base_path = #{basePath,jdbcType=VARCHAR},

@@ -30,7 +30,7 @@
         <zkclient.version>0.1</zkclient.version>
         <dubbo.version>2.5.3</dubbo.version>
         <zookeeper.version>3.4.6</zookeeper.version>
-        <durid.version>1.0.29</durid.version>
+
 
         <slf4j.version>1.7.12</slf4j.version>
         <lombok.version>1.16.20</lombok.version>
@@ -105,6 +105,11 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
+        </dependency>
 
         <dependency>
             <groupId>net.sf.json-lib</groupId>

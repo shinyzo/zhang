@@ -71,7 +71,7 @@ public class GlobalExceptionHandler {
      * @return
      * @throws Exception
      */
-    @ExceptionHandler(value=Exception.class)
+    //@ExceptionHandler(value=Exception.class)
     @ResponseBody
     public UpmsResult allExceptionHandler(HttpServletRequest request,
                                           Exception exception) throws Exception

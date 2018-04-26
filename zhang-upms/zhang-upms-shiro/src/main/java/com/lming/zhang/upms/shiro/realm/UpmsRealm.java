@@ -1,4 +1,4 @@
-package com.lming.zhang.upms.shiro;
+package com.lming.zhang.upms.shiro.realm;
 
 
 import com.lming.zhang.upms.dao.model.UpmsPermission;
@@ -28,7 +28,6 @@ import java.util.Set;
 @Slf4j
 public class UpmsRealm extends AuthorizingRealm {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UpmsRealm.class);
 
     @Autowired
     private UpmsApiService upmsApiService;

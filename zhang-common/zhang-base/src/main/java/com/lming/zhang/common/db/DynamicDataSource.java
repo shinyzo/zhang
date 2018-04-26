@@ -1,6 +1,8 @@
 package com.lming.zhang.common.db;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
@@ -8,16 +10,16 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
  * 动态数据源（数据源切换）
  * Created by ZhangShuzheng on 2017/1/15.
  */
+@Slf4j
 public class DynamicDataSource extends AbstractRoutingDataSource {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(DynamicDataSource.class);
 
     private static final ThreadLocal<String> CONTEXT_HOLDER = new ThreadLocal<>();
 
     @Override
     protected Object determineCurrentLookupKey() {
         String dataSource = getDataSource();
-        LOGGER.info("当前操作使用的数据源：{}", dataSource);
+        log.info("当前操作使用的数据源：{}", dataSource);
         return dataSource;
     }
 

@@ -7,7 +7,7 @@ package com.lming.zhang.upms.common;
  */
 public class UpmsConstants {
 
-    public static final String UPMS_TYPE = "zheng.upms.type";
+    public static final String UPMS_TYPE = "zhang.upms.type";
 
     public static final String RAND_KEY = "zhang_upms_server_rand_key";
 
