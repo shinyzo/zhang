@@ -19,18 +19,21 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * 日志记录AOP实现
  * Created by ZhangShuzheng on 2017/3/14.
  */
 @Aspect
+@Component
 public class LogAspect {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LogAspect.class);
@@ -87,7 +90,7 @@ public class LogAspect {
 		if ("GET".equalsIgnoreCase(request.getMethod())) {
 			upmsLog.setParameter(request.getQueryString());
 		} else {
-			upmsLog.setParameter(ObjectUtils.toString(request.getParameterMap()));
+			upmsLog.setParameter(request.getParameterMap().toString());
 		}
 		upmsLog.setResult(JSONUtils.valueToString(result));
 		upmsLog.setSpendTime((int) (endTime - startTime));

@@ -17,6 +17,7 @@ public enum UpmsResultEnum{
     USER_LOCKED(1003,"用户已被锁定！"),
     LOGIN_FAILED(1005,"用户名或密码不正确！"),
 
+    INVALID_LENGTH(1006,"长度不合法！"),
 
     ;
 

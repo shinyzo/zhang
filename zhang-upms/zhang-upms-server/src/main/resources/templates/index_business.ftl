@@ -17,7 +17,7 @@
 		<div data-options="region:'north',border:true,minHeight:70" style="height:72px">
 			
 			<div class="logo" style="font-size:22px;font-weight:bold;">
-				企萌科技后台管理平台
+				企萌科技后台管理平台(<span class="system_name"></span>)
 			</div>
 
 
@@ -25,10 +25,10 @@
 
 					<select class="easyui-combobox" id="system_switch" style="width:172px;">
 						<#list upmsSystems as upmsSystem>
-                            <#if upmsSystem_index==0>
-                                <option value="${upmsSystem.systemId},${upmsSystem.basepath}" system="${upmsSystem.basepath}" selected="selected">${upmsSystem.title}</option>
+                            <#if upmsSystem_index == 0>
+                                <option value="${upmsSystem.systemId},${upmsSystem.basepath},${upmsSystem.title}" system="${upmsSystem.basepath}" selected="selected">${upmsSystem.title}</option>
                             <#else >
-                                <option value="${upmsSystem.systemId},${upmsSystem.basepath}" system="${upmsSystem.basepath}">${upmsSystem.title}</option>
+                                <option value="${upmsSystem.systemId},${upmsSystem.basepath},${upmsSystem.title}" system="${upmsSystem.basepath}">${upmsSystem.title}</option>
                             </#if>
 						</#list>
 					</select>
@@ -45,10 +45,7 @@
 			<div class="easyui-accordion menu_accordion"  data-options="border:false,fit:true">
 
 
-
-
 			</div>
-
 		</div>
 		
 			

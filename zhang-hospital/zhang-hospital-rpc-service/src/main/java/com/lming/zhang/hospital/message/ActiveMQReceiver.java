@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ActiveMQReceiver {
 
-    @JmsListener(destination = QueueConstatns.QUEUE_ORDER)
-    public void receiveQueue(String text) {
-        System.out.println("Consumer收到的报文为:"+text);
-    }
+//    @JmsListener(destination = QueueConstatns.QUEUE_ORDER)
+//    public void receiveQueue(String text) {
+//        System.out.println("Consumer收到的报文为:"+text);
+//    }
 }

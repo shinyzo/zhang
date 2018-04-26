@@ -3,10 +3,12 @@ package com.lming.zhang.upms.server.controller;
 import com.lming.zhang.upms.common.UpmsConstants;
 import com.lming.zhang.upms.common.UpmsResult;
 import com.lming.zhang.upms.common.UpmsResultEnum;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -26,6 +28,7 @@ public class LoginController {
     private StringRedisTemplate redisTemplate;
 
 
+    @ApiOperation(value = "登录鉴权")
     @RequestMapping(value = "/loginAuthen",method = RequestMethod.POST)
     @ResponseBody
     public UpmsResult loginAuthen(@RequestParam("loginName") String username,
@@ -50,7 +53,7 @@ public class LoginController {
         return new UpmsResult(UpmsResultEnum.FAILED.getCode(),"用户名或密码不正确!");
     }
 
-
+    @ApiOperation(value = "登录首页")
     @RequestMapping("/login")
     public String login(){
         return "login";

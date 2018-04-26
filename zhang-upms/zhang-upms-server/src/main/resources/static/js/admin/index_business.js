@@ -2,26 +2,36 @@
 $(document).ready(function(){
 	initTab();
 	initBgIndex();
-    changeSystem(1,"");
+
 	document.onkeydown = rewriteKeydown;//重写键盘事件，防止退格退回到登陆页
 
+    var systemInfo = $("#system_switch").combobox('getValue');
+    changeSystem(systemInfo);
     // 系统切换
     $("#system_switch").combobox({
         onChange: function (newValue,oldValue) {
-            var systemId = newValue.split(",")[0];
-            var systemUrl = newValue.split(",")[1];
-            changeSystem(systemId,systemUrl);
+            changeSystem(newValue);
         }
     })
 });
+
 
 /**
  * 系统切换加载菜单
  * @param systemId
  */
-function changeSystem(systemId,systemUrl){
+function changeSystem(systemInfo){
+
+    var systemId =  systemInfo.split(",")[0];
+    var systemUrl = systemInfo.split(",")[1];
+    var systemTitle = systemInfo.split(",")[2];
+
+    $(".system_name").html(systemTitle);
+
+
     if(!systemId) return;
     if(systemUrl=="") systemUrl = BASE_PATH;
+
     var data = {};
     data['systemId']= systemId;
     var url = BASE_PATH + '/manage/getSystemPermission';
@@ -35,35 +45,40 @@ function changeSystem(systemId,systemUrl){
         success : function(retData) {
             if(retData.code == SUCCESS_CODE)
             {
+                clearHistoryMenu();
+                var isCost = false;
                 $.each(retData.data, function(i, permission) {//加载父类节点即一级菜单
-                    if(permission.pid==0)
+                    if(permission.pid == 0)
                     {
-                        var firstSelected = false;
-                        if(i == 0) firstSelected = true;
+                        var selected = false;
+                        if(!isCost){
+                            isCost = true;
+                            selected = true;
+                        }
+                        isCost = true;
                         var content = "<ul class=\"easyui-tree\">";
-                        var secondPermission = "";
+                        var secondMenu = "";
                         $.each(retData.data,function (j,subPermission) {
-                            if(subPermission.pid == permission.permissionId)
+                            if(subPermission.type==2 && subPermission.pid == permission.permissionId)
                             {
-                                secondPermission +=
-                                    "<li iconCls='icon-chart-organisation'>" +
-                                       "<a href='javascript:void(0)' data-icon='icon-chart-organisation' onclick=\"addTab('"+subPermission.name+"','"+systemUrl + subPermission.uri+"','true')\">"+subPermission.name+"</a>"
+                                secondMenu +=
+                                    "<li iconCls='icon-chart-organisation' style='padding:8px'>" +
+                                       "<a href='javascript:void(0)' iframe='0' data-icon='icon-chart-organisation' onclick=\"addTab('"+subPermission.name+"','"+systemUrl + subPermission.uri+"','true')\">"+subPermission.name+"</a>"
                                     "</li>";
                             }
                         })
-                        content += secondPermission;
+                        content += secondMenu;
                         content +="</ul>"
                         $('.menu_accordion').accordion('add', {
                             title : permission.name,
-                            iconCls : permission.icon,
-                            selected : firstSelected,
+                            iconCls : 'icon-application-cascade',
+                            selected : selected,
                             content : content,
                         });
                     }
                 });
                 // 重新渲染页面
-                $.parser.parse();
-
+                // $.parser.parse();
 
             }else
             {
@@ -72,11 +87,19 @@ function changeSystem(systemId,systemUrl){
 
         }
     });
+}
 
+/**
+ * 清除历史菜单
+ */
+function clearHistoryMenu(){
 
-
-
-
+   // var panelSize = $('.menu_accordion .panel').length;
+    var panelSize = $('.menu_accordion').accordion('panels').length;
+    // 循环多次，每次移除掉第一个
+    for( var i=0;i<panelSize;i++){
+        $('.menu_accordion').accordion('remove',0);
+    }
 }
 
 

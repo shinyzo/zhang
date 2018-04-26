@@ -14,16 +14,16 @@
     <!-- 定义 Dubbo 协议名称及使用的端口，dubbo 协议缺省端口为 20880，如果配置为 -1 或者没有配置 port，则会分配一个没有被占用的端口 -->
     <dubbo:protocol name="dubbo" port="${spring.dubbo.port}"/>
 
+
+
+
     <!-- 声明需要暴露的服务接口 -->
     <dubbo:service interface="com.lming.zhang.hospital.rpc.api.ChcDoctorInfoService" ref="chcDoctorInfoService" timeout="10000"/>
-    <!-- 和本地 bean 一样实现服务 -->
     <bean id="chcDoctorInfoService" class="com.lming.zhang.hospital.rpc.service.impl.ChcDoctorInfoServiceImpl" />
 
     <dubbo:service interface="com.lming.zhang.hospital.rpc.api.ChcSubjectService" ref="chcSubjectService" timeout="10000"/>
     <bean id="chcSubjectService" class="com.lming.zhang.hospital.rpc.service.impl.ChcSubjectServiceImpl" />
 
-    <dubbo:service interface="com.lming.zhang.hospital.rpc.api.AclUserService" ref="aclUserService" timeout="10000"/>
-    <bean id="aclUserService" class="com.lming.zhang.hospital.rpc.service.impl.AclUserServiceImpl" />
 
 
 </beans>

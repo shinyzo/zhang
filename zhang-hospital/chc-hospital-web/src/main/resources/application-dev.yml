@@ -1,7 +1,7 @@
 server:
-  port: 8888
+  port: 7002
   servlet:
-    context-path: /hspl
+    context-path: /chc
 spring:
   freemarker:
     template-loader-path: classpath:/templates
@@ -16,5 +16,5 @@ spring:
   mvc:
     static-path-pattern: /static/**
   dubbo:
-      name: dubbo-customer
+      name: hospital-consumer
       address: zookeeper://127.0.0.1:2181

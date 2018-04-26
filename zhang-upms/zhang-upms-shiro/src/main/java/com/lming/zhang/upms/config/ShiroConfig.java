@@ -1,8 +1,9 @@
 package com.lming.zhang.upms.config;
 
-import com.lming.zhang.upms.shiro.realm.UpmsRealm;
+import com.lming.zhang.upms.shiro.UpmsRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -12,7 +13,6 @@ import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.apache.shiro.mgt.SecurityManager;
 
 import java.util.LinkedHashMap;
 
@@ -24,6 +24,10 @@ import java.util.LinkedHashMap;
 @Configuration
 @Slf4j
 public class ShiroConfig {
+
+    private boolean ssoSwitch = true;
+
+    private String ssoLoginUrl = "http://localhost:7001/upms/manage/login";
 
 
     //将自己的验证方式加入容器
@@ -64,18 +68,27 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         LinkedHashMap<String,String> shiroFilterMap = new LinkedHashMap<String, String>();
 
-        // 无需认证
-        shiroFilterMap.put("/loadvercode","anon");
+        // 静态文件
         shiroFilterMap.put("/static/**","anon");
+        shiroFilterMap.put("/resources/**","anon");
+        // 验证码
+        shiroFilterMap.put("/loadvercode","anon");
+        // 登录校验
         shiroFilterMap.put("/manage/loginAuthen","anon");
 
-        // 登录,首页,
-        shiroFilterFactoryBean.setLoginUrl("/manage/login");
+        // sso登录开关
+        if(ssoSwitch){
+            shiroFilterFactoryBean.setLoginUrl(ssoLoginUrl);
+            shiroFilterMap.put("/manage/login","anon");
+        }
+        else {
+            shiroFilterFactoryBean.setLoginUrl("/manage/login");
+        }
+
         shiroFilterFactoryBean.setSuccessUrl("/manage/index");
         shiroFilterMap.put("/manage/logout","logout");
 
-
-        //对所有用户认证
+        // 需要认证
         shiroFilterMap.put("/manage/**","authc");
 
         //错误页面，认证不通过跳转
@@ -137,7 +150,7 @@ public class ShiroConfig {
     public DefaultWebSessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionDAO(redisSessionDAO());
-        //sessionManager.setGlobalSessionTimeout(30*60*1000);
+        //sessionManager.setGlobalSessionTimeout(30*60*1000);  // 默认30分钟
         return sessionManager;
     }
 }

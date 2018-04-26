@@ -12,7 +12,7 @@ import javax.jms.Queue;
  * Date : 2018/4/16
  * description : xxxx
  */
-@Configuration
+// @Configuration
 public class ActiveMqConfig {
 
     @Bean
