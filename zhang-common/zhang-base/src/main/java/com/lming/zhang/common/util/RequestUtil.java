@@ -95,4 +95,14 @@ public class RequestUtil {
 		return result;
 	}
 
+
+	public static boolean isAjax(HttpServletRequest request)
+	{
+		// 过滤ajax
+		if (	null != request.getHeader("X-Requested-With")
+				&& "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))) {
+			return true;
+		}
+		return false;
+	}
 }

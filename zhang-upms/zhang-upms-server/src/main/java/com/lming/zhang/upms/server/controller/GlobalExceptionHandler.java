@@ -1,5 +1,6 @@
 package com.lming.zhang.upms.server.controller;
 
+import com.lming.zhang.common.util.RequestUtil;
 import com.lming.zhang.upms.common.UpmsResult;
 import com.lming.zhang.upms.common.UpmsResultEnum;
 import com.lming.zhang.upms.server.exception.UpmsProcessException;
@@ -71,14 +72,27 @@ public class GlobalExceptionHandler {
      * @return
      * @throws Exception
      */
-    //@ExceptionHandler(value=Exception.class)
+    @ExceptionHandler(value=Exception.class)
     @ResponseBody
     public UpmsResult allExceptionHandler(HttpServletRequest request,
                                           Exception exception) throws Exception
     {
         log.error("全局异常：{}",exception.getMessage());
-        return new UpmsResult(UpmsResultEnum.FAILED.getCode(),"系统错误，请稍后重试!");
+        if(RequestUtil.isAjax(request))
+        {
+            return new UpmsResult(UpmsResultEnum.FAILED.getCode(),"系统错误，请稍后重试!");
+        }
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("<html>").append("<body>")
+                .append("<div>")
+                    .append("<h2>").append(UpmsResultEnum.FAILED.getCode()).append("</h2>")
+                    .append("<h2>").append("系统错误，请稍后重试!").append("</h2>")
+                .append("</div>")
+                .append("</body>").append("</html");
+        return new UpmsResult(buffer.toString());
     }
+
+
 
 
 }
