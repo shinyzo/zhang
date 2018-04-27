@@ -1,6 +1,10 @@
 package com.lming.zhang.upms.config;
 
+import com.lming.zhang.upms.shiro.filter.UpmsAuthenticationFilter;
+import com.lming.zhang.upms.shiro.listener.UpmsSessionListener;
 import com.lming.zhang.upms.shiro.realm.UpmsRealm;
+import com.lming.zhang.upms.shiro.session.UpmsSessionDao;
+import com.lming.zhang.upms.shiro.session.UpmsSessionFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
@@ -18,8 +22,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.CollectionUtils;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Auth : shinyzo
@@ -46,7 +53,7 @@ public class ShiroConfig {
         shiroFilterMap.put("/resources/**","anon");
         shiroFilterMap.put("/loadvercode","anon");
         shiroFilterMap.put("/manage/loginAuthen","anon");
-        shiroFilterMap.put("/manage/login","anon");
+        //shiroFilterMap.put("/manage/login","anon");
 
         // 登录,首页,退出
         shiroFilterFactoryBean.setLoginUrl(ssoLoginUrl);
@@ -62,6 +69,11 @@ public class ShiroConfig {
         //错误页面，认证不通过跳转
         shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(shiroFilterMap);
+
+        // 自定义过滤器
+       Map<String,Filter> filterMap = shiroFilterFactoryBean.getFilters();
+       filterMap.put("authc",new UpmsAuthenticationFilter());
+
 
         return shiroFilterFactoryBean;
     }
@@ -121,8 +133,14 @@ public class ShiroConfig {
     @Bean
     public DefaultWebSessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        sessionManager.setSessionDAO(redisSessionDAO());
+         //sessionManager.setSessionDAO(redisSessionDAO());
         //sessionManager.setGlobalSessionTimeout(30*60*1000);  // 默认30分钟
+
+
+        sessionManager.setSessionDAO(new UpmsSessionDao());      // 自定义session管理
+       // sessionManager.setSessionFactory(new UpmsSessionFactory()); // 自定义session工厂
+       // sessionManager.setSessionListeners(CollectionUtils.arrayToList(new UpmsSessionListener())); // 自定义session监听器
+
         return sessionManager;
     }
 
@@ -130,12 +148,12 @@ public class ShiroConfig {
      * RedisSessionDAO shiro sessionDao层的实现 通过redis
      * 使用的是shiro-redis开源插件
      */
-    @Bean
-    public RedisSessionDAO redisSessionDAO() {
-        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
-        redisSessionDAO.setRedisManager(redisManager());
-        return redisSessionDAO;
-    }
+//    @Bean
+//    public RedisSessionDAO redisSessionDAO() {
+//        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+//        redisSessionDAO.setRedisManager(redisManager());
+//        return redisSessionDAO;
+//    }
 
     /**
      * 配置shiro redisManager
@@ -160,11 +178,11 @@ public class ShiroConfig {
         return authorizationAttributeSourceAdvisor;
     }
 
-//    @Bean
-//    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
-//        DefaultAdvisorAutoProxyCreator creator = new DefaultAdvisorAutoProxyCreator();
-//        creator.setProxyTargetClass(true);
-//        return creator;
-//    }
+    @Bean
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
+        DefaultAdvisorAutoProxyCreator creator = new DefaultAdvisorAutoProxyCreator();
+        creator.setProxyTargetClass(true);
+        return creator;
+    }
 
 }

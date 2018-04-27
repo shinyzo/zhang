@@ -10,4 +10,6 @@ import com.lming.zhang.upms.dao.model.UpmsSystemExample;
 */
 public interface UpmsSystemService extends BaseService<UpmsSystem, UpmsSystemExample> {
 
+    public UpmsSystem selectUpmsSystemByName(String name);
+
 }

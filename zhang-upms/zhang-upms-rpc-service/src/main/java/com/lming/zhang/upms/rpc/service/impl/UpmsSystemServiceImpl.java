@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
 * UpmsSystemService实现
 * Created by zhanglm on 2018/4/26.
@@ -22,5 +24,18 @@ public class UpmsSystemServiceImpl extends BaseServiceImpl<UpmsSystemMapper, Upm
 
     @Autowired
     UpmsSystemMapper upmsSystemMapper;
+
+
+    @Override
+    public UpmsSystem selectUpmsSystemByName(String name) {
+        UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
+        upmsSystemExample.createCriteria()
+                .andNameEqualTo(name);
+        List<UpmsSystem> upmsSystems = upmsSystemMapper.selectByExample(upmsSystemExample);
+        if (null != upmsSystems && upmsSystems.size() > 0) {
+            return upmsSystems.get(0);
+        }
+        return null;
+    }
 
 }
