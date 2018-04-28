@@ -1,8 +1,11 @@
 package com.lming.zhang.common.util;
 
+import com.alibaba.dubbo.common.json.JSONObject;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -104,5 +107,18 @@ public class RequestUtil {
 			return true;
 		}
 		return false;
+	}
+
+
+	public static String params2Json(HttpServletRequest request) {
+		JSONObject jsonObject = new JSONObject();
+		Map<String,String[]> parameterMap = request.getParameterMap();
+		Iterator it = parameterMap.keySet().iterator();
+		while (it.hasNext()) {
+			String key = it.next().toString();
+			String[] values = (String[])parameterMap.get(key);
+			jsonObject.put(key, values[0]);
+		}
+		return jsonObject.toString();
 	}
 }

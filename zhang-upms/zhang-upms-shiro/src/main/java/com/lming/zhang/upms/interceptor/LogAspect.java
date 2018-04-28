@@ -80,7 +80,7 @@ public class LogAspect {
 			RequiresPermissions requiresPermissions = method.getAnnotation(RequiresPermissions.class);
 			String[] permissions = requiresPermissions.value();
 			if (permissions.length > 0) {
-				upmsLog.setPermissions(permissions[0]);
+				upmsLog.setPermissions(permissions.toString());
 			}
 		}
 		endTime = System.currentTimeMillis();
@@ -93,7 +93,7 @@ public class LogAspect {
 		if ("GET".equalsIgnoreCase(request.getMethod())) {
 			upmsLog.setParameter(request.getQueryString());
 		} else {
-			upmsLog.setParameter(request.getParameterMap().toString());
+			upmsLog.setParameter(RequestUtil.params2Json(request));
 		}
 		upmsLog.setResult(JSONUtils.valueToString(result));
 		upmsLog.setSpendTime((int) (endTime - startTime));
