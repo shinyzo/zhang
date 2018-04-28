@@ -52,7 +52,7 @@ function ajaxLogin(){
 
                 // var basepath = $("#basepath").val();
                 // var indexurl = BASE_PATH+"/manage/index";
-                location.href = INDEX_URL;
+                location.href = resultData.data;
                 //window.open('index.do','_self');
             }
             else

@@ -7,6 +7,8 @@ import com.lming.zhang.upms.dao.model.UpmsSystemExample;
 import com.lming.zhang.upms.dao.model.UpmsUser;
 import com.lming.zhang.upms.rpc.api.UpmsApiService;
 import com.lming.zhang.upms.rpc.api.UpmsSystemService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -38,7 +40,7 @@ public class ManageController {
     @Autowired
     private UpmsApiService upmsApiService;
 
-
+    @ApiOperation(value = "系统首页")
     @RequestMapping(value = "/index",method = RequestMethod.GET)
     public String index(ModelMap modelMap){
 
@@ -66,7 +68,7 @@ public class ManageController {
         return "home";
     }
 
-
+    @ApiOperation(value="权限加载")
     @RequestMapping(value = "/getSystemPermission",method = RequestMethod.POST)
     @ResponseBody
     public UpmsResult getSystemPermission(@RequestParam("systemId") Integer systemId){

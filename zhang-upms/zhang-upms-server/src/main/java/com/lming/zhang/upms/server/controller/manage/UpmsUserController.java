@@ -11,6 +11,7 @@ import com.lming.zhang.upms.common.UpmsResultEnum;
 import com.lming.zhang.upms.dao.model.*;
 import com.lming.zhang.upms.rpc.api.*;
 import com.lming.zhang.upms.server.util.PasswordHelper;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -39,7 +40,7 @@ public class UpmsUserController {
     @Autowired
     private UpmsUserService upmsUserService;
 
-
+    @ApiOperation("用户页面")
     @RequiresPermissions("upms:user:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
@@ -47,7 +48,7 @@ public class UpmsUserController {
     }
 
 
-
+    @ApiOperation("用户列表")
     @RequiresPermissions("upms:user:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody

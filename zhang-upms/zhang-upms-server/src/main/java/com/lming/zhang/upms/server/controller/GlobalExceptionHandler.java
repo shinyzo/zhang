@@ -77,7 +77,7 @@ public class GlobalExceptionHandler {
     public UpmsResult allExceptionHandler(HttpServletRequest request,
                                           Exception exception) throws Exception
     {
-        log.error("全局异常：{}",exception.getMessage());
+        log.error("全局异常：{}",exception);
         if(RequestUtil.isAjax(request))
         {
             return new UpmsResult(UpmsResultEnum.FAILED.getCode(),"系统错误，请稍后重试!");

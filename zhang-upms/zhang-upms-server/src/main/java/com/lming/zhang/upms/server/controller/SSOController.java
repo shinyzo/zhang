@@ -37,7 +37,7 @@ import java.util.UUID;
 
 /**
  * 单点登录管理
- * Created by shuzheng on 2016/12/10.
+ * Created by zhanglm on 2016/12/10.
  */
 @Controller
 @RequestMapping("/sso")
@@ -71,10 +71,9 @@ public class SSOController {
         return "redirect:/sso/login?backurl=" + URLEncoder.encode(backurl, "utf-8");
     }
 
-    @ApiOperation(value = "登录")
+    @ApiOperation(value = "登录页面")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpServletRequest request) {
-        log.info("==> 登录页面");
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         String serverSessionId = session.getId().toString();
@@ -100,16 +99,17 @@ public class SSOController {
         return "/sso/login";
     }
 
-    @ApiOperation(value = "登录")
+    @ApiOperation(value = "登录鉴权")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Object login(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
         //
-        log.info("==> 登录鉴权Controller");
+        log.info("==> 进入统一认证鉴权中心");
 
         String username = request.getParameter("loginName");
         String password = request.getParameter("loginPass");
         String rememberMe = request.getParameter("rememberMe");
+        String backurl = request.getParameter("backurl");
 
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
@@ -118,6 +118,7 @@ public class SSOController {
         String hasCode = RedisUtil.get(UpmsConstants.ZHANG_UPMS_SERVER_SESSION_ID + "_" + sessionId);
         // code校验值
         if (StringUtils.isBlank(hasCode)) {
+            log.info(">>> 缓存中未找到用户数据，username={}",username);
             // 使用shiro认证
             UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
 
@@ -127,7 +128,6 @@ public class SSOController {
                 usernamePasswordToken.setRememberMe(false);
             }
             subject.login(usernamePasswordToken);
-
             // 更新session状态
             upmsSessionDao.updateStatus(sessionId, OnlineStatus.on_line);
             // 默认验证帐号密码正确，创建code
@@ -138,35 +138,36 @@ public class SSOController {
             RedisUtil.set(UpmsConstants.ZHANG_UPMS_SERVER_SESSION_ID + "_" + sessionId, code, (int) subject.getSession().getTimeout() / 1000);
             // code校验值
             RedisUtil.set(UpmsConstants.ZHANG_UPMS_SERVER_CODE + "_" + code, code, (int) subject.getSession().getTimeout() / 1000);
+            log.info(">>> 用户登录成功，建立用户session相关数据，username={}",username);
         }
-        // 回跳登录前地址
-        String backurl = request.getParameter("backurl");
+
         if (StringUtils.isBlank(backurl)) {
             UpmsSystem upmsSystem = upmsSystemService.selectUpmsSystemByName(PropertiesFileUtil.getInstance("zhang-upms-client").get("zhang.upms.appId"));
             backurl = null == upmsSystem ? "/" : upmsSystem.getBasepath();
-            return new UpmsResult(backurl);
-        } else {
-            return new UpmsResult(backurl);
         }
+        log.info(">>> 回调用户请求的backUrl={}",backurl);
+        return new UpmsResult(backurl);
     }
 
     @ApiOperation(value = "校验code")
     @RequestMapping(value = "/code", method = RequestMethod.POST)
     @ResponseBody
     public Object code(HttpServletRequest request) {
-        log.info("==> code校验");
+
         String codeParam = request.getParameter("code");
-        String code = RedisUtil.get(UpmsConstants.ZHANG_UPMS_SERVER_CODE + "_" + codeParam);
-        if (StringUtils.isBlank(codeParam) || !codeParam.equals(code)) {
-            new UpmsResult(UpmsResultEnum.FAILED, "无效code");
+        String cacheCode = RedisUtil.get(UpmsConstants.ZHANG_UPMS_SERVER_CODE + "_" + codeParam);
+        if (StringUtils.isBlank(codeParam) || !codeParam.equals(cacheCode)) {
+            log.warn("==> 认证中心进行code校验，failed,code不一致，codeParam={},cacheCode={}",
+                    codeParam,cacheCode);
+            new UpmsResult(UpmsResultEnum.FAILED, "code不存在");
         }
-        return new UpmsResult(UpmsResultEnum.SUCCESS, code);
+        log.info("==> 认证中心进行code校验，success");
+        return new UpmsResult(UpmsResultEnum.SUCCESS, cacheCode);
     }
 
     @ApiOperation(value = "退出登录")
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
-        log.info("==> 退出登录");
         // shiro退出登录
         SecurityUtils.getSubject().logout();
         // 跳回原地址
