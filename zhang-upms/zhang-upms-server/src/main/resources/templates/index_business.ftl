@@ -35,7 +35,7 @@
 
 					${upmsUser.realname} ,
 
-					<a class="easyui-linkbutton" href="${basepath}/manage/logout">安全退出</a>
+					<a class="easyui-linkbutton" href="${basepath}/sso/logout">安全退出</a>
 
 			</div>		
 		</div>

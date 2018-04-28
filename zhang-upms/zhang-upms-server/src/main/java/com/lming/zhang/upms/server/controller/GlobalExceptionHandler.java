@@ -82,14 +82,8 @@ public class GlobalExceptionHandler {
         {
             return new UpmsResult(UpmsResultEnum.FAILED.getCode(),"系统错误，请稍后重试!");
         }
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("<html>").append("<body>")
-                .append("<div>")
-                    .append("<h2>").append(UpmsResultEnum.FAILED.getCode()).append("</h2>")
-                    .append("<h2>").append("系统错误，请稍后重试!").append("</h2>")
-                .append("</div>")
-                .append("</body>").append("</html");
-        return new UpmsResult(buffer.toString());
+
+        return new UpmsResult("");
     }
 
 

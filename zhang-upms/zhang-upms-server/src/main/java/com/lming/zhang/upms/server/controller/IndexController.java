@@ -34,7 +34,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public String upmsIndex(){
-        return "login";
+        return "redirect:/manage/index";
     }
 
 

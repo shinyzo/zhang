@@ -9,8 +9,10 @@ import com.lming.zhang.upms.config.OnlineStatus;
 import com.lming.zhang.upms.dao.model.UpmsSystem;
 import com.lming.zhang.upms.dao.model.UpmsSystemExample;
 import com.lming.zhang.upms.rpc.api.UpmsSystemService;
+import com.lming.zhang.upms.server.exception.UpmsProcessException;
 import com.lming.zhang.upms.shiro.session.UpmsSession;
 import com.lming.zhang.upms.shiro.session.UpmsSessionDao;
+import com.lming.zhang.upms.util.SerializableUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +47,7 @@ public class SSOController {
 
     @Autowired
     private UpmsSystemService upmsSystemService;
+
     @Autowired
     private UpmsSessionDao upmsSessionDao;
 
@@ -55,7 +58,7 @@ public class SSOController {
         String appid = request.getParameter("appid");
         String backurl = request.getParameter("backurl");
         if (StringUtils.isBlank(appid)) {
-            throw new RuntimeException("无效访问！");
+            throw new UpmsProcessException(UpmsResultEnum.APPID_EMPTY);
         }
         // 判断请求认证系统是否注册
         UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
@@ -63,7 +66,7 @@ public class SSOController {
                 .andNameEqualTo(appid);
         int count = upmsSystemService.countByExample(upmsSystemExample);
         if (0 == count) {
-            throw new RuntimeException(String.format("未注册的系统:%s", appid));
+            throw new UpmsProcessException(UpmsResultEnum.SYSTEM_NOT_REGISTER);
         }
         return "redirect:/sso/login?backurl=" + URLEncoder.encode(backurl, "utf-8");
     }
@@ -71,6 +74,7 @@ public class SSOController {
     @ApiOperation(value = "登录")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpServletRequest request) {
+        log.info("==> 登录页面");
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         String serverSessionId = session.getId().toString();
@@ -100,6 +104,9 @@ public class SSOController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Object login(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+        //
+        log.info("==> 登录鉴权Controller");
+
         String username = request.getParameter("loginName");
         String password = request.getParameter("loginPass");
         String rememberMe = request.getParameter("rememberMe");
@@ -123,10 +130,10 @@ public class SSOController {
 
             // 更新session状态
             upmsSessionDao.updateStatus(sessionId, OnlineStatus.on_line);
-            // 全局会话sessionId列表，供会话管理
-            RedisUtil.lpush(UpmsConstants.ZHANG_UPMS_SERVER_SESSION_IDS, sessionId.toString());
             // 默认验证帐号密码正确，创建code
             String code = UUID.randomUUID().toString();
+            // 全局会话sessionId列表，供会话管理
+            RedisUtil.lpush(UpmsConstants.ZHANG_UPMS_SERVER_SESSION_IDS, sessionId.toString());
             // 全局会话的code
             RedisUtil.set(UpmsConstants.ZHANG_UPMS_SERVER_SESSION_ID + "_" + sessionId, code, (int) subject.getSession().getTimeout() / 1000);
             // code校验值
@@ -135,7 +142,7 @@ public class SSOController {
         // 回跳登录前地址
         String backurl = request.getParameter("backurl");
         if (StringUtils.isBlank(backurl)) {
-            UpmsSystem upmsSystem = upmsSystemService.selectUpmsSystemByName(PropertiesFileUtil.getInstance().get("app.name"));
+            UpmsSystem upmsSystem = upmsSystemService.selectUpmsSystemByName(PropertiesFileUtil.getInstance("zhang-upms-client").get("zhang.upms.appId"));
             backurl = null == upmsSystem ? "/" : upmsSystem.getBasepath();
             return new UpmsResult(backurl);
         } else {
@@ -147,6 +154,7 @@ public class SSOController {
     @RequestMapping(value = "/code", method = RequestMethod.POST)
     @ResponseBody
     public Object code(HttpServletRequest request) {
+        log.info("==> code校验");
         String codeParam = request.getParameter("code");
         String code = RedisUtil.get(UpmsConstants.ZHANG_UPMS_SERVER_CODE + "_" + codeParam);
         if (StringUtils.isBlank(codeParam) || !codeParam.equals(code)) {
@@ -158,6 +166,7 @@ public class SSOController {
     @ApiOperation(value = "退出登录")
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
+        log.info("==> 退出登录");
         // shiro退出登录
         SecurityUtils.getSubject().logout();
         // 跳回原地址

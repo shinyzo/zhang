@@ -152,7 +152,6 @@ function addTab(title,url,closable)
     }
 	else
 	{
-		 url = addOrUpdateTokenid(url);
         $('#tab_area').tabs('add',{
         	iframeUrl: url,
             title:title,       
@@ -170,9 +169,7 @@ function updateTab(title,closable){
 	if(isExist){
 	    var tab = $('#tab_area').tabs('getTab', title);
 	    var url = tab.panel('options').iframeUrl;
-	    
-	    url = addOrUpdateTokenid(url);
-	    
+
 	    var content = '<iframe scrolling="auto" src="'+url+'" frameborder="0" style="width:100%;height:100%;"></iframe>';
 		$('#tab_area').tabs('update', {
 			tab: tab,
@@ -206,7 +203,7 @@ function refreshTab()
 {	
 	var currTab =  self.parent.$('#tab_area').tabs('getSelected'); //获得当前tab
     var url = $(currTab.panel('options').content).attr('src');
-    url = addOrUpdateTokenid(url);
+
     self.parent.$('#tab_area').tabs('update', {
     	tab : currTab,
     	options : {
@@ -226,7 +223,6 @@ function logout(){
 	$.messager.confirm("安全退出",'确定要退出系统吗?',function(result){
 		if(result)
 		{
-			logoutUrl = addOrUpdateTokenid(LOGOUT_URL);
 			window.parent.location.href = logoutUrl;
 			//window.open('logout.do','_self');  
 		}

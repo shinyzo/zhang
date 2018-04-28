@@ -10,10 +10,10 @@ var LOGINTIMEOUT_CODE = '7777';
 var CLIENT_TYPE ='1';
 
 // URL
-var LOGIN_URL = BASE_PATH + "/manage/login";
+var LOGIN_URL = BASE_PATH + "/sso/login";
 var INDEX_URL = BASE_PATH + "/manage/index";
-var LOGIN_AUTHEN_URL = BASE_PATH + "/manage/loginAuthen";
-var LOGOUT_URL = BASE_PATH + "/manage/logout";
+var LOGIN_AUTHEN_URL = BASE_PATH + "/sso/login";
+var LOGOUT_URL = BASE_PATH + "/sso/logout";
 var HOME_URL = BASE_PATH + "/manage/home";
 
 

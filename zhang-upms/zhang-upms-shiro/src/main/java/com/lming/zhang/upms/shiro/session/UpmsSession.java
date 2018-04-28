@@ -9,10 +9,6 @@ import org.apache.shiro.session.mgt.SimpleSession;
  */
 public class UpmsSession extends SimpleSession {
 
-    public UpmsSession() {
-        super();
-    }
-
     // 用户浏览器类型
     private String userAgent;
 
@@ -34,5 +30,4 @@ public class UpmsSession extends SimpleSession {
     public void setStatus(OnlineStatus status) {
         this.status = status;
     }
-
 }

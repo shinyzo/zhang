@@ -19,6 +19,9 @@ public enum UpmsResultEnum{
 
     INVALID_LENGTH(1006,"长度不合法！"),
 
+    APPID_EMPTY(1007,"appid为空！"),
+    SYSTEM_NOT_REGISTER(1008,"未注册的系统");
+
     ;
 
     private Integer code;

@@ -44,24 +44,13 @@
     </div>
 
     <script>var BASE_PATH = "${basepath}"</script>
-    <script>var BACK_URL = '${param.backurl}';</script>
+
     <script type="text/javascript" src="${basepath}/static/easyui-1.4.4/jquery.min.js"></script>
     <script type="text/javascript" src="${basepath}/static/easyui-1.4.4/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="${basepath}/static/js/framework/jquery-form.js"></script>
     <script type="text/javascript" src="${basepath}/static/js/common/global.js"></script>
     <script type="text/javascript" src="${basepath}/static/js/common/common.js"></script>
     <script type="text/javascript" src="${basepath}/static/js/admin/login.js"></script>
-    <script>
-        <#if param.forceLogout == 1>
-                alert('您已被强制下线！');
-        top.location.href = '${basepath}/sso/login';
-        </#if>
-        //解决iframe下系统超时无法跳出iframe框架的问题
-        if (window != top){
-            top.location.href = location.href;
-        }
-    </script>
-
 </body>
 </html>
 

@@ -1,5 +1,6 @@
 package com.lming.zhang.upms.config;
 
+import com.lming.zhang.common.util.PropertiesFileUtil;
 import com.lming.zhang.upms.shiro.filter.UpmsAuthenticationFilter;
 import com.lming.zhang.upms.shiro.listener.UpmsSessionListener;
 import com.lming.zhang.upms.shiro.realm.UpmsRealm;
@@ -13,6 +14,8 @@ import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.Cookie;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
@@ -58,7 +61,7 @@ public class ShiroConfig {
         // 登录,首页,退出
         shiroFilterFactoryBean.setLoginUrl(ssoLoginUrl);
         shiroFilterFactoryBean.setSuccessUrl("/manage/index");
-        shiroFilterMap.put("/manage/logout","logout");
+        //shiroFilterMap.put("/manage/logout","logout");
 
         // 访问权限
         shiroFilterMap.put("/manage/**","authc");
@@ -95,7 +98,7 @@ public class ShiroConfig {
     @Bean
     public UpmsRealm upmsRealm() {
         UpmsRealm authRealm = new UpmsRealm();
-        authRealm.setCredentialsMatcher( hashedCredentialsMatcher() );
+        //authRealm.setCredentialsMatcher( hashedCredentialsMatcher() );
         return authRealm;
     }
 
@@ -138,7 +141,11 @@ public class ShiroConfig {
 
 
         sessionManager.setSessionDAO(new UpmsSessionDao());      // 自定义session管理
-       // sessionManager.setSessionFactory(new UpmsSessionFactory()); // 自定义session工厂
+        sessionManager.setSessionFactory(new UpmsSessionFactory()); // 自定义session工厂
+        sessionManager.setSessionIdCookieEnabled(true);
+        Cookie simpleCookie = new SimpleCookie();
+        simpleCookie.setName(PropertiesFileUtil.getInstance("zhang-upms-client").get("zhang.upms.session.id"));
+        sessionManager.setSessionIdCookie(simpleCookie);
        // sessionManager.setSessionListeners(CollectionUtils.arrayToList(new UpmsSessionListener())); // 自定义session监听器
 
         return sessionManager;
