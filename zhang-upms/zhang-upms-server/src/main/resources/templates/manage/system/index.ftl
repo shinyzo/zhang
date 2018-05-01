@@ -37,7 +37,7 @@
                     <a href="javascript:void(0)"
                        onclick="btnopt('${item.name}','${item.uri}'),'${item.permissionId}'"
                        class="easyui-linkbutton" data-options="iconCls:'${item.icon}'">
-                        ${item.name}
+                        ${item.name},${item.permissionId}
                     </a>
                 </@shiro.hasPermission>
             </#list>

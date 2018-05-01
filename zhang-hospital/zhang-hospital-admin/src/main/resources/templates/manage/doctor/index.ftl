@@ -34,12 +34,15 @@
         </div>
 
         <div id="btnBox">
-            <shiro:hasPermission name="upms:system:create">
-                <a href="javascript:void(0)" onclick="btnopt()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新增系统</a>
-            </shiro:hasPermission>
-            <shiro:hasPermission name="upms:system:sfsd">
-                <a href="javascript:void(0)" onclick="btnopt()" class="easyui-linkbutton" data-options="iconCls:''">新增系统</a>
-            </shiro:hasPermission>
+        <#list buttonPermissions as item>
+            <@shiro.hasPermission name="${item.permissionValue}">
+                <a href="javascript:void(0)"
+                   onclick="btnopt('${item.name}','${item.uri}'),'${item.permissionId}'"
+                   class="easyui-linkbutton" data-options="iconCls:'${item.icon}'">
+                ${item.name},${item.permissionId}
+                </a>
+            </@shiro.hasPermission>
+        </#list>
         </div>
     </div>
 

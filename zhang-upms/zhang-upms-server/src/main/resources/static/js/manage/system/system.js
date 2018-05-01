@@ -53,7 +53,9 @@ function checkKey(){
  */
 function btnopt(title,rightUri,permissionId)
 {
-	alert(title+"-"+rightUri+"-"+permissionId);
+
+
+
 }
 /**
  * 添加数据

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
-@ComponentScan("com.lming.zhang.hospital")
+@ComponentScan("com.lming.zhang")
 @MapperScan("com.lming.zhang.hospital.dao.mapper")
 @ImportResource(value = {"classpath:dubbo-provider.xml"}) // 引入资源文件
 @EnableCaching           // redis cache

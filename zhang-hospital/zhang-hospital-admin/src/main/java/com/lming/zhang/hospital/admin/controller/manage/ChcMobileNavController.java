@@ -1,11 +1,11 @@
-package ${package_name}.admin.controller.manage;
+package com.lming.zhang.hospital.admin.controller.manage;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import ${package_name}.dao.model.${model};
-import ${package_name}.dao.model.${model}Example;
-import ${package_name}.rpc.api.${model}Service;
+import com.lming.zhang.hospital.dao.model.ChcMobileNav;
+import com.lming.zhang.hospital.dao.model.ChcMobileNavExample;
+import com.lming.zhang.hospital.rpc.api.ChcMobileNavService;
 import com.lming.zhang.upms.dao.model.UpmsPermission;
 import com.lming.zhang.upms.dao.model.UpmsPermissionExample;
 import com.lming.zhang.upms.rpc.api.UpmsPermissionService;
@@ -28,25 +28,25 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ${modelname}controller
- * Created by zhanglm on ${ctime}.
+ * ChcMobileNavcontroller
+ * Created by zhanglm on 2018/5/1.
  */
 @Controller
-@RequestMapping("/manage/${shortmodel}")
-@Api(value = "${modelname}控制器", description = "${modelname}管理")
-public class ${model}Controller {
+@RequestMapping("/manage/chcmobilenav")
+@Api(value = "ChcMobileNav控制器", description = "ChcMobileNav管理")
+public class ChcMobileNavController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(${model}Controller.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChcMobileNavController.class);
 
 
     @Autowired
     private UpmsPermissionService upmsPermissionService;
 
     @Autowired
-    private ${model}Service ${mapper}Service;
+    private ChcMobileNavService chcMobileNavService;
 
 
-    @ApiOperation(value = "${modelname}首页")
+    @ApiOperation(value = "ChcMobileNav首页")
     @RequiresPermissions("**:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(@RequestParam("permissionId") Integer permissionId,
@@ -58,10 +58,10 @@ public class ${model}Controller {
         List<UpmsPermission> buttonPermissions = upmsPermissionService.selectByExample(example);
         modelMap.put("buttonPermissions",buttonPermissions);
 
-        return "/manage/${shortmodel}/index";
+        return "/manage/chcmobilenav/index";
     }
 
-    @ApiOperation(value = "${modelname}查询")
+    @ApiOperation(value = "ChcMobileNav查询")
     @RequiresPermissions("**:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
@@ -70,13 +70,13 @@ public class ${model}Controller {
         @RequestParam(required = false, defaultValue = "10", value = "rows") int pageSize,
         @RequestParam(required = false, value = "sort") String sort,
         @RequestParam(required = false, value = "order") String order) {
-        ${model}Example example = new ${model}Example();
+        ChcMobileNavExample example = new ChcMobileNavExample();
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             example.setOrderByClause(sort + " " + order);
         }
 
-        List<${model}> rows = ${mapper}Service.selectByExampleForStartPage(example, pageNum, pageSize);
-        long total = ${mapper}Service.countByExample(example);
+        List<ChcMobileNav> rows = chcMobileNavService.selectByExampleForStartPage(example, pageNum, pageSize);
+        long total = chcMobileNavService.countByExample(example);
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);
         result.put("total", total);

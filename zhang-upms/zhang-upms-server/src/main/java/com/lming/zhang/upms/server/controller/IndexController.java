@@ -28,10 +28,6 @@ import java.util.concurrent.TimeUnit;
 @Controller
 public class IndexController {
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
-
-
 
     @RequestMapping("/")
     @ApiOperation("后台首页")
@@ -58,11 +54,10 @@ public class IndexController {
     {
         VerifyUtil verifyUtil = new VerifyUtil();
         String randKey = verifyUtil.getRandString();
-        redisTemplate.opsForValue().set(
-                UpmsConstants.RAND_KEY,
-                randKey,
-                UpmsConstants.RAND_KEY_EXPIRE_TIME,
-                TimeUnit.SECONDS);
+        RedisUtil.set( UpmsConstants.RAND_KEY,
+                       randKey,
+                 UpmsConstants.RAND_KEY_EXPIRE_TIME);
+
         verifyUtil.drawRandImage(response,randKey);
         return;
     }

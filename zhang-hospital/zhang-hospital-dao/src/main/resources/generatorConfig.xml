@@ -51,13 +51,13 @@
                         password="hnboTAnExe" />
 
         <!-- model生成 -->
-        <javaModelGenerator targetPackage="com.lming.zhang.hospital.dao.model" targetProject="E:/repo/java/zhang/zhang-hospital/zhang-hospital-dao/src/main/java" />
+        <javaModelGenerator targetPackage="com.lming.zhang.hospital.dao.model" targetProject="F:/repo/java/zhang/zhang-hospital/zhang-hospital-dao/src/main/java" />
 
         <!-- MapperXML生成 -->
-        <sqlMapGenerator targetPackage="com.lming.zhang.hospital.dao.mapper" targetProject="E:/repo/java/zhang/zhang-hospital/zhang-hospital-rpc-service/src/main/java" />
+        <sqlMapGenerator targetPackage="com.lming.zhang.hospital.dao.mapper" targetProject="F:/repo/java/zhang/zhang-hospital/zhang-hospital-rpc-service/src/main/java" />
 
         <!-- Mapper接口生成 -->
-        <javaClientGenerator targetPackage="com.lming.zhang.hospital.dao.mapper" targetProject="E:/repo/java/zhang/zhang-hospital/zhang-hospital-dao/src/main/java" type="XMLMAPPER" />
+        <javaClientGenerator targetPackage="com.lming.zhang.hospital.dao.mapper" targetProject="F:/repo/java/zhang/zhang-hospital/zhang-hospital-dao/src/main/java" type="XMLMAPPER" />
 
         <!-- 需要映射的表 -->
                                     <table tableName="chc_community_hspl" domainObjectName="ChcCommunityHspl"></table>

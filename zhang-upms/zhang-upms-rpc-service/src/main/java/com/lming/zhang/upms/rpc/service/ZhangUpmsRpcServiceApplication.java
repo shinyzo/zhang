@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
-@ComponentScan({"com.lming.zhang.upms","com.lming.zhang.common.aspect"})
+@ComponentScan({"com.lming.zhang"})
 @MapperScan(value = {
         "com.lming.zhang.upms.**.dao.mapper"
 })

@@ -12,11 +12,27 @@
     <!-- 定义 zookeeper 注册中心地址及协议 -->
     <dubbo:registry check="false" address="${spring.dubbo.address}" />
 
+    <dubbo:consumer check="false"/>
+
     <!-- 生成远程服务代理，可以和本地 bean 一样使用 testService -->
-    <dubbo:reference check="false" mock="true" id="chcDoctorService" interface="com.lming.zhang.hospital.rpc.api.ChcDoctorInfoService"/>
-    <dubbo:reference check="false" mock="true" id="chcSubjectService" interface="com.lming.zhang.hospital.rpc.api.ChcSubjectService"/>
+    <dubbo:reference  mock="true" id="chcDoctorService" interface="com.lming.zhang.hospital.rpc.api.ChcDoctorInfoService"/>
+    <dubbo:reference  mock="true" id="chcSubjectService" interface="com.lming.zhang.hospital.rpc.api.ChcSubjectService"/>
+    <dubbo:reference  mock="true" id="chcCommunityHsplService" interface="com.lming.zhang.hospital.rpc.api.ChcCommunityHsplService"/>
+    <dubbo:reference  mock="true" id="chcCorpInfoService" interface="com.lming.zhang.hospital.rpc.api.ChcCorpInfoService"/>
+    <dubbo:reference  mock="true" id="chcDoctorLevelService" interface="com.lming.zhang.hospital.rpc.api.ChcDoctorLevelService"/>
+    <dubbo:reference  mock="true" id="chcHospitalService" interface="com.lming.zhang.hospital.rpc.api.ChcHospitalService"/>
+    <dubbo:reference  mock="true" id="chcMobileNavService" interface="com.lming.zhang.hospital.rpc.api.ChcMobileNavService"/>
+    <dubbo:reference  mock="true" id="chcOrderDetailService" interface="com.lming.zhang.hospital.rpc.api.ChcOrderDetailService"/>
+    <dubbo:reference  mock="true" id="chcPlatNavService" interface="com.lming.zhang.hospital.rpc.api.ChcPlatNavService"/>
+    <dubbo:reference  mock="true" id="chcProductCategoryService" interface="com.lming.zhang.hospital.rpc.api.ChcProductCategoryService"/>
+    <dubbo:reference  mock="true" id="chcProductKuService" interface="com.lming.zhang.hospital.rpc.api.ChcProductKuService"/>
+    <dubbo:reference  mock="true" id="chcReserveService" interface="com.lming.zhang.hospital.rpc.api.ChcReserveService"/>
+    <dubbo:reference  mock="true" id="chcTravelScheduleService" interface="com.lming.zhang.hospital.rpc.api.ChcTravelScheduleService"/>
+    <dubbo:reference  mock="true" id="chcOrderMasterService" interface="com.lming.zhang.hospital.rpc.api.ChcOrderMasterService"/>
 
 
-    <dubbo:reference check="false" mock="true" id="upmsApiService" interface="com.lming.zhang.upms.rpc.api.UpmsApiService" />
+    <dubbo:reference  mock="true" id="upmsApiService" interface="com.lming.zhang.upms.rpc.api.UpmsApiService" />
+    <dubbo:reference  mock="true" id="upmsPermissionService" interface="com.lming.zhang.upms.rpc.api.UpmsPermissionService" />
+
 
 </beans>

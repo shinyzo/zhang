@@ -32,6 +32,8 @@ public class MybatisGeneratorUtil {
 	// ServiceImpl模板路径
 	private static String serviceImpl_vm = "/template/ServiceImpl.vm";
 
+	private static String controller_vm = "/template/Controller.vm";
+
 	/**
 	 * 根据模板生成generatorConfig.xml文件
 	 * @param jdbcDriver   驱动路径
@@ -60,11 +62,13 @@ public class MybatisGeneratorUtil {
 			service_vm = MybatisGeneratorUtil.class.getResource(service_vm).getPath().replaceFirst("/", "");
 			serviceMock_vm = MybatisGeneratorUtil.class.getResource(serviceMock_vm).getPath().replaceFirst("/", "");
 			serviceImpl_vm = MybatisGeneratorUtil.class.getResource(serviceImpl_vm).getPath().replaceFirst("/", "");
+			controller_vm =MybatisGeneratorUtil.class.getResource(controller_vm).getPath().replaceFirst("/", "");
 		} else {
 			generatorConfig_vm = MybatisGeneratorUtil.class.getResource(generatorConfig_vm).getPath();
 			service_vm = MybatisGeneratorUtil.class.getResource(service_vm).getPath();
 			serviceMock_vm = MybatisGeneratorUtil.class.getResource(serviceMock_vm).getPath();
 			serviceImpl_vm = MybatisGeneratorUtil.class.getResource(serviceImpl_vm).getPath();
+			controller_vm = MybatisGeneratorUtil.class.getResource(controller_vm).getPath();
 		}
 
 		String targetProject = module + "/" + module + "-dao";
@@ -161,11 +165,14 @@ public class MybatisGeneratorUtil {
 		String ctime = new SimpleDateFormat("yyyy/M/d").format(new Date());
 		String servicePath = basePath + module + "/" + module + "-rpc-api" + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/rpc/api";
 		String serviceImplPath = basePath + module + "/" + module + "-rpc-service" + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/rpc/service/impl";
+		String controllerPath =  basePath + module + "/"+module   +"-admin" + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/admin/controller/manage";
+
 		for (int i = 0; i < tables.size(); i++) {
 			String model = lineToHump(ObjectUtils.toString(tables.get(i).get("table_name")));
 			String service = servicePath + "/" + model + "Service.java";
 			String serviceMock = servicePath + "/" + model + "ServiceMock.java";
 			String serviceImpl = serviceImplPath + "/" + model + "ServiceImpl.java";
+			String controller = controllerPath + "/" + model + "Controller.java";
 			// 生成service
 			File serviceFile = new File(service);
 			if (!serviceFile.exists()) {
@@ -196,6 +203,20 @@ public class MybatisGeneratorUtil {
 				context.put("ctime", ctime);
 				VelocityUtil.generate(serviceImpl_vm, serviceImpl, context);
 				System.out.println(serviceImpl);
+			}
+
+			// 生成controller
+			File controllerFile = new File(controller);
+			if (!controllerFile.exists()) {
+				VelocityContext context = new VelocityContext();
+				context.put("package_name", packageName);
+				context.put("model", model);
+				context.put("modelname",model);
+				context.put("mapper", StringUtil.toLowerCaseFirstOne(model));
+				context.put("ctime", ctime);
+				context.put("shortmodel",model.toLowerCase());
+				VelocityUtil.generate(controller_vm, controller, context);
+				System.out.println(controller);
 			}
 		}
 		System.out.println("========== 结束生成Service ==========");

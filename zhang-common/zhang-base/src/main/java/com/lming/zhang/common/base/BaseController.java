@@ -1,5 +1,6 @@
 package com.lming.zhang.common.base;
 
+import com.lming.zhang.common.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,10 +23,16 @@ public abstract class BaseController {
 	 * @param exception
 	 */
 	@ExceptionHandler
-	public String exceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception exception) {
+	public Object exceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception exception) {
 		LOGGER.error("统一异常处理：", exception);
-		return "";
+		request.setAttribute("ex", exception);
+		if (RequestUtil.isAjax(request)) {
+			request.setAttribute("requestHeader", "ajax");
+		}
+
+		return "/error.jsp";
 	}
+
 
 
 }

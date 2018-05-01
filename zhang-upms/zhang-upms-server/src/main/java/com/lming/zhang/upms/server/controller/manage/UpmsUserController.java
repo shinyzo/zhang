@@ -43,8 +43,8 @@ public class UpmsUserController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Object list(
-            @RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
-            @RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
+            @RequestParam(required = false, defaultValue = "1", value = "page") int pageNum,
+            @RequestParam(required = false, defaultValue = "10", value = "rows") int PageSize,
             @RequestParam(required = false, defaultValue = "", value = "search") String search,
             @RequestParam(required = false, value = "sort") String sort,
             @RequestParam(required = false, value = "order") String order) {
@@ -58,7 +58,7 @@ public class UpmsUserController {
             upmsUserExample.or()
                     .andUsernameLike("%" + search + "%");
         }
-        List<UpmsUser> rows = upmsUserService.selectByExampleForOffsetPage(upmsUserExample, offset, limit);
+        List<UpmsUser> rows = upmsUserService.selectByExampleForOffsetPage(upmsUserExample, pageNum, PageSize);
         long total = upmsUserService.countByExample(upmsUserExample);
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);

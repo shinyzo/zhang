@@ -11,7 +11,7 @@ public class UpmsConstants {
 
     public static final String RAND_KEY = "zhang-upms-server-rand-key";
 
-    public static final Long RAND_KEY_EXPIRE_TIME = 1200L;
+    public static final Integer RAND_KEY_EXPIRE_TIME = 1200;
 
     public static final String CLIENT = "client";
     public static final String SERVER = "server";

@@ -12,6 +12,7 @@
     <!-- 定义 zookeeper 注册中心地址及协议 -->
     <dubbo:registry check="false" address="${spring.dubbo.address}" />
 
+    <!-- 不进行检查，如果服务端接口遗漏，tomcat启动不起来 -->
     <dubbo:consumer check="false" />
 
     <!-- 生成远程服务代理，可以和本地 bean 一样使用 testService -->
@@ -31,6 +32,9 @@
     <dubbo:reference id="upmsApiService" interface="com.lming.zhang.upms.rpc.api.UpmsApiService" mock="true"/>
 
     <dubbo:reference id="upmsOrganizationService" interface="com.lming.zhang.upms.rpc.api.UpmsOrganizationService" mock="true" />
+
+    <dubbo:reference id="upmsLogService" interface="com.lming.zhang.upms.rpc.api.UpmsLogService" mock="true" />
+
 
 
 </beans>

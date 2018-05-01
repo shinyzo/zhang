@@ -9,6 +9,10 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+
+/**
+ * freemarker shiro tag
+ */
 @Component
 public class ShiroTagFreemarkerConfigurer {
 

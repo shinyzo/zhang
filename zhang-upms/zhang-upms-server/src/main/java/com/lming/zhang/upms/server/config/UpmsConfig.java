@@ -1,5 +1,6 @@
 package com.lming.zhang.upms.server.config;
 
+import com.lming.zhang.common.util.SpringContextUtil;
 import com.lming.zhang.upms.shiro.session.UpmsSessionDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,5 +14,7 @@ public class UpmsConfig {
     public UpmsSessionDao upmsSessionDao(){
         return new UpmsSessionDao();
     }
+
+
 
 }

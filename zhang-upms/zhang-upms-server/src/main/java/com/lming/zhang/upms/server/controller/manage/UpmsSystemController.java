@@ -32,7 +32,6 @@ import java.util.Map;
  * Created by shuzheng on 2016/12/18.
  */
 @Controller
-@Api(value = "系统管理", description = "系统管理")
 @RequestMapping("/manage/system")
 public class UpmsSystemController {
 
@@ -64,8 +63,8 @@ public class UpmsSystemController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
 	public Object list(
-			@RequestParam(required = false, defaultValue = "0", value = "page") int page,
-			@RequestParam(required = false, defaultValue = "10", value = "rows") int rows,
+			@RequestParam(required = false, defaultValue = "1", value = "page") int pageNum,
+			@RequestParam(required = false, defaultValue = "10", value = "rows") int pageSize,
 			@RequestParam(required = false, defaultValue = "", value = "title") String title,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
@@ -78,7 +77,7 @@ public class UpmsSystemController {
 					.andTitleLike("%" + title + "%");
 		}
 
-		List<UpmsSystem> upmsSystemList = upmsSystemService.selectByExampleForStartPage(upmsSystemExample, page, rows);
+		List<UpmsSystem> upmsSystemList = upmsSystemService.selectByExampleForStartPage(upmsSystemExample, pageNum, pageSize);
 		long total = upmsSystemService.countByExample(upmsSystemExample);
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", upmsSystemList);
