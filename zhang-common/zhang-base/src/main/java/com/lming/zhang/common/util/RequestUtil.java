@@ -111,14 +111,24 @@ public class RequestUtil {
 
 
 	public static String params2Json(HttpServletRequest request) {
-		JSONObject jsonObject = new JSONObject();
 		Map<String,String[]> parameterMap = request.getParameterMap();
+		Map<String,String> params = new HashMap<>();
 		Iterator it = parameterMap.keySet().iterator();
 		while (it.hasNext()) {
 			String key = it.next().toString();
 			String[] values = (String[])parameterMap.get(key);
-			jsonObject.put(key, values[0]);
+			// 密码屏蔽处理
+			if(key.equalsIgnoreCase("loginpass")
+				|| key.equalsIgnoreCase("password"))
+			{
+				params.put(key,"******");
+			}
+			else{
+				params.put(key, values[0]);
+			}
+
 		}
-		return jsonObject.toString();
+
+		return JsonUtil.obj2String(params);
 	}
 }

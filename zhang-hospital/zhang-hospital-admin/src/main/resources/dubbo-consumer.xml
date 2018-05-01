@@ -17,6 +17,6 @@
     <dubbo:reference check="false" mock="true" id="chcSubjectService" interface="com.lming.zhang.hospital.rpc.api.ChcSubjectService"/>
 
 
-    <dubbo:reference check="false" id="upmsApiService" interface="com.lming.zhang.upms.rpc.api.UpmsApiService" mock="true"/>
+    <dubbo:reference check="false" mock="true" id="upmsApiService" interface="com.lming.zhang.upms.rpc.api.UpmsApiService" />
 
 </beans>

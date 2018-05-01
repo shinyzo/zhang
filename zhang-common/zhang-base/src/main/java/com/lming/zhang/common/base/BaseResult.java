@@ -1,10 +1,12 @@
 package com.lming.zhang.common.base;
 
+import java.io.Serializable;
+
 /**
  * 统一返回结果类
  * Created by shuzheng on 2017/2/18.
  */
-public class BaseResult<T> {
+public class BaseResult<T> implements Serializable {
 
     /**
      * 状态码：1成功，其他为失败

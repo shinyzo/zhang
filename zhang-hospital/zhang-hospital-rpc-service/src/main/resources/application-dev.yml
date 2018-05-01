@@ -65,6 +65,7 @@ mybatis:
   config-location: classpath:/config/mybatis-config.xml
   check-config-location: true
 
+
 #Hikari DataSource master slave
 #hikari:
 #  db:

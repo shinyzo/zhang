@@ -34,4 +34,10 @@ mybatis:
   typeAliasesPackage: com.lming.zhang.upms.dao.model
   config-location: classpath:/config/mybatis-config.xml
   check-config-location: true
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
+
 

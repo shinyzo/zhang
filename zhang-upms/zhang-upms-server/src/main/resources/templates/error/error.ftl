@@ -7,7 +7,8 @@
 </head>
 <body>
 
-    error!
+    errorcode: <#if errorCode??>${errorCode}</#if>
+    errmsg:    <#if errorMsg??>${errorMsg}</#if>
 
 </body>
 </html>

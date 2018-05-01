@@ -3,15 +3,14 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>登录</title>
+    <title>统一登录平台</title>
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
     <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
     <meta http-equiv="description" content="This is my page">
 
-    <link rel="stylesheet" type="text/css" href="${basepath}/static/easyui-1.4.4/themes/bootstrap/easyui.css">
-    <link rel="stylesheet" type="text/css" href="${basepath}/static/easyui-1.4.4/themes/icon.css">
+    <#include "/inc/header.ftl"/>
     <link rel="stylesheet" type="text/css" href="${basepath}/static/style/login.css">
 </head>
 <body>
@@ -43,14 +42,8 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" id="resetBtn" >重  置</a>
     </div>
 
-    <script>var BASE_PATH = "${basepath}"</script>
-
-    <script type="text/javascript" src="${basepath}/static/easyui-1.4.4/jquery.min.js"></script>
-    <script type="text/javascript" src="${basepath}/static/easyui-1.4.4/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="${basepath}/static/js/framework/jquery-form.js"></script>
-    <script type="text/javascript" src="${basepath}/static/js/common/global.js"></script>
-    <script type="text/javascript" src="${basepath}/static/js/common/common.js"></script>
-    <script type="text/javascript" src="${basepath}/static/js/admin/login.js"></script>
+    <#include "/inc/footer.ftl"/>
+    <script type="text/javascript" src="${basepath}/static/js/manage/login.js"></script>
 </body>
 </html>
 

@@ -1,22 +1,23 @@
 package com.lming.zhang.upms.server.controller;
 
-import com.lming.zhang.common.util.JsonUtil;
+
 import com.lming.zhang.common.util.RequestUtil;
 import com.lming.zhang.upms.common.UpmsResult;
 import com.lming.zhang.upms.common.UpmsResultEnum;
 import com.lming.zhang.upms.server.exception.UpmsProcessException;
-import com.lming.zhang.upms.server.exception.ViewException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
+
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * Auth : shinyzo
@@ -75,40 +76,20 @@ public class GlobalExceptionHandler {
      * @return
      * @throws Exception
      */
-    @ExceptionHandler(value=Exception.class)
+    @ExceptionHandler(value= Exception.class)
     @ResponseBody
-    public UpmsResult errorHandler(HttpServletRequest request,
-                                          Exception exception) throws Exception
+    public UpmsResult errorHandler(HttpServletRequest request, ModelMap modelMap,
+                                   Exception exception) throws Exception
     {
         log.error("全局异常：{}",exception);
         if(RequestUtil.isAjax(request))
         {
-           return new UpmsResult(UpmsResultEnum.FAILED.getCode(),"系统错误，请稍后重试!");
+           UpmsResult upmsResult =  new UpmsResult(UpmsResultEnum.FAILED.getCode(),"系统错误，请稍后重试!");
+           return upmsResult;
         }
-        // 页面异常
-        throw new ViewException();
+
+        return null;
     }
-
-    /**
-     * 普通请求返回页面
-     * @param request
-     * @param exception
-     * @return
-     * @throws Exception
-     */
-    @ExceptionHandler(value=ViewException.class)
-    public ModelAndView viewErrorHandler(HttpServletRequest request,
-                                         ViewException exception) throws Exception
-    {
-        log.error("ViewException：{}",exception);
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("msg","系统错误");
-        mav.addObject("url",request.getRequestURI());
-        // 页面异常
-        return new ModelAndView("/error/error");
-    }
-
-
 
 
 

@@ -30,5 +30,7 @@
 
     <dubbo:reference id="upmsApiService" interface="com.lming.zhang.upms.rpc.api.UpmsApiService" mock="true"/>
 
+    <dubbo:reference id="upmsOrganizationService" interface="com.lming.zhang.upms.rpc.api.UpmsOrganizationService" mock="true" />
+
 
 </beans>

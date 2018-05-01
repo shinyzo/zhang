@@ -3,11 +3,15 @@ package com.lming.zhang.hospital.config.dynamic.datasource;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInterceptor;
 import com.lming.zhang.common.db.DataSourceEnum;
 import com.lming.zhang.common.db.DynamicDataSource;
 import com.lming.zhang.hospital.properties.MasterDbConfig;
 import com.lming.zhang.hospital.properties.SlaveDbConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.logging.stdout.StdOutImpl;
+import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
@@ -120,6 +125,8 @@ public class DruidMultiDBConfig {
     public SqlSessionFactoryBean sqlSessionFactory() {
         SqlSessionFactoryBean sqlSession = new SqlSessionFactoryBean();
         sqlSession.setDataSource(dynamicDataSource());
+        // 配置分页拦截器级日志打印
+        sqlSession.setConfigLocation(new ClassPathResource("/config/mybatis-config.xml"));
       //  sqlSession.setTypeAliasesPackage("com.lming.zhang.hospital.dao.model");
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 //        try {
@@ -148,6 +155,7 @@ public class DruidMultiDBConfig {
         reg.addInitParameter("logSlowSql", "true");
         return reg;
     }
+
 
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {

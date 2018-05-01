@@ -56,6 +56,7 @@ public class ShiroConfig {
         shiroFilterMap.put("/resources/**","anon");
         shiroFilterMap.put("/loadvercode","anon");
         shiroFilterMap.put("/manage/loginAuthen","anon");
+        shiroFilterMap.put("/error","anon");
         //shiroFilterMap.put("/manage/login","anon");
 
         // 登录,首页,退出

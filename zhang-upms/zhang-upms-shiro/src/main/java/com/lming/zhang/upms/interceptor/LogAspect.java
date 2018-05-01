@@ -2,6 +2,7 @@ package com.lming.zhang.upms.interceptor;
 
 
 import com.lming.zhang.common.util.DateUtil;
+import com.lming.zhang.common.util.JsonUtil;
 import com.lming.zhang.common.util.RequestUtil;
 import com.lming.zhang.upms.dao.model.UpmsLog;
 import com.lming.zhang.upms.rpc.api.UpmsApiService;
@@ -45,18 +46,28 @@ public class LogAspect {
 	// 结束时间
 	private long endTime = 0L;
 
+	private String username="";
+
 	@Autowired
 	UpmsApiService upmsApiService;
 
 	@Before("execution(* *..controller..*.*(..))")
 	public void doBeforeInServiceLayer(JoinPoint joinPoint) {
-		log.debug("doBeforeInServiceLayer");
+
+		log.debug("==> doBeforeInServiceLayer");
+
+		RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+		ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
+		HttpServletRequest request = servletRequestAttributes.getRequest();
+
 		startTime = System.currentTimeMillis();
+		// 退出的登录的时候doAround 取不到username
+		username = ObjectUtils.toString(request.getUserPrincipal());
 	}
 
 	@After("execution(* *..controller..*.*(..))")
 	public void doAfterInServiceLayer(JoinPoint joinPoint) {
-		log.debug("doAfterInServiceLayer");
+		log.debug("==> doAfterInServiceLayer");
 	}
 
 	@Around("execution(* *..controller..*.*(..))")
@@ -84,7 +95,6 @@ public class LogAspect {
 			}
 		}
 		endTime = System.currentTimeMillis();
-		log.debug("doAround>>>result={},耗时：{}", result, endTime - startTime);
 
 		upmsLog.setBasePath(RequestUtil.getBasePath(request));
 		upmsLog.setIp(RequestUtil.getIpAddr(request));
@@ -95,13 +105,14 @@ public class LogAspect {
 		} else {
 			upmsLog.setParameter(RequestUtil.params2Json(request));
 		}
-		upmsLog.setResult(JSONUtils.valueToString(result));
-		upmsLog.setSpendTime((int) (endTime - startTime));
+		upmsLog.setResult(JsonUtil.obj2String(result));
 		upmsLog.setStartTime(startTime);
+		upmsLog.setSpendTime((int) (endTime - startTime));
 		upmsLog.setUri(request.getRequestURI());
 		upmsLog.setUrl(ObjectUtils.toString(request.getRequestURL()));
 		upmsLog.setUserAgent(request.getHeader("User-Agent"));
-		upmsLog.setUsername(ObjectUtils.toString(request.getUserPrincipal()));
+		upmsLog.setUsername(username);
+
 		upmsApiService.insertUpmsLogSelective(upmsLog);
 		return result;
 	}

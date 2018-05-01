@@ -1,16 +1,8 @@
 package com.lming.zhang.upms.server.controller.manage;
 
-import com.alibaba.dubbo.common.json.JSONArray;
-import com.baidu.unbiz.fluentvalidator.ComplexResult;
-import com.baidu.unbiz.fluentvalidator.FluentValidator;
-import com.baidu.unbiz.fluentvalidator.ResultCollectors;
-import com.lming.zhang.common.validator.LengthValidator;
-import com.lming.zhang.common.validator.NotNullValidator;
-import com.lming.zhang.upms.common.UpmsResult;
-import com.lming.zhang.upms.common.UpmsResultEnum;
+
 import com.lming.zhang.upms.dao.model.*;
 import com.lming.zhang.upms.rpc.api.*;
-import com.lming.zhang.upms.server.util.PasswordHelper;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,11 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * 用户controller

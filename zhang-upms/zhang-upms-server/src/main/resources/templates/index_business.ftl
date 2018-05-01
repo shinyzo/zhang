@@ -1,4 +1,4 @@
-<#assign basepath="${request.contextPath}">
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
@@ -8,9 +8,7 @@
 		<meta http-equiv="expires" content="0">
 		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 		<meta http-equiv="description" content="This is my page">
-        <link rel="stylesheet" type="text/css" href="${basepath}/static/easyui-1.4.4/themes/bootstrap/easyui.css">
-        <link rel="stylesheet" type="text/css" href="${basepath}/static/easyui-1.4.4/themes/icon.css">
-        <link rel="stylesheet" type="text/css" href="${basepath}/static/style/layout.css">
+		<#include "/inc/header.ftl" />
 	</head>
 	<body class="easyui-layout">
 
@@ -32,10 +30,11 @@
                             </#if>
 						</#list>
 					</select>
+					<@shiro.user>
+						欢迎您，<@shiro.principal/>
+					</@shiro.user>
 
-					${upmsUser.realname} ,
-
-					<a class="easyui-linkbutton" href="${basepath}/sso/logout">安全退出</a>
+                <a class="easyui-linkbutton" href="javascript:void(0);" onclick="logout()">安全退出</a>
 
 			</div>		
 		</div>
@@ -60,21 +59,10 @@
 
 			</div>
 		</div>
-		
+
+		<#include "/inc/footer.ftl"/>
+        <script type="text/javascript" src="${basepath}/static/js/manage/index_business.js"></script>
+
 	</body>
-
-
 </html>
 
-<script>var BASE_PATH = "${basepath}"</script>
-<script type="text/javascript" src="${basepath}/static/easyui-1.4.4/jquery.min.js"></script>
-<script type="text/javascript" src="${basepath}/static/easyui-1.4.4/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="${basepath}/static/easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="${basepath}/static/easyui-1.4.4/extend/easyui-extend-validate.js"></script>
-
-<script type="text/javascript" src="${basepath}/static/js/framework/jquery.cookie.js"></script>
-<script type="text/javascript" src="${basepath}/static/js/framework/jquery-form.js"></script>
-
-<script type="text/javascript" src="${basepath}/static/js/common/global.js"></script>
-<script type="text/javascript" src="${basepath}/static/js/common/common.js"></script>
-<script type="text/javascript" src="${basepath}/static/js/admin/index_business.js"></script>

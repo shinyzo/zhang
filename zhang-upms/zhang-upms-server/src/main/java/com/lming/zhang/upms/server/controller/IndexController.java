@@ -6,6 +6,7 @@ import com.lming.zhang.upms.common.UpmsConstants;
 import com.lming.zhang.upms.dao.model.UpmsUser;
 import com.lming.zhang.upms.dao.model.UpmsUserExample;
 import com.lming.zhang.upms.rpc.api.UpmsUserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -33,12 +34,14 @@ public class IndexController {
 
 
     @RequestMapping("/")
+    @ApiOperation("后台首页")
     public String upmsIndex(){
         return "redirect:/manage/index";
     }
 
 
     @RequestMapping("/index")
+    @ApiOperation("前台首页")
     @ResponseBody
     public String index(){
         return "zhang-upms-server is started.";
@@ -49,6 +52,7 @@ public class IndexController {
      * @param request
      * @param response
      */
+    @ApiOperation("验证码")
     @RequestMapping(value = "/loadvercode",method = RequestMethod.GET)
     public void createVercode(HttpServletRequest request, HttpServletResponse response)
     {

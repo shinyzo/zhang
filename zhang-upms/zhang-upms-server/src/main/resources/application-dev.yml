@@ -14,7 +14,7 @@ spring:
     request-context-attribute: request
     suffix: .ftl
     settings:
-      template_update_delay: 0
+      template_update_delay: 5
   mvc:
     static-path-pattern: /static/**
   dubbo:

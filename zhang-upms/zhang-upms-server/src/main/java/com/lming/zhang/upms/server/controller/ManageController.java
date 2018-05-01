@@ -62,7 +62,7 @@ public class ManageController {
         return "index_business";
     }
 
-
+    @ApiOperation("我的工作台")
     @RequestMapping("/home")
     public String index(){
         return "home";
