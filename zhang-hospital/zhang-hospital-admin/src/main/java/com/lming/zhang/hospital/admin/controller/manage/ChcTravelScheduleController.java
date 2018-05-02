@@ -2,6 +2,7 @@ package com.lming.zhang.hospital.admin.controller.manage;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import com.lming.zhang.hospital.common.constants.ChcPageVO;
 
 import com.lming.zhang.hospital.dao.model.ChcTravelSchedule;
 import com.lming.zhang.hospital.dao.model.ChcTravelScheduleExample;
@@ -9,12 +10,8 @@ import com.lming.zhang.hospital.rpc.api.ChcTravelScheduleService;
 import com.lming.zhang.upms.dao.model.UpmsPermission;
 import com.lming.zhang.upms.dao.model.UpmsPermissionExample;
 import com.lming.zhang.upms.rpc.api.UpmsPermissionService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,15 +27,13 @@ import java.util.Map;
 
 /**
  * ChcTravelSchedulecontroller
- * Created by zhanglm on 2018/5/1.
+ * Created by zhanglm on 2018/5/2.
  */
 @Controller
+@Slf4j
 @RequestMapping("/manage/chctravelschedule")
 @Api(value = "ChcTravelSchedule控制器", description = "ChcTravelSchedule管理")
 public class ChcTravelScheduleController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChcTravelScheduleController.class);
-
 
     @Autowired
     private UpmsPermissionService upmsPermissionService;
@@ -65,17 +61,13 @@ public class ChcTravelScheduleController {
     @RequiresPermissions("**:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public Object list(
-        @RequestParam(required = false, defaultValue = "1", value = "page") int pageNum,
-        @RequestParam(required = false, defaultValue = "10", value = "rows") int pageSize,
-        @RequestParam(required = false, value = "sort") String sort,
-        @RequestParam(required = false, value = "order") String order) {
+    public Object list(ChcPageVO pageVO) {
         ChcTravelScheduleExample example = new ChcTravelScheduleExample();
-        if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-            example.setOrderByClause(sort + " " + order);
+        if (!StringUtils.isBlank(pageVO.getSort()) && !StringUtils.isBlank(pageVO.getOrder())) {
+            example.setOrderByClause(pageVO.getSort() + " " + pageVO.getOrder());
         }
 
-        List<ChcTravelSchedule> rows = chcTravelScheduleService.selectByExampleForStartPage(example, pageNum, pageSize);
+        List<ChcTravelSchedule> rows = chcTravelScheduleService.selectByExampleForStartPage(example,  pageVO.getPage(), pageVO.getRows());
         long total = chcTravelScheduleService.countByExample(example);
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);

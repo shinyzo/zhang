@@ -3,13 +3,13 @@
 <mapper namespace="com.lming.zhang.upms.dao.mapper.UpmsSystemMapper">
   <resultMap id="BaseResultMap" type="com.lming.zhang.upms.dao.model.UpmsSystem">
     <id column="system_id" jdbcType="INTEGER" property="systemId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="basepath" jdbcType="VARCHAR" property="basepath" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="banner" jdbcType="VARCHAR" property="banner" />
     <result column="theme" jdbcType="VARCHAR" property="theme" />
-    <result column="basepath" jdbcType="VARCHAR" property="basepath" />
     <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="ctime" jdbcType="BIGINT" property="ctime" />
     <result column="orders" jdbcType="BIGINT" property="orders" />
@@ -73,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    system_id, icon, banner, theme, basepath, status, name, title, description, ctime, 
+    system_id, name, title, basepath, icon, banner, theme, status, description, ctime, 
     orders
   </sql>
   <select id="selectByExample" parameterType="com.lming.zhang.upms.dao.model.UpmsSystemExample" resultMap="BaseResultMap">
@@ -107,13 +107,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.lming.zhang.upms.dao.model.UpmsSystem">
-    insert into upms_system (system_id, icon, banner, 
-      theme, basepath, status, 
-      name, title, description, 
+    insert into upms_system (system_id, name, title, 
+      basepath, icon, banner, 
+      theme, status, description, 
       ctime, orders)
-    values (#{systemId,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{banner,jdbcType=VARCHAR}, 
-      #{theme,jdbcType=VARCHAR}, #{basepath,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{name,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+    values (#{systemId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{basepath,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{banner,jdbcType=VARCHAR}, 
+      #{theme,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{description,jdbcType=VARCHAR}, 
       #{ctime,jdbcType=BIGINT}, #{orders,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.lming.zhang.upms.dao.model.UpmsSystem">
@@ -121,6 +121,15 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="systemId != null">
         system_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="basepath != null">
+        basepath,
       </if>
       <if test="icon != null">
         icon,
@@ -131,17 +140,8 @@
       <if test="theme != null">
         theme,
       </if>
-      <if test="basepath != null">
-        basepath,
-      </if>
       <if test="status != null">
         status,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="title != null">
-        title,
       </if>
       <if test="description != null">
         description,
@@ -157,6 +157,15 @@
       <if test="systemId != null">
         #{systemId,jdbcType=INTEGER},
       </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="basepath != null">
+        #{basepath,jdbcType=VARCHAR},
+      </if>
       <if test="icon != null">
         #{icon,jdbcType=VARCHAR},
       </if>
@@ -166,17 +175,8 @@
       <if test="theme != null">
         #{theme,jdbcType=VARCHAR},
       </if>
-      <if test="basepath != null">
-        #{basepath,jdbcType=VARCHAR},
-      </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
       </if>
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
@@ -201,6 +201,15 @@
       <if test="record.systemId != null">
         system_id = #{record.systemId,jdbcType=INTEGER},
       </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.basepath != null">
+        basepath = #{record.basepath,jdbcType=VARCHAR},
+      </if>
       <if test="record.icon != null">
         icon = #{record.icon,jdbcType=VARCHAR},
       </if>
@@ -210,17 +219,8 @@
       <if test="record.theme != null">
         theme = #{record.theme,jdbcType=VARCHAR},
       </if>
-      <if test="record.basepath != null">
-        basepath = #{record.basepath,jdbcType=VARCHAR},
-      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
-      </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.title != null">
-        title = #{record.title,jdbcType=VARCHAR},
       </if>
       <if test="record.description != null">
         description = #{record.description,jdbcType=VARCHAR},
@@ -239,13 +239,13 @@
   <update id="updateByExample" parameterType="map">
     update upms_system
     set system_id = #{record.systemId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      basepath = #{record.basepath,jdbcType=VARCHAR},
       icon = #{record.icon,jdbcType=VARCHAR},
       banner = #{record.banner,jdbcType=VARCHAR},
       theme = #{record.theme,jdbcType=VARCHAR},
-      basepath = #{record.basepath,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
-      name = #{record.name,jdbcType=VARCHAR},
-      title = #{record.title,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
       ctime = #{record.ctime,jdbcType=BIGINT},
       orders = #{record.orders,jdbcType=BIGINT}
@@ -256,6 +256,15 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.lming.zhang.upms.dao.model.UpmsSystem">
     update upms_system
     <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="basepath != null">
+        basepath = #{basepath,jdbcType=VARCHAR},
+      </if>
       <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
       </if>
@@ -265,17 +274,8 @@
       <if test="theme != null">
         theme = #{theme,jdbcType=VARCHAR},
       </if>
-      <if test="basepath != null">
-        basepath = #{basepath,jdbcType=VARCHAR},
-      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
@@ -291,13 +291,13 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lming.zhang.upms.dao.model.UpmsSystem">
     update upms_system
-    set icon = #{icon,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      basepath = #{basepath,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
       banner = #{banner,jdbcType=VARCHAR},
       theme = #{theme,jdbcType=VARCHAR},
-      basepath = #{basepath,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
-      name = #{name,jdbcType=VARCHAR},
-      title = #{title,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       ctime = #{ctime,jdbcType=BIGINT},
       orders = #{orders,jdbcType=BIGINT}

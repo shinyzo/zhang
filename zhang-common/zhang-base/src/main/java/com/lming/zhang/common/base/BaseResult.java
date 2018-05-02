@@ -23,10 +23,6 @@ public class BaseResult<T> implements Serializable {
      */
     public T data;
 
-    public BaseResult() {
-
-    }
-
     public BaseResult(Integer code, String msg, T data) {
         this.code = code;
         this.msg = msg;

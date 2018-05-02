@@ -206,18 +206,18 @@ public class MybatisGeneratorUtil {
 			}
 
 			// 生成controller
-			File controllerFile = new File(controller);
-			if (!controllerFile.exists()) {
-				VelocityContext context = new VelocityContext();
-				context.put("package_name", packageName);
-				context.put("model", model);
-				context.put("modelname",model);
-				context.put("mapper", StringUtil.toLowerCaseFirstOne(model));
-				context.put("ctime", ctime);
-				context.put("shortmodel",model.toLowerCase());
-				VelocityUtil.generate(controller_vm, controller, context);
-				System.out.println(controller);
-			}
+//			File controllerFile = new File(controller);
+//			if (!controllerFile.exists()) {
+//				VelocityContext context = new VelocityContext();
+//				context.put("package_name", packageName);
+//				context.put("model", model);
+//				context.put("modelname",model);
+//				context.put("mapper", StringUtil.toLowerCaseFirstOne(model));
+//				context.put("ctime", ctime);
+//				context.put("shortmodel",model.toLowerCase());
+//				VelocityUtil.generate(controller_vm, controller, context);
+//				System.out.println(controller);
+//			}
 		}
 		System.out.println("========== 结束生成Service ==========");
 	}

@@ -15,6 +15,9 @@ import java.util.Map;
  */
 public class Generator {
 
+
+	private static boolean controller = false;
+
 	// 根据命名规范，只修改此常量值即可
 	private static String MODULE = "zhang-upms";
 	private static String DATABASE = "chc";

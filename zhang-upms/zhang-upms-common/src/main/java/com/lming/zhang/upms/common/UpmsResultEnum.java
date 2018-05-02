@@ -17,7 +17,7 @@ public enum UpmsResultEnum{
     USER_LOCKED(1003,"用户已被锁定！"),
     LOGIN_FAILED(1005,"用户名或密码不正确！"),
 
-    INVALID_LENGTH(1006,"长度不合法！"),
+    INVALID_LENGTH(1006,"%s长度不合法！"),
 
     APPID_EMPTY(1007,"appid为空！"),
     SYSTEM_NOT_REGISTER(1008,"未注册的系统");

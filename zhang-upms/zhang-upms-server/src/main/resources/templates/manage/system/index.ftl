@@ -35,9 +35,9 @@
             <#list buttonPermissions as item>
                 <@shiro.hasPermission name="${item.permissionValue}">
                     <a href="javascript:void(0)"
-                       onclick="btnopt('${item.name}','${item.uri}'),'${item.permissionId}'"
+                       onclick="btnopt('${item.opertype}','${item.name}','${item.uri}'),'${item.permissionId}'"
                        class="easyui-linkbutton" data-options="iconCls:'${item.icon}'">
-                        ${item.name},${item.permissionId}
+                        ${item.name}
                     </a>
                 </@shiro.hasPermission>
             </#list>
@@ -52,6 +52,9 @@
 
         </table>
     </div>
+
+    <div id="createBox"></div>
+    <div id="updateBox"></div>
 
 
     <#include "/inc/footer.ftl"/>

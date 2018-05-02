@@ -1,7 +1,5 @@
 package com.lming.zhang.chc.personal.app.controller;
 
-import com.lming.zhang.hospital.common.ResultVO;
-import com.lming.zhang.hospital.common.ResultVOUtils;
 import com.lming.zhang.hospital.dao.model.ChcSubject;
 import com.lming.zhang.hospital.dao.model.ChcSubjectExample;
 import com.lming.zhang.hospital.rpc.api.ChcSubjectService;

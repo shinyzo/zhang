@@ -4,6 +4,7 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.lming.zhang.common.validator.LengthValidator;
+import com.lming.zhang.upms.common.UpmsPageVO;
 import com.lming.zhang.upms.common.UpmsResult;
 import com.lming.zhang.upms.common.UpmsResultEnum;
 import com.lming.zhang.upms.dao.model.UpmsPermission;
@@ -12,6 +13,7 @@ import com.lming.zhang.upms.dao.model.UpmsSystem;
 import com.lming.zhang.upms.dao.model.UpmsSystemExample;
 import com.lming.zhang.upms.rpc.api.UpmsPermissionService;
 import com.lming.zhang.upms.rpc.api.UpmsSystemService;
+import com.lming.zhang.upms.server.form.UpmsSystemQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -62,22 +64,17 @@ public class UpmsSystemController {
 	@RequiresPermissions("upms:system:read")
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
-	public Object list(
-			@RequestParam(required = false, defaultValue = "1", value = "page") int pageNum,
-			@RequestParam(required = false, defaultValue = "10", value = "rows") int pageSize,
-			@RequestParam(required = false, defaultValue = "", value = "title") String title,
-			@RequestParam(required = false, value = "sort") String sort,
-			@RequestParam(required = false, value = "order") String order) {
+	public Object list(UpmsSystemQuery upmsSystemQuery, UpmsPageVO pageVO) {
 		UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
-		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-			upmsSystemExample.setOrderByClause(sort + " " + order);
+		if (!StringUtils.isBlank(pageVO.getSort()) && !StringUtils.isBlank(pageVO.getOrder())) {
+			upmsSystemExample.setOrderByClause(pageVO.getSort() + " " + pageVO.getOrder());
 		}
-		if (StringUtils.isNotBlank(title)) {
+		if (StringUtils.isNotBlank(upmsSystemQuery.getTitle())) {
 			upmsSystemExample.or()
-					.andTitleLike("%" + title + "%");
+					.andTitleLike("%" + upmsSystemQuery.getTitle() + "%");
 		}
 
-		List<UpmsSystem> upmsSystemList = upmsSystemService.selectByExampleForStartPage(upmsSystemExample, pageNum, pageSize);
+		List<UpmsSystem> upmsSystemList = upmsSystemService.selectByExampleForStartPage(upmsSystemExample, pageVO.getPage(), pageVO.getRows());
 		long total = upmsSystemService.countByExample(upmsSystemExample);
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", upmsSystemList);
@@ -103,7 +100,8 @@ public class UpmsSystemController {
 				.doValidate()
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {
-			return new UpmsResult(UpmsResultEnum.INVALID_LENGTH, result.getErrors());
+			return new UpmsResult(UpmsResultEnum.INVALID_LENGTH.getCode(),
+                    String.format(UpmsResultEnum.INVALID_LENGTH.getMsg(),result.getErrors().get(0).getField()));
 		}
 		long time = System.currentTimeMillis();
 		upmsSystem.setCtime(time);

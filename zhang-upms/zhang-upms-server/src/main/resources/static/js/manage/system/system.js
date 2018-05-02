@@ -33,17 +33,17 @@ $(document).ready(function(){
         beforePageText: '第',//页数文本框前显示的汉字 
         afterPageText: '页    共 {pages} 页', 
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
-    }); 
+    });
+
+
+    initValidateBox();
 });
-/**
- * Enter键监听
- * @return
- */
-function checkKey(){
-	if(event.keyCode=='13'){
-		searchOrReload();
-	}
+
+function initValidateBox(){
+
+
 }
+
 /**
  * 按钮操作
  * @param title
@@ -51,11 +51,22 @@ function checkKey(){
  * @param righturl
  * @return
  */
-function btnopt(title,rightUri,permissionId)
+function btnopt(operType,title,rightUri,permissionId)
 {
-
-
-
+    switch (operType){
+        case 'ADD':
+            addData(title,rightUri,permissionId);
+            break;
+        case 'UPDATE':
+            update(title,rightUri,permissionId);
+            break;
+        case 'DELETE':
+            delete(title,rightUri,permissionId);
+            break;
+        default:
+            alert('没有此操作类型对应的方法，请核查！');
+            break;
+    }
 }
 /**
  * 添加数据
@@ -63,54 +74,77 @@ function btnopt(title,rightUri,permissionId)
  * @param righturl
  * @return
  */
-function addData(title,righturl,rightid)
-{
-	
-
- 
-}
-
-
-function addRoleSave(righturl,rightid){
-
-	
-}
-
-/**
- * 修改数据
- * @return
- */
-function modifyData(title,righturl,rightid)
+function addData(title,rightUri,permissionId)
 {
 
-	
-	
+	var rightUri = BASE_PATH + rightUri;
+    $("#createBox").dialog({
+        title: title,
+        width: 540,
+        height: 280,
+        closed: false,
+        cache: false,
+        href: rightUri,
+        modal: true,
+        buttons:[
+				{
+					iconCls: 'icon-save',
+					text:'保存',
+					handler: function(){
+						addDataSave(rightUri);
+					}
+				},
+            	{
+					iconCls: 'icon-cancel',
+					text:'取消',
+					handler: function(){
+						$('#createBox').dialog('close');
+					}
+            	}
+        ]
+    });
+
 }
 
 
-/**
- * 修改保存
- * @return
- */
-function modifyRoleSave(righturl,rightid,roleid)
-{
+function addDataSave(rightUri) {
 
+    if(!$("#createForm").form('validate'))
+    {
+		return false;
+    }
+    $("#createForm").form('submit',{
+        url:rightUri,
+        ajax:true,
+        dataType:'json',
+        onSubmit:function(param){
+
+        },
+        success:function(result){
+            var result = eval('(' + result + ')');
+            if(result.code == SUCCESS_CODE)
+            {
+                show(result.msg);
+                $("#createBox").dialog('close');
+                searchOrReload();
+            }
+            else
+            {
+                alert(result.msg);
+            }
+        },
+        onLoadError:function(){
+            error('系统错误,请稍后重试！');
+        }
+
+    })
 
 
 }
 
 
-/**
- * 删除数据
- * @return
- */
-function deleteData(title,righturl,rightid)
-{
 
 
-	
-	
-}
 
 
 

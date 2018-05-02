@@ -417,6 +417,76 @@ public class UpmsPermissionExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andOpertypeIsNull() {
+            addCriterion("opertype is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpertypeIsNotNull() {
+            addCriterion("opertype is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpertypeEqualTo(String value) {
+            addCriterion("opertype =", value, "opertype");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpertypeNotEqualTo(String value) {
+            addCriterion("opertype <>", value, "opertype");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpertypeGreaterThan(String value) {
+            addCriterion("opertype >", value, "opertype");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpertypeGreaterThanOrEqualTo(String value) {
+            addCriterion("opertype >=", value, "opertype");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpertypeLessThan(String value) {
+            addCriterion("opertype <", value, "opertype");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpertypeLessThanOrEqualTo(String value) {
+            addCriterion("opertype <=", value, "opertype");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpertypeLike(String value) {
+            addCriterion("opertype like", value, "opertype");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpertypeNotLike(String value) {
+            addCriterion("opertype not like", value, "opertype");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpertypeIn(List<String> values) {
+            addCriterion("opertype in", values, "opertype");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpertypeNotIn(List<String> values) {
+            addCriterion("opertype not in", values, "opertype");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpertypeBetween(String value1, String value2) {
+            addCriterion("opertype between", value1, value2, "opertype");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpertypeNotBetween(String value1, String value2) {
+            addCriterion("opertype not between", value1, value2, "opertype");
+            return (Criteria) this;
+        }
+
         public Criteria andPermissionValueIsNull() {
             addCriterion("permission_value is null");
             return (Criteria) this;

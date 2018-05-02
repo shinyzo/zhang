@@ -39,6 +39,13 @@ public class UpmsPermission implements Serializable {
     private Byte type;
 
     /**
+     * 操作类型，按钮配置区分
+     *
+     * @mbg.generated
+     */
+    private String opertype;
+
+    /**
      * 权限值
      *
      * @mbg.generated
@@ -122,6 +129,14 @@ public class UpmsPermission implements Serializable {
         this.type = type;
     }
 
+    public String getOpertype() {
+        return opertype;
+    }
+
+    public void setOpertype(String opertype) {
+        this.opertype = opertype;
+    }
+
     public String getPermissionValue() {
         return permissionValue;
     }
@@ -181,6 +196,7 @@ public class UpmsPermission implements Serializable {
         sb.append(", pid=").append(pid);
         sb.append(", name=").append(name);
         sb.append(", type=").append(type);
+        sb.append(", opertype=").append(opertype);
         sb.append(", permissionValue=").append(permissionValue);
         sb.append(", uri=").append(uri);
         sb.append(", icon=").append(icon);
@@ -208,6 +224,7 @@ public class UpmsPermission implements Serializable {
             && (this.getPid() == null ? other.getPid() == null : this.getPid().equals(other.getPid()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
+            && (this.getOpertype() == null ? other.getOpertype() == null : this.getOpertype().equals(other.getOpertype()))
             && (this.getPermissionValue() == null ? other.getPermissionValue() == null : this.getPermissionValue().equals(other.getPermissionValue()))
             && (this.getUri() == null ? other.getUri() == null : this.getUri().equals(other.getUri()))
             && (this.getIcon() == null ? other.getIcon() == null : this.getIcon().equals(other.getIcon()))
@@ -225,6 +242,7 @@ public class UpmsPermission implements Serializable {
         result = prime * result + ((getPid() == null) ? 0 : getPid().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
+        result = prime * result + ((getOpertype() == null) ? 0 : getOpertype().hashCode());
         result = prime * result + ((getPermissionValue() == null) ? 0 : getPermissionValue().hashCode());
         result = prime * result + ((getUri() == null) ? 0 : getUri().hashCode());
         result = prime * result + ((getIcon() == null) ? 0 : getIcon().hashCode());

@@ -70,7 +70,7 @@ function changeSystem(systemInfo){
                             {
                                 var url = systemUrl + subPermission.uri+"?permissionId="+subPermission.permissionId;
                                 secondMenu +=
-                                    "<li iconCls='icon-chart-organisation' style='padding:8px'>" +
+                                    "<li iconCls='icon-chart-organisation' class='menu_li' style='padding:8px'>" +
                                        "<a href='javascript:void(0)' iframe='0' data-icon='icon-chart-organisation' onclick=\"addTab('"+subPermission.name+"','"+url+"','true')\">"+subPermission.name+"</a>"
                                     "</li>";
                             }
