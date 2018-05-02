@@ -1,5 +1,13 @@
 // 基础数据维护
 var dgId = "#dgBox";
+
+var createBox = "#createBox";
+var createForm = "#createForm";
+
+var updateBox = "#updateBox";
+var updateForm = "#updateForm";
+
+
 var queryUrl = BASE_PATH + "/manage/system/list";
 
 $(document).ready(function(){
@@ -58,16 +66,149 @@ function btnopt(operType,title,rightUri,permissionId)
             addData(title,rightUri,permissionId);
             break;
         case 'UPDATE':
-            update(title,rightUri,permissionId);
+            updateData(title,rightUri,permissionId);
             break;
         case 'DELETE':
-            delete(title,rightUri,permissionId);
+            deleteData(title,rightUri,permissionId);
             break;
         default:
             alert('没有此操作类型对应的方法，请核查！');
             break;
     }
 }
+
+function deleteData(title,rightUri,permissionId){
+
+    var rows = $(dgId).datagrid('getSelections');
+    if(rows.length<=0)
+    {
+        alert("请选择需要操作的记录！");
+        return false;
+    }
+    var ids = new Array();
+    for (var i in rows) {
+        ids.push(rows[i].systemId);
+    }
+    var requestUrl = BASE_PATH + rightUri+"/"+ids.join("-") ;
+
+    $.messager.confirm(title,"确认删除系统吗？",function(result){
+        if(result)
+        {
+            $.ajax( {
+                url: requestUrl,
+                async:false,
+                type:"get",
+                data: {},
+                dataType:'json',
+                success:function(result){
+                    // var result = eval('(' + result + ')');
+                    if (result.code == SUCCESS_CODE) {
+                        show(result.msg);
+                        searchOrReload();
+                    }
+                    else {
+                        alert(result.msg);
+                    }
+                },
+                error:function(){
+                    error('系统错误,请稍后重试！');
+                }
+            });
+        }
+
+
+    })
+
+
+
+}
+
+/**
+ * 加载修改页面
+ * @param title
+ * @param rightUri
+ * @param permissionId
+ * @returns {boolean}
+ */
+function updateData(title,rightUri,permissionId){
+
+    var rows = $(dgId).datagrid('getSelections');
+    if(rows.length<=0)
+    {
+        alert("请选择需要操作的记录！");
+        return false;
+    }
+
+    if(rows.length>1)
+    {
+        alert("仅允许修改单条记录！");
+        return false;
+    }
+
+    var rightUri = BASE_PATH + rightUri+"/"+rows[0].systemId;
+    $(updateBox).dialog({
+        title: title,
+        width: 600,
+        height: 320,
+        closed: false,
+        cache: false,
+        href: rightUri,
+        modal: true,
+        buttons:[
+            {
+                iconCls: 'icon-save',
+                text:'保存',
+                handler: function(){
+                    updateDataSave(rightUri);
+                }
+            },
+            {
+                iconCls: 'icon-cancel',
+                text:'取消',
+                handler: function(){
+                    $(updateBox).dialog('close');
+                }
+            }
+        ]
+    });
+
+}
+
+/**
+ * 修改数据保存
+ * @param rightUri
+ * @returns {boolean}
+ */
+function updateDataSave(rightUri) {
+
+    if (!$("#updateForm").form('validate')) {
+        return false;
+    }
+    $(updateForm).form('submit', {
+        url: rightUri,
+        ajax: true,
+        dataType: 'json',
+        onSubmit: function (param) {
+
+        },
+        success: function (result) {
+            var result = eval('(' + result + ')');
+            if (result.code == SUCCESS_CODE) {
+                show(result.msg);
+                $(updateBox).dialog('close');
+                searchOrReload();
+            }
+            else {
+                alert(result.msg);
+            }
+        },
+        onLoadError: function () {
+            error('系统错误,请稍后重试！');
+        }
+
+    })
+}
+
 /**
  * 添加数据
  * @param title
@@ -78,10 +219,10 @@ function addData(title,rightUri,permissionId)
 {
 
 	var rightUri = BASE_PATH + rightUri;
-    $("#createBox").dialog({
+    $(createBox).dialog({
         title: title,
-        width: 540,
-        height: 280,
+        width: 600,
+        height: 320,
         closed: false,
         cache: false,
         href: rightUri,
@@ -98,7 +239,7 @@ function addData(title,rightUri,permissionId)
 					iconCls: 'icon-cancel',
 					text:'取消',
 					handler: function(){
-						$('#createBox').dialog('close');
+						$(createBox).dialog('close');
 					}
             	}
         ]
@@ -109,11 +250,11 @@ function addData(title,rightUri,permissionId)
 
 function addDataSave(rightUri) {
 
-    if(!$("#createForm").form('validate'))
+    if(!$(createForm).form('validate'))
     {
 		return false;
     }
-    $("#createForm").form('submit',{
+    $(createForm).form('submit',{
         url:rightUri,
         ajax:true,
         dataType:'json',
@@ -125,7 +266,7 @@ function addDataSave(rightUri) {
             if(result.code == SUCCESS_CODE)
             {
                 show(result.msg);
-                $("#createBox").dialog('close');
+                $(createBox).dialog('close');
                 searchOrReload();
             }
             else

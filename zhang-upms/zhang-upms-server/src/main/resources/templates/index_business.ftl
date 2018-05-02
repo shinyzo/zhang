@@ -23,9 +23,9 @@
 					<select class="easyui-combobox" id="system_switch" style="width:172px;">
 						<#list upmsSystems as upmsSystem>
                             <#if upmsSystem_index == 0>
-                                <option value="${upmsSystem.systemId},${upmsSystem.basepath},${upmsSystem.title}" system="${upmsSystem.basepath}" selected="selected">${upmsSystem.title}</option>
+                                <option value="${upmsSystem.systemId},${upmsSystem.basepath!},${upmsSystem.title}" systemurl="${upmsSystem.basepath!}" selected="selected">${upmsSystem.title!}</option>
                             <#else >
-                                <option value="${upmsSystem.systemId},${upmsSystem.basepath},${upmsSystem.title}" system="${upmsSystem.basepath}">${upmsSystem.title}</option>
+                                <option value="${upmsSystem.systemId},${upmsSystem.basepath!},${upmsSystem.title}" systemurl="${upmsSystem.basepath!}">${upmsSystem.title!}</option>
                             </#if>
 						</#list>
 					</select>

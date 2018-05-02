@@ -125,7 +125,7 @@ public class UpmsSystemController {
 	public String update(@PathVariable("id") int id, ModelMap modelMap) {
 		UpmsSystem system = upmsSystemService.selectByPrimaryKey(id);
 		modelMap.put("system", system);
-		return "/manage/system/update.jsp";
+		return "/manage/system/update";
 	}
 
 	@ApiOperation(value = "修改系统")
