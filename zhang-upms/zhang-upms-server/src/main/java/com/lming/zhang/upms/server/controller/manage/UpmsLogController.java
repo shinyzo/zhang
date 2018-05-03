@@ -2,11 +2,15 @@ package com.lming.zhang.upms.server.controller.manage;
 
 
 import com.lming.zhang.common.util.StringUtil;
+import com.lming.zhang.upms.common.UpmsPageVO;
 import com.lming.zhang.upms.common.UpmsResult;
 import com.lming.zhang.upms.common.UpmsResultEnum;
 import com.lming.zhang.upms.dao.model.UpmsLog;
 import com.lming.zhang.upms.dao.model.UpmsLogExample;
+import com.lming.zhang.upms.dao.model.UpmsPermission;
+import com.lming.zhang.upms.dao.model.UpmsPermissionExample;
 import com.lming.zhang.upms.rpc.api.UpmsLogService;
+import com.lming.zhang.upms.rpc.api.UpmsPermissionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -15,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -34,12 +39,22 @@ public class UpmsLogController {
 
     @Autowired
     private UpmsLogService upmsLogService;
+    @Autowired
+    private UpmsPermissionService upmsPermissionService;
 
     @ApiOperation(value = "日志首页")
     @RequiresPermissions("upms:log:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
-        return "/manage/log/index.jsp";
+    public String index(@RequestParam("permissionId") Integer permissionId,
+                        ModelMap modelMap) {
+        // 加载菜单下的所有按钮
+        UpmsPermissionExample example = new UpmsPermissionExample();
+        example.or().andPidEqualTo(permissionId).andStatusEqualTo((byte) 1);
+
+        List<UpmsPermission> buttonPermissions = upmsPermissionService.selectByExample(example);
+        modelMap.put("buttonPermissions",buttonPermissions);
+
+        return "/manage/log/index";
     }
 
     @ApiOperation(value = "日志列表")
@@ -47,20 +62,27 @@ public class UpmsLogController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Object list(
-            @RequestParam(required = false, defaultValue = "1", value = "page") int pageNum,
-            @RequestParam(required = false, defaultValue = "10", value = "rows") int pageSize,
-            @RequestParam(required = false, defaultValue = "", value = "search") String search,
-            @RequestParam(required = false, value = "sort") String sort,
-            @RequestParam(required = false, value = "order") String order) {
+            UpmsPageVO pageVO,
+            @RequestParam(required = false, defaultValue = "", value = "username") String username,
+            @RequestParam(required = false, defaultValue = "", value = "ip") String ip,
+            @RequestParam(required = false, defaultValue = "", value = "description") String description) {
         UpmsLogExample upmsLogExample = new UpmsLogExample();
-        if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-            upmsLogExample.setOrderByClause(StringUtil.humpToLine(sort) + " " + order);
+        if (!StringUtils.isBlank(pageVO.getSort()) && !StringUtils.isBlank(pageVO.getOrder())) {
+            upmsLogExample.setOrderByClause(StringUtil.humpToLine(pageVO.getSort()) + " " + pageVO.getOrder());
         }
-        if (StringUtils.isNotBlank(search)) {
-            upmsLogExample.or()
-                    .andDescriptionLike("%" + search + "%");
+        if (StringUtils.isNotBlank(username)) {
+            upmsLogExample.createCriteria()
+                    .andUsernameEqualTo( username );
         }
-        List<UpmsLog> rows = upmsLogService.selectByExampleForStartPage(upmsLogExample, pageNum, pageSize);
+        if (StringUtils.isNotBlank(description)) {
+            upmsLogExample.createCriteria()
+                    .andDescriptionLike("%" + description + "%");
+        }
+        if (StringUtils.isNotBlank(ip)) {
+            upmsLogExample.createCriteria()
+                    .andIpLike("%" + ip + "%");
+        }
+        List<UpmsLog> rows = upmsLogService.selectByExampleForStartPage(upmsLogExample, pageVO.getPage(), pageVO.getRows());
         long total = upmsLogService.countByExample(upmsLogExample);
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);

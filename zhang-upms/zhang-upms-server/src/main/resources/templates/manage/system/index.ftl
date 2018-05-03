@@ -15,27 +15,27 @@
 
 <body>
 
-    <div id="query_container">
-        <div id="query_box">
-            <form id="query_form">
+    <div id="queryContainer">
+        <div id="queryBox">
+            <form id="queryForm">
                 <table>
                     <tr>
                         <td >系统名称：</td>
                         <td ><input type="text" class="easyui-textbox" id="title" /></td>
                         <td  >
                             <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" onclick="searchOrReload()">查询</a>
-                            <a href="javascript:void(0);" class="easyui-linkbutton" onclick="clear()">重置</a>
+                            <a href="javascript:void(0);" class="easyui-linkbutton" onclick="clearForm()">重置</a>
                         </td>
                     </tr>
                 </table>
             </form>
         </div>
 
-        <div id="button_box">
+        <div id="buttonBox">
             <#list buttonPermissions as item>
                 <@shiro.hasPermission name="${item.permissionValue}">
                     <a href="javascript:void(0)"
-                       onclick="btnopt('${item.opertype}','${item.name}','${item.uri}'),'${item.permissionId}'"
+                       onclick="btnopt('${item.opertype!}','${item.name!}','${item.uri!}'),'${item.permissionId!}'"
                        class="easyui-linkbutton" data-options="iconCls:'${item.icon}'">
                         ${item.name}
                     </a>

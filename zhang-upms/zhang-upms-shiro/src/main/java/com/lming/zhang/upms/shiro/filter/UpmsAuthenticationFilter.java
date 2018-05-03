@@ -56,7 +56,7 @@ public class UpmsAuthenticationFilter extends AuthenticationFilter {
         appId = PropertiesFileUtil.getInstance("zhang-upms-client").get("zhang.upms.appId");
 
         // 判断请求类型
-        log.info("==> upmsType={},requestUri={}",
+        log.info(">>>> upmsType=[{}],requestUri=[{}]",
                 upmsType,
                 httpServletRequest.getRequestURI());
 

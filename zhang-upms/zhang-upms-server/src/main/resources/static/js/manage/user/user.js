@@ -1,69 +1,56 @@
-var queryUrl = "admin/user/queryuser.do";
+// 基础数据维护
+var dgId = "#dgBox";
 
+var createBox = "#createBox";
+var createForm = "#createForm";
+
+var updateBox = "#updateBox";
+var updateForm = "#updateForm";
+
+var queryUrl = BASE_PATH + "/manage/user/list";
+// 修改删除用的主键列
+var primaryKey = "userId";
 
 $(document).ready(function(){
-	
-	
-	// 隐藏其他组件
 
-
-	// 初始化加载数据
-	$("#dg").datagrid({  
+	$(dgId).datagrid({
 		url:queryUrl,         //加载的URL
     	isField:"fldId",
     	frozenColumns:[[{field:'ck',checkbox:true}]],  // 冻结列在左侧
-    	queryParams:{"tokenid":getTokenid()},
-    	striped:true,
+    	queryParams:{},
+		method:'GET',
+    	striped:true,          //是否显示斑马线效果
 		rownumbers:true,       // 显示行号
 		remotesort: true,
+		singleSelect:false,
 		pagination:true,       // 显示分页
-		singleSelect:false,     // 只能选中单行
-		pageSize: pageSize,
-		pageList:pageList,
+		pageSize: PAGE_SIZE,
+		pageList:PAGE_LIST,
 		loadMsg:'数据加载中，请稍等...', 
-    	fit:false,				 // 自适应大小，为true数据不展示
-    	fitColumns:true,         //自动使列适应表格宽度以防止出现水平滚动
-    	nowrap:true,             //超出列宽自动截取
-    	columns:getColumnsOpt(), // 列数据
-    	toolbar:'#headBox',       // 工具栏
+    	fit:false,				// //自适应大小
+    	fitColumns:true,        //自动使列适应表格宽度以防止出现水平滚动
+    	nowrap:true,            //超出列宽自动截取
+    	columns:getColumnsOpt(),
+    	toolbar:'#queryContainer',
     	onLoadError : function() {
-    		error('数据加载失败！');
-    	}	
+        	alert('数据加载失败!');
+    	}
     });  
 
 	 //设置分页控件 
-	$('#dg').datagrid('getPager').pagination({ 
+	$(dgId).datagrid('getPager').pagination({
         beforePageText: '第',//页数文本框前显示的汉字 
         afterPageText: '页    共 {pages} 页', 
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
-    }); 
-	
+    });
+
+
+    initValidateBox();
 });
 
+function initValidateBox(){
 
 
-/**
- * 加载数据表格列表项
- * @return
- */
-function getColumnsOpt()
-{
-	var opt = 
-		[[
-		  	{field:'id',title:'id',width:15,align:'left',sortable:true},
-		  	{field:'loginname',title:'登录账号',width:15,align:'left',sortable:true},
-		  	{field:'usertype',title:'用户类型',width:15,align:'left',sortable:true},
-		  	{field:'uphone',title:'联系电话',width:15,align:'left',sortable:true},
-		  	{field:'uqq',title:'QQ',width:15,align:'left',sortable:true},
-		  	{field:'uaddress',title:'地址',width:15,align:'left',sortable:true},
-		  	{field:'ustatus',title:'用户状态',width:15,align:'left',sortable:true},
-		  	{field:'roleid',title:'权限id',width:15,align:'left',sortable:true},
-		  	{field:'lastlogintime',title:'最后登录时间',width:15,align:'left',sortable:true},
-		  	{field:'lastloginip',title:'最后登录ip',width:15,align:'left',sortable:true},
-		  	{field:'logincount',title:'登录次数',width:15,align:'left',sortable:true}
-		  
-	   	]];
-	   	return opt;
 }
 
 /**
@@ -73,29 +60,279 @@ function getColumnsOpt()
  * @param righturl
  * @return
  */
-function btnopt(opttype,title,righturl,rightid)
+function btnopt(operType,title,rightUri,permissionId)
 {
-	switch (opttype) {	
-		case '1':
-			modifyData(title,righturl,rightid);
-			break;
-		default:
-			alert("无此操作类型对应的方法!");
-			break;
-	}
+    switch (operType){
+        case 'ADD':
+            addData(title,rightUri,permissionId);
+            break;
+        case 'UPDATE':
+            updateData(title,rightUri,permissionId);
+            break;
+        case 'DELETE':
+            deleteData(title,rightUri,permissionId);
+            break;
+        default:
+            alert('没有此操作类型对应的方法，请核查！');
+            break;
+    }
+}
+
+function deleteData(title,rightUri,permissionId){
+
+    var rows = $(dgId).datagrid('getSelections');
+    if(rows.length<=0)
+    {
+        alert("请选择需要操作的记录！");
+        return false;
+    }
+    var ids = new Array();
+    for (var i in rows) {
+        ids.push(rows[i][primaryKey]);
+    }
+    var requestUrl = BASE_PATH + rightUri+"/"+ids.join("-") ;
+
+    $.messager.confirm(title,"确认删除用户吗？",function(result){
+        if(result)
+        {
+            $.ajax( {
+                url: requestUrl,
+                async:false,
+                type:"get",
+                data: {},
+                dataType:'json',
+                success:function(result){
+                    // var result = eval('(' + result + ')');
+                    if (result.code == SUCCESS_CODE) {
+                        show(result.msg);
+                        searchOrReload();
+                    }
+                    else {
+                        alert(result.msg);
+                    }
+                },
+                error:function(){
+                    error('系统错误,请稍后重试！');
+                }
+            });
+        }
+
+
+    })
+
+
+
+}
+
+/**
+ * 加载修改页面
+ * @param title
+ * @param rightUri
+ * @param permissionId
+ * @returns {boolean}
+ */
+function updateData(title,rightUri,permissionId){
+
+    var rows = $(dgId).datagrid('getSelections');
+    if(rows.length<=0)
+    {
+        alert("请选择需要操作的记录！");
+        return false;
+    }
+
+    if(rows.length>1)
+    {
+        alert("仅允许修改单条记录！");
+        return false;
+    }
+
+    var rightUri = BASE_PATH + rightUri+"/"+rows[0][primaryKey];
+    $(updateBox).dialog({
+        title: title,
+        width: 600,
+        height: 320,
+        closed: false,
+        cache: false,
+        href: rightUri,
+        modal: true,
+        buttons:[
+            {
+                iconCls: 'icon-save',
+                text:'保存',
+                handler: function(){
+                    updateDataSave(rightUri);
+                }
+            },
+            {
+                iconCls: 'icon-cancel',
+                text:'取消',
+                handler: function(){
+                    $(updateBox).dialog('close');
+                }
+            }
+        ]
+    });
+
+}
+
+/**
+ * 修改数据保存
+ * @param rightUri
+ * @returns {boolean}
+ */
+function updateDataSave(rightUri) {
+
+    if (!$("#updateForm").form('validate')) {
+        return false;
+    }
+    $(updateForm).form('submit', {
+        url: rightUri,
+        ajax: true,
+        dataType: 'json',
+        onSubmit: function (param) {
+
+        },
+        success: function (result) {
+            var result = eval('(' + result + ')');
+            if (result.code == SUCCESS_CODE) {
+                show(result.msg);
+                $(updateBox).dialog('close');
+                searchOrReload();
+            }
+            else {
+                alert(result.msg);
+            }
+        },
+        onLoadError: function () {
+            error('系统错误,请稍后重试！');
+        }
+
+    })
+}
+
+/**
+ * 添加数据
+ * @param title
+ * @param righturl
+ * @return
+ */
+function addData(title,rightUri,permissionId)
+{
+
+	var rightUri = BASE_PATH + rightUri;
+    $(createBox).dialog({
+        title: title,
+        width: 600,
+        height: 320,
+        closed: false,
+        cache: false,
+        href: rightUri,
+        modal: true,
+        buttons:[
+				{
+					iconCls: 'icon-save',
+					text:'保存',
+					handler: function(){
+						addDataSave(rightUri);
+					}
+				},
+            	{
+					iconCls: 'icon-cancel',
+					text:'取消',
+					handler: function(){
+						$(createBox).dialog('close');
+					}
+            	}
+        ]
+    });
 
 }
 
 
+function addDataSave(rightUri) {
+
+    if(!$(createForm).form('validate'))
+    {
+		return false;
+    }
+    $(createForm).form('submit',{
+        url:rightUri,
+        ajax:true,
+        dataType:'json',
+        onSubmit:function(param){
+
+        },
+        success:function(result){
+            var result = eval('(' + result + ')');
+            if(result.code == SUCCESS_CODE)
+            {
+                show(result.msg);
+                $(createBox).dialog('close');
+                searchOrReload();
+            }
+            else
+            {
+                alert(result.msg);
+            }
+        },
+        onLoadError:function(){
+            error('系统错误,请稍后重试！');
+        }
+
+    })
+
+
+}
+
+
+
+
+
+
+
+/**
+ * 展示列项
+ * @return
+ */
+function getColumnsOpt()
+{
+	var opt = 
+		[[
+		  	{field:'userId',title:'用户编号',width:10,align:'left',sortable:true},
+            {field:'username',title:'用户名',width:15,align:'left',sortable:true},
+            {field:'realname',title:'真实姓名',width:15,align:'left',sortable:true},
+	   		{field:'avatar',title:'头像',width:15,align:'left',sortable:true},
+            {field:'phone',title:'电话',width:15,align:'left',sortable:true},
+            {field:'email',title:'邮箱',width:15,align:'left',sortable:true},
+            {field:'sex',title:'性别',width:15,align:'left',sortable:true},
+            {field:'locked',title:'是否锁定',width:15,align:'left',sortable:true},
+            {field:'ctime',title:'创建时间',width:15,align:'left',sortable:true}
+	   	]];
+	   	return opt;
+}
+
+
+/**
+ * 查询或重新加载组件
+ * @param goodCode
+ * @param goodName
+ * @param goodTypeName
+ * @param goodState
+ * @return
+ */
 function searchOrReload(){
 
-	var queryParams = $("#dg").datagrid('options').queryParams;
-
-	queryParams['loginname'] = $('#loginname').val();
-	queryParams['tokenid'] = getTokenid();
+	var queryParams = $(dgId).datagrid('options').queryParams;
 	
-	$("#dg").datagrid('options').queryParams = queryParams;
-	$("#dg").datagrid('reload');
+	queryParams['username'] = $("#username").val();
+
+	$(dgId).datagrid('options').queryParams = queryParams;
+	$(dgId).datagrid('reload');
 }
 
+
+function clearForm(){
+
+    $('#queryForm').form('clear');
+}
 

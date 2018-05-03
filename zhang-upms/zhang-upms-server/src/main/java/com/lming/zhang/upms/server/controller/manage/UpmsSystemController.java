@@ -101,7 +101,7 @@ public class UpmsSystemController {
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {
 			return new UpmsResult(UpmsResultEnum.INVALID_LENGTH.getCode(),
-                    String.format(UpmsResultEnum.INVALID_LENGTH.getMsg(),result.getErrors().get(0).getField()));
+					result.getErrors().get(0).getErrorMsg());
 		}
 		long time = System.currentTimeMillis();
 		upmsSystem.setCtime(time);
@@ -139,7 +139,8 @@ public class UpmsSystemController {
 				.doValidate()
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {
-			return new UpmsResult(UpmsResultEnum.INVALID_LENGTH, result.getErrors());
+			return new UpmsResult(UpmsResultEnum.INVALID_LENGTH.getCode(),
+					result.getErrors().get(0).getErrorMsg());
 		}
 		upmsSystem.setSystemId(id);
 		int count = upmsSystemService.updateByPrimaryKeySelective(upmsSystem);

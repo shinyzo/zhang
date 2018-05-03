@@ -7,8 +7,9 @@ var createForm = "#createForm";
 var updateBox = "#updateBox";
 var updateForm = "#updateForm";
 
-var queryUrl = BASE_PATH + "/manage/system/list";
-var primaryKey = "systemId";
+var queryUrl = BASE_PATH + "/manage/permission/list";
+// 修改删除用的主键列
+var primaryKey = "permissionId";
 
 $(document).ready(function(){
 
@@ -91,7 +92,7 @@ function deleteData(title,rightUri,permissionId){
     }
     var requestUrl = BASE_PATH + rightUri+"/"+ids.join("-") ;
 
-    $.messager.confirm(title,"确认删除系统吗？",function(result){
+    $.messager.confirm(title,"确认删除用户吗？",function(result){
         if(result)
         {
             $.ajax( {
@@ -221,8 +222,8 @@ function addData(title,rightUri,permissionId)
 	var rightUri = BASE_PATH + rightUri;
     $(createBox).dialog({
         title: title,
-        width: 600,
-        height: 320,
+        width: 800,
+        height: 450,
         closed: false,
         cache: false,
         href: rightUri,
@@ -245,6 +246,8 @@ function addData(title,rightUri,permissionId)
         ]
     });
 
+    $.parser.parse();
+
 }
 
 
@@ -254,15 +257,39 @@ function addDataSave(rightUri) {
     {
 		return false;
     }
+
+
+
+
+
     $(createForm).form('submit',{
         url:rightUri,
         ajax:true,
         dataType:'json',
         onSubmit:function(param){
+            var node = $('#permissionTree').tree('getSelected');
+            if(node) {
+                if (node.attributes)
+                {
+                    // 点击的是系统节点
+                    param.systemId = node.id;
+                    param.pid = 0;
+                }
+                else
+                {
+                    // 点击的是系统下的菜单
+                    param.pid = node.id;
+                    param.systemId = 0;
+                }
 
+            }
+            else
+            {
+                alert("请选择系统节点或菜单节点");
+            }
         },
         success:function(result){
-            var result = eval('(' + result + ')');
+           // var result = eval('(' + result + ')');
             if(result.code == SUCCESS_CODE)
             {
                 show(result.msg);
@@ -297,15 +324,15 @@ function getColumnsOpt()
 {
 	var opt = 
 		[[
-		  	{field:'systemId',title:'系统编号',width:10,align:'left',sortable:true},
-            {field:'name',title:'系统Id',width:15,align:'left',sortable:true},
-            {field:'title',title:'系统名称',width:15,align:'left',sortable:true},
-            {field:'basepath',title:'项目地址',width:15,align:'left',sortable:true},
+		  	{field:'permissionId',title:'权限编号',width:10,align:'left',sortable:true},
+            {field:'systemId',title:'系统编号',width:15,align:'left',sortable:true},
+            {field:'name',title:'权限名称',width:15,align:'left',sortable:true},
+	   		{field:'type',title:'菜单类型',width:15,align:'left',sortable:true},
+            {field:'uri',title:'请求Uri',width:15,align:'left',sortable:true},
+            {field:'permissionValue',title:'权限值',width:15,align:'left',sortable:true},
+            {field:'opertype',title:'操作类型',width:15,align:'left',sortable:true},
             {field:'icon',title:'ICON',width:15,align:'left',sortable:true},
-            {field:'banner',title:'banner',width:15,align:'left',sortable:true},
-            {field:'theme',title:'样式颜色',width:15,align:'left',sortable:true},
             {field:'status',title:'状态',width:15,align:'left',sortable:true},
-	   		{field:'description',title:'描述',width:15,align:'left',sortable:true},
             {field:'ctime',title:'创建时间',width:15,align:'left',sortable:true},
             {field:'orders',title:'排序',width:15,align:'left',sortable:true}
 	   	]];
@@ -325,7 +352,7 @@ function searchOrReload(){
 
 	var queryParams = $(dgId).datagrid('options').queryParams;
 	
-	queryParams['title'] = $("#title").val();
+	queryParams['name'] = $("#name").val();
 
 	$(dgId).datagrid('options').queryParams = queryParams;
 	$(dgId).datagrid('reload');

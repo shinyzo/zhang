@@ -91,7 +91,7 @@ public class LogAspect {
 			RequiresPermissions requiresPermissions = method.getAnnotation(RequiresPermissions.class);
 			String[] permissions = requiresPermissions.value();
 			if (permissions.length > 0) {
-				upmsLog.setPermissions(permissions.toString());
+				upmsLog.setPermissions(permissions[0]);
 			}
 		}
 		endTime = System.currentTimeMillis();

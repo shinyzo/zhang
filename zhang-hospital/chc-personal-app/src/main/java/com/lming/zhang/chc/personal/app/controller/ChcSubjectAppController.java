@@ -1,5 +1,7 @@
 package com.lming.zhang.chc.personal.app.controller;
 
+import com.lming.zhang.hospital.common.constants.ChcResult;
+import com.lming.zhang.hospital.common.constants.ChcResultEnum;
 import com.lming.zhang.hospital.dao.model.ChcSubject;
 import com.lming.zhang.hospital.dao.model.ChcSubjectExample;
 import com.lming.zhang.hospital.rpc.api.ChcSubjectService;
@@ -20,20 +22,16 @@ public class ChcSubjectAppController {
     private ChcSubjectService chcSubjectService;
 
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-
-
     /**
      * 查询所有
      * @return
      */
     @RequestMapping(value="/subject",method = RequestMethod.GET)
-    public ResultVO findAll(){
+    public ChcResult findAll(){
 
         // stringRedisTemplate.opsForValue().set("RRRR","RRRRR");
         ChcSubjectExample example = new ChcSubjectExample();
-        return ResultVOUtils.success(chcSubjectService.selectByExample(example));
+        return new ChcResult(ChcResultEnum.SUCCESS,chcSubjectService.selectByExample(example));
     }
 
     /**
@@ -42,9 +40,9 @@ public class ChcSubjectAppController {
      * @return
      */
     @RequestMapping(value="/subject/{subjectId}",method = RequestMethod.GET)
-    public ResultVO findOne(@PathVariable("subjectId") String subjectId){
+    public ChcResult findOne(@PathVariable("subjectId") String subjectId){
         ChcSubject subject = chcSubjectService.selectByPrimaryKey(subjectId);
-        return ResultVOUtils.success(subject);
+        return new ChcResult(ChcResultEnum.SUCCESS,subject);
     }
 
     /**
@@ -52,9 +50,10 @@ public class ChcSubjectAppController {
      * @param chcSubject
      */
     @RequestMapping(value="/subject",method = RequestMethod.POST)
-    public ResultVO add(ChcSubject chcSubject){
-        chcSubjectService.insertSelective(chcSubject);
-        return ResultVOUtils.success(chcSubject);
+    public ChcResult add(ChcSubject chcSubject){
+        int count = chcSubjectService.insertSelective(chcSubject);
+
+        return new ChcResult(ChcResultEnum.SUCCESS,count);
     }
 
     /**
@@ -62,9 +61,9 @@ public class ChcSubjectAppController {
      * @param chcSubject
      */
     @RequestMapping(value = "/subject",method = RequestMethod.PUT)
-    public ResultVO update(ChcSubject chcSubject){
-        chcSubjectService.updateByPrimaryKey(chcSubject);
-        return ResultVOUtils.success(chcSubject);
+    public ChcResult update(ChcSubject chcSubject){
+        int count = chcSubjectService.updateByPrimaryKey(chcSubject);
+        return new ChcResult(ChcResultEnum.SUCCESS,count);
     }
 
     /**
@@ -72,9 +71,9 @@ public class ChcSubjectAppController {
      * @param subjectId
      */
     @RequestMapping(value = "/subject/{subjectId}",method = RequestMethod.DELETE)
-    public ResultVO delete(@PathVariable String subjectId){
-        chcSubjectService.deleteByPrimaryKey(subjectId);
-        return ResultVOUtils.success(subjectId);
+    public ChcResult delete(@PathVariable String subjectId){
+        int count = chcSubjectService.deleteByPrimaryKey(subjectId);
+        return new ChcResult(ChcResultEnum.SUCCESS,count);
     }
 
 }
