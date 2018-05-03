@@ -17,9 +17,11 @@ import com.lming.zhang.upms.rpc.api.UpmsSystemService;
 import com.lming.zhang.upms.server.util.PermissionTreeUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.omg.PortableInterceptor.Interceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,7 @@ import java.util.*;
 @Controller
 @Api(value = "权限管理", description = "权限管理")
 @RequestMapping("/manage/permission")
+@Slf4j
 public class UpmsPermissionController{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UpmsPermissionController.class);
@@ -62,6 +65,13 @@ public class UpmsPermissionController{
         List<UpmsPermission> buttonPermissions = upmsPermissionService.selectByExample(example);
         modelMap.put("buttonPermissions",buttonPermissions);
 
+        //
+        UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
+        upmsSystemExample.createCriteria()
+                .andStatusEqualTo((byte) 1);
+        List<UpmsSystem> upmsSystems = upmsSystemService.selectByExample(upmsSystemExample);
+        modelMap.put("upmsSystems",upmsSystems);
+
         return "/manage/permission/index";
     }
 
@@ -82,13 +92,15 @@ public class UpmsPermissionController{
         if (0 != systemId) {
             criteria.andSystemIdEqualTo(systemId);
         }
-        if (!StringUtils.isBlank(pageVO.getSort()) && !StringUtils.isBlank(pageVO.getOrder())) {
+
+        if (StringUtils.isNotBlank(name)) {
+            criteria.andNameLike("%" + name + "%");
+        }
+
+        if (StringUtils.isNotBlank(pageVO.getSort()) && StringUtils.isNotBlank(pageVO.getOrder())) {
             upmsPermissionExample.setOrderByClause(pageVO.getSort() + " " + pageVO.getOrder());
         }
-        if (StringUtils.isNotBlank(name)) {
-            upmsPermissionExample.or()
-                    .andNameLike("%" + name + "%");
-        }
+
         List<UpmsPermission> rows = upmsPermissionService.selectByExampleForStartPage(upmsPermissionExample, pageVO.getPage(), pageVO.getRows());
         long total = upmsPermissionService.countByExample(upmsPermissionExample);
         Map<String, Object> result = new HashMap<>();
@@ -121,7 +133,21 @@ public class UpmsPermissionController{
     @ResponseBody
     public Object tree(HttpServletRequest request) {
         // return upmsPermissionService.getTreeByUserId(id, NumberUtils.toByte(request.getParameter("type")));
+        // 前端高度不够时，点击展开会重新加载数据，此时获取id进行数据加载
+        String id = (String) request.getParameter("id");
+        if(!StringUtils.isEmpty(id))
+        {
+            UpmsPermissionExample example = new UpmsPermissionExample();
+            example.createCriteria()
+                    .andStatusEqualTo((byte) 1)
+                    .andTypeIn(Arrays.asList((byte) 1,(byte)2))
+                    .andSystemIdEqualTo(Integer.parseInt(id));
+             List<UpmsPermission> permissions = upmsPermissionService.selectByExample(example);
+            List<Map<String,Object>> childTreeList = PermissionTreeUtil.rightTree(permissions,0);
+            return childTreeList;
+        }
 
+        // 加载所有系统权限数据
         UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
         upmsSystemExample.createCriteria()
                 .andStatusEqualTo((byte) 1);
@@ -143,6 +169,7 @@ public class UpmsPermissionController{
             if(i>0){
                 systemMap.put("state","closed");
             }
+
             systemMap.put("children",PermissionTreeUtil.rightTree(permissions,0));
             list.add(systemMap);
         }
@@ -153,16 +180,16 @@ public class UpmsPermissionController{
     @RequiresPermissions("upms:permission:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap modelMap) {
-        UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
-        upmsSystemExample.createCriteria()
-                .andStatusEqualTo((byte) 1);
-        List<UpmsSystem> upmsSystems = upmsSystemService.selectByExample(upmsSystemExample);
-        modelMap.put("upmsSystems", upmsSystems);
-        // 加载菜单type=1,2的
-        UpmsPermissionExample example = new UpmsPermissionExample();
-        example.createCriteria().andStatusEqualTo((byte) 1).andTypeIn(Arrays.asList((byte) 1,(byte)2));
-        List<UpmsPermission> permissions = upmsPermissionService.selectByExample(example);
-        modelMap.put("permissions",permissions);
+//        UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
+//        upmsSystemExample.createCriteria()
+//                .andStatusEqualTo((byte) 1);
+//        List<UpmsSystem> upmsSystems = upmsSystemService.selectByExample(upmsSystemExample);
+//        modelMap.put("upmsSystems", upmsSystems);
+//        // 加载菜单type=1,2的
+//        UpmsPermissionExample example = new UpmsPermissionExample();
+//        example.createCriteria().andStatusEqualTo((byte) 1).andTypeIn(Arrays.asList((byte) 1,(byte)2));
+//        List<UpmsPermission> permissions = upmsPermissionService.selectByExample(example);
+//        modelMap.put("permissions",permissions);
         return "/manage/permission/create";
     }
 
@@ -172,16 +199,32 @@ public class UpmsPermissionController{
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public Object create(UpmsPermission upmsPermission) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(upmsPermission.getName(), new LengthValidator(1, 20, "名称"))
+                .on(upmsPermission.getName(), new LengthValidator(1, 20, "权限名称"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
-            return new UpmsResult(UpmsResultEnum.INVALID_LENGTH, result.getErrors());
+            return new UpmsResult(UpmsResultEnum.INVALID_LENGTH.getCode(), result.getErrors().get(0).getErrorMsg());
         }
-        if(upmsPermission.getSystemId()==0){
-           UpmsPermission uupermission =  upmsPermissionService.selectByPrimaryKey(upmsPermission.getPid());
-            upmsPermission.setSystemId(uupermission.getSystemId());
+
+        // 选择了菜单节点
+        if(upmsPermission.getPid() > 0 )
+        {
+            UpmsPermission uupermission =  upmsPermissionService.selectByPrimaryKey(upmsPermission.getPid());
+            upmsPermission.setSystemId(uupermission.getSystemId()); // 获取该菜单所在的系统编号
+            // 层级向下加1，但最多为3级按钮
+            int type = (int)uupermission.getType() + 1;
+            upmsPermission.setType((byte)(type >= 3 ? 3 : type) );;
+
+            log.info(">>>> 添加二级菜单或按钮 pid=[{}],systemId=[{}],type=[{}]",upmsPermission.getPid(),uupermission.getSystemId(),type);
         }
+        else
+        {
+            // 选择了系统节点
+            upmsPermission.setType((byte) 1);
+            log.info(">>>> 添加一级菜单");
+        }
+
+
         long time = System.currentTimeMillis();
         upmsPermission.setCtime(time);
         upmsPermission.setOrders(time);
@@ -209,7 +252,7 @@ public class UpmsPermissionController{
         UpmsPermission permission = upmsPermissionService.selectByPrimaryKey(id);
         modelMap.put("permission", permission);
         modelMap.put("upmsSystems", upmsSystems);
-        return "/manage/permission/update.jsp";
+        return "/manage/permission/update";
     }
 
     @ApiOperation(value = "修改权限")

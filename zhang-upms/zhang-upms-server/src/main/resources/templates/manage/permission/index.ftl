@@ -20,6 +20,25 @@
             <form id="queryForm">
                 <table>
                     <tr>
+                        <td >选择系统：</td>
+                        <td >
+                            <select id="systemid" class="easyui-combobox w172" id="type">
+                                <option value="0">请选择系统</option>
+                                <#list upmsSystems as upmsSystem>
+                                    <option value="${upmsSystem.systemId}">${upmsSystem.title}</option>
+                                </#list>
+                            </select>
+                        </td>
+
+                        <td >菜单类型：</td>
+                        <td >
+                            <select class="easyui-combobox w172" id="type">
+                                <option value="0">请选择菜单类型</option>
+                                <option value="1">一级菜单</option>
+                                <option value="2">二级菜单</option>
+                                <option value="3">按钮</option>
+                            </select>
+                        </td>
                         <td >权限名称：</td>
                         <td ><input type="text" class="easyui-textbox" id="name" /></td>
                         <td  >

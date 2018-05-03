@@ -1,6 +1,6 @@
 <div class="easyui-layout" style="width:780px;height:380px;">
     <div data-options="region:'west',title:'系统权限树',split:true" style="width:220px" >
-            <ul class="easyui-tree" id="permissionTree">
+            <ul id="permissionTree">
 
             </ul>
     </div>
@@ -20,14 +20,7 @@
                     <td><input type="text" name="name" id="fx_name" class="easyui-textbox" /></td>
                     <td width="10px"></td>
                     <td>icon：</td>
-                    <td><input type="text" name="name"  class="easyui-textbox" /></td>
-                </tr>
-                <tr>
-                    <td>菜单类型：</td>
-                    <td>
-                        <input type="radio" checked="checked" name="type" value="0"  />菜单
-                        <input type="radio" name="type" value="1"  />按钮
-                    </td>
+                    <td><input type="text" name="icon"  class="easyui-textbox" /></td>
                 </tr>
                 <tr>
                     <td>操作方法：</td>
@@ -36,11 +29,11 @@
 
                 <tr>
                     <td>请求uri：</td>
-                    <td colspan="4"><input type="text" name="uri" id="fx_uri" class="easyui-textbox w172" /> (与后台Mapping匹配)</td>
+                    <td colspan="4"><input type="text" name="uri" id="fx_uri" class="easyui-textbox w172" /> (二级菜单及按钮需配置与后台mapping匹配)</td>
                 </tr>
                 <tr>
                     <td>权限值：</td>
-                    <td colspan="4"><input type="text" name="permissionValue"  class="easyui-textbox w172" /> (采用a:b:c)</td>
+                    <td colspan="4"><input type="text" name="permissionValue"  class="easyui-textbox w172" /> (xxx:mmm:ccc)</td>
                 </tr>
 
 
@@ -68,28 +61,30 @@
             url: url,
             method: 'get',
 //            checkbox:true,
-            lines:true
-        });
-
-        $('#permissionTree').tree({
+            lines:true,
             onSelect: function(node){
-                // alert(node.id);  // 在用户点击的时候提示
-
-                if(node.attributes){
-                    if($("#fx_systemid").val()==node.id)
-                    {
-                        return;
-                    }
-                    $("#fx_systemid").textbox('setValue',node.text);
-                }
-                else
-                {
-                    $("#fx_pid").textbox('setValue',node.text);
-                }
-                //alert(node.attributes.issystem);
+              if(node.attributes){  // 选择了系统节点
+                  if($("#fx_systemid").val() == node.id)
+                  {
+                      return;
+                  }
+                  $("#fx_systemid").textbox('setValue',node.id);
+                  $("#fx_pid").textbox('setValue',0);
+              }
+              else
+              {
+                  $("#fx_pid").textbox('setValue',node.id);
+              }
 
             }
         });
+
+        $("#fx_name").textbox({
+            required: true,
+            validType: 'length[2,40]',
+            missingMessage:"请输入权限名称！",
+            invalidMessage:'权限名称须在2-40位之间！'
+        })
 
 
 

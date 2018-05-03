@@ -2,51 +2,59 @@
     <form id="updateForm" method="post">
         <table class="tab3" >
             <tr>
-                <td>用户名：</td>
-                <td><input type="text" name="username" id="fx_username" value="${user.username!}" class="easyui-textbox" /></td>
+                <td>系统ID：</td>
+                <td><input type="text" name="systemId" id="fx_systemid" value="${permission.systemId!}" readonly="readonly" class="easyui-textbox" /></td>
                 <td width="10px"></td>
-                <td>密码：</td>
-                <td><input type="password" name="password" id="fx_password" class="easyui-textbox" /></td>
+                <td>父级菜单：</td>
+                <td><input type="text" name="pid" id="fx_pid" value="${permission.pid!}"  readonly="readonly" class="easyui-textbox" /></td>
             </tr>
 
             <tr>
-                <td>真实姓名：</td>
-                <td><input type="text" name="realname" value="${user.realname!}"  class="easyui-textbox" /></td>
-                <td width="10px"></td>
-                <td>性别：</td>
+                <td>菜单级别：</td>
                 <td>
-                    <#if user.sex==1>
-                        <input type="radio" checked="checked" name="sex" value="1" />男 <input type="radio"  value="0" name="sex" /> 女
-                   <#else >
-                       <input type="radio" name="sex" value="1" />男 <input type="radio"  checked="checked"  value="0" name="sex" /> 女
-
+                    <#if permission.type==1>
+                        一级菜单
+                    <#elseif permission.type==2>
+                        二级菜单
+                    <#else>
+                    按钮
                     </#if>
-
                 </td>
             </tr>
 
             <tr>
-                <td>联系电话：</td>
-                <td><input type="text" name="phone" id="fx_phone" value="${user.phone!}" class="easyui-textbox" /></td>
+                <td>权限名称：</td>
+                <td><input type="text" name="name" value="${permission.name!}" id="fx_name" class="easyui-textbox" /></td>
                 <td width="10px"></td>
-                <td>邮箱地址：</td>
-                <td><input type="text" name="email" id="fx_email" value="${user.email!}" placeholder="xxxxx@xxx.com" class="easyui-textbox" /></td>
+                <td>icon：</td>
+                <td><input type="text" name="icon" value="${permission.icon!}"   class="easyui-textbox" /></td>
+            </tr>
+            <tr>
+                <td>操作方法：</td>
+                <td colspan="4"><input type="text" value="${permission.opertype!}"  name="opertype" class="easyui-textbox w172" /> (仅按钮需要设置，与前端JS匹配)</td>
             </tr>
 
             <tr>
-                <td>头像：</td>
-                <td colspan="4"><input type="text" name="avatar" ${user.avatar!} class="easyui-textbox w400" /></td>
+                <td>请求uri：</td>
+                <td colspan="4"><input type="text" name="uri" value="${permission.uri!}"  id="fx_uri" class="easyui-textbox w172" /> (二级菜单及按钮需配置与后台mapping匹配)</td>
+            </tr>
+            <tr>
+                <td>权限值：</td>
+                <td colspan="4"><input type="text" name="permissionValue" value="${permission.permissionValue!}"   class="easyui-textbox w172" /> (xxx:mmm:ccc)</td>
             </tr>
 
+
             <tr>
-                <td>账号状态：</td>
+                <td>状态：</td>
                 <td>
-                    <#if user.locked==1>
-                        <input type="radio" checked="checked" name="locked" value="0" /> 正常<input type="radio"  value="1" name="locked" /> 锁定
-                    <#else >
-                        <input type="radio"  name="locked" value="0" /> 正常<input type="radio" checked="checked"  value="1" name="locked" /> 锁定
-
+                    <#if permission.status ==1 >
+                        <input type="radio" name="status" checked="checked" value="1"  />启用
+                        <input type="radio" name="status" value="0"  />关闭
+                    <#else>
+                        <input type="radio" name="status" value="1"  />启用
+                        <input type="radio" name="status"  checked="checked" value="0"  />关闭
                     </#if>
+
                 </td>
             </tr>
         </table>
@@ -55,18 +63,11 @@
 </div>
 <script type="text/javascript">
     $(function(){
-
-        $("#fx_username").textbox({
+        $("#fx_name").textbox({
             required: true,
             validType: 'length[2,40]',
-            missingMessage:"请输入用户名！",
-            invalidMessage:'用户名须在2-40位之间！'
-        })
-        $("#fx_password").textbox({
-            required: true,
-            validType: 'length[6,40]',
-            missingMessage:"请输入密码！",
-            invalidMessage:'密码不小于6位，且需包含字母数字特殊符号的组合！'
+            missingMessage:"请输入权限名称！",
+            invalidMessage:'权限名称须在2-40位之间！'
         })
     })
 

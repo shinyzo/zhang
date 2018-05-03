@@ -92,7 +92,7 @@ function deleteData(title,rightUri,permissionId){
     }
     var requestUrl = BASE_PATH + rightUri+"/"+ids.join("-") ;
 
-    $.messager.confirm(title,"确认删除用户吗？",function(result){
+    $.messager.confirm(title,"确认删除权限吗？",function(result){
         if(result)
         {
             $.ajax( {
@@ -150,7 +150,7 @@ function updateData(title,rightUri,permissionId){
     $(updateBox).dialog({
         title: title,
         width: 600,
-        height: 320,
+        height: 360,
         closed: false,
         cache: false,
         href: rightUri,
@@ -246,8 +246,6 @@ function addData(title,rightUri,permissionId)
         ]
     });
 
-    $.parser.parse();
-
 }
 
 
@@ -259,37 +257,19 @@ function addDataSave(rightUri) {
     }
 
 
-
-
-
     $(createForm).form('submit',{
         url:rightUri,
         ajax:true,
         dataType:'json',
         onSubmit:function(param){
             var node = $('#permissionTree').tree('getSelected');
-            if(node) {
-                if (node.attributes)
-                {
-                    // 点击的是系统节点
-                    param.systemId = node.id;
-                    param.pid = 0;
-                }
-                else
-                {
-                    // 点击的是系统下的菜单
-                    param.pid = node.id;
-                    param.systemId = 0;
-                }
-
-            }
-            else
-            {
+            if(!node) {
                 alert("请选择系统节点或菜单节点");
+                return false;
             }
         },
         success:function(result){
-           // var result = eval('(' + result + ')');
+            var result = eval('(' + result + ')');
             if(result.code == SUCCESS_CODE)
             {
                 show(result.msg);
@@ -328,6 +308,7 @@ function getColumnsOpt()
             {field:'systemId',title:'系统编号',width:15,align:'left',sortable:true},
             {field:'name',title:'权限名称',width:15,align:'left',sortable:true},
 	   		{field:'type',title:'菜单类型',width:15,align:'left',sortable:true},
+            {field:'pid',title:'父级权限编号',width:15,align:'left',sortable:true},
             {field:'uri',title:'请求Uri',width:15,align:'left',sortable:true},
             {field:'permissionValue',title:'权限值',width:15,align:'left',sortable:true},
             {field:'opertype',title:'操作类型',width:15,align:'left',sortable:true},
@@ -353,6 +334,8 @@ function searchOrReload(){
 	var queryParams = $(dgId).datagrid('options').queryParams;
 	
 	queryParams['name'] = $("#name").val();
+	queryParams['systemId'] = $("#systemid").combobox('getValue');
+	queryParams['type'] = $("#type").combobox('getValue');
 
 	$(dgId).datagrid('options').queryParams = queryParams;
 	$(dgId).datagrid('reload');
