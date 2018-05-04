@@ -7,14 +7,12 @@ import com.lming.zhang.common.validator.LengthValidator;
 import com.lming.zhang.upms.common.UpmsPageVO;
 import com.lming.zhang.upms.common.UpmsResult;
 import com.lming.zhang.upms.common.UpmsResultEnum;
-import com.lming.zhang.upms.dao.model.UpmsPermission;
-import com.lming.zhang.upms.dao.model.UpmsPermissionExample;
-import com.lming.zhang.upms.dao.model.UpmsSystem;
-import com.lming.zhang.upms.dao.model.UpmsSystemExample;
+import com.lming.zhang.upms.dao.model.*;
 import com.lming.zhang.upms.rpc.api.UpmsApiService;
 import com.lming.zhang.upms.rpc.api.UpmsPermissionService;
 import com.lming.zhang.upms.rpc.api.UpmsSystemService;
 import com.lming.zhang.upms.server.util.PermissionTreeUtil;
+import com.lming.zhang.upms.server.vo.PermissionTreeDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -142,10 +140,12 @@ public class UpmsPermissionController{
                     .andStatusEqualTo((byte) 1)
                     .andTypeIn(Arrays.asList((byte) 1,(byte)2))
                     .andSystemIdEqualTo(Integer.parseInt(id));
+            // 加载所选系统id,一级二级菜单权限
              List<UpmsPermission> permissions = upmsPermissionService.selectByExample(example);
-            List<Map<String,Object>> childTreeList = PermissionTreeUtil.rightTree(permissions,0);
-            return childTreeList;
+
+            return PermissionTreeUtil.rightTree(converter(permissions),"0");
         }
+
 
         // 加载所有系统权限数据
         UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
@@ -165,31 +165,126 @@ public class UpmsPermissionController{
             Map<String,Object> systemMap = new HashMap<>();
             systemMap.put("id",upmsSystems.get(i).getSystemId());
             systemMap.put("text",upmsSystems.get(i).getTitle());
-            systemMap.put("attributes","system"); // 系统节点便于前端判断
+            systemMap.put("attributes","systemnode"); // 系统节点便于前端判断
             if(i>0){
                 systemMap.put("state","closed");
             }
 
-            systemMap.put("children",PermissionTreeUtil.rightTree(permissions,0));
+            systemMap.put("children",PermissionTreeUtil.rightTree(converter(permissions),"0"));
             list.add(systemMap);
         }
         return list;
     }
 
+
+
+
+
+    @ApiOperation(value = "角色权限列表")
+    @RequiresPermissions("upms:permission:read")
+    @RequestMapping(value = "/role/{roleId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object role(@PathVariable("roleId") Integer roleId, HttpServletRequest request) {
+        // 加载角色的所有权限id
+        List<UpmsRolePermission> rolePermissions = upmsApiService.selectUpmsRolePermisstionByUpmsRoleId(roleId);
+        // 展开某个节点
+        String id = (String) request.getParameter("id");
+        if(StringUtils.isNotBlank(id))
+        {
+            UpmsPermissionExample example = new UpmsPermissionExample();
+            example.createCriteria()
+                    .andStatusEqualTo((byte) 1)
+                    .andTypeIn(Arrays.asList((byte) 1,(byte)2))
+                    .andSystemIdEqualTo(Integer.parseInt(id));
+            List<UpmsPermission> permissions = upmsPermissionService.selectByExample(example);
+
+            List<Map<String,Object>> childTreeList = PermissionTreeUtil.rightTree(checkPermission(permissions,rolePermissions),"0");
+            return childTreeList;
+        }
+
+
+
+        // 加载所有系统权限数据
+        UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
+        upmsSystemExample.createCriteria().andStatusEqualTo((byte) 1);
+        List<UpmsSystem> upmsSystems = upmsSystemService.selectByExample(upmsSystemExample);
+        List<Map<String,Object>> list = new ArrayList<>();
+        for(int i=0;i<upmsSystems.size();i++){
+            UpmsPermissionExample example = new UpmsPermissionExample();
+            example.createCriteria()
+                    .andStatusEqualTo((byte) 1)
+                    .andSystemIdEqualTo(upmsSystems.get(i).getSystemId());
+            List<UpmsPermission> permissions = upmsPermissionService.selectByExample(example);
+
+            Map<String,Object> systemMap = new HashMap<>();
+            systemMap.put("id",upmsSystems.get(i).getSystemId());
+            systemMap.put("text",upmsSystems.get(i).getTitle());
+            systemMap.put("attributes","systemnode");
+            if(i>0){
+                systemMap.put("state","closed");
+            }
+            systemMap.put("children",PermissionTreeUtil.rightTree(checkPermission(permissions,rolePermissions),"0"));
+            list.add(systemMap);
+        }
+        return list;
+    }
+
+    /**
+     * 权限属性字段转换
+     * @param permissions
+     * @return
+     */
+    private  List<PermissionTreeDTO> converter(List<UpmsPermission> permissions){
+        List<PermissionTreeDTO> list = new ArrayList<>();
+        for(int i=0;i<permissions.size();i++){
+            PermissionTreeDTO permissionTreeDTO = new PermissionTreeDTO();
+            permissionTreeDTO.setId(permissions.get(i).getPermissionId().toString());
+            permissionTreeDTO.setText(permissions.get(i).getName());
+            permissionTreeDTO.setChecked(false);
+            permissionTreeDTO.setIconCls(permissions.get(i).getIcon());
+            permissionTreeDTO.setPid(permissions.get(i).getPid().toString());
+            list.add(permissionTreeDTO);
+        }
+        return list;
+    }
+
+    /**
+     * 校验是否有权限，有则设置选中
+     * @param permissions
+     * @param rolePermissions
+     * @return
+     */
+    private List<PermissionTreeDTO> checkPermission(List<UpmsPermission> permissions,List<UpmsRolePermission> rolePermissions){
+        List<PermissionTreeDTO> list = new ArrayList<>();
+        for(int i=0;i<permissions.size();i++)
+        {
+            boolean isChecked = false;
+            for(int j=0;j<rolePermissions.size();j++)
+            {
+                if(permissions.get(i).getPermissionId()==rolePermissions.get(j).getPermissionId())
+                {
+                    isChecked = true;
+                    break;
+                }
+            }
+
+            PermissionTreeDTO permissionTreeDTO = new PermissionTreeDTO();
+            permissionTreeDTO.setId(permissions.get(i).getPermissionId().toString());
+            permissionTreeDTO.setText(permissions.get(i).getName());
+            permissionTreeDTO.setChecked(isChecked);
+            permissionTreeDTO.setIconCls(permissions.get(i).getIcon());
+            permissionTreeDTO.setPid(permissions.get(i).getPid().toString());
+
+            list.add(permissionTreeDTO);
+        }
+        return list;
+    }
+
+
     @ApiOperation(value = "新增权限")
     @RequiresPermissions("upms:permission:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap modelMap) {
-//        UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
-//        upmsSystemExample.createCriteria()
-//                .andStatusEqualTo((byte) 1);
-//        List<UpmsSystem> upmsSystems = upmsSystemService.selectByExample(upmsSystemExample);
-//        modelMap.put("upmsSystems", upmsSystems);
-//        // 加载菜单type=1,2的
-//        UpmsPermissionExample example = new UpmsPermissionExample();
-//        example.createCriteria().andStatusEqualTo((byte) 1).andTypeIn(Arrays.asList((byte) 1,(byte)2));
-//        List<UpmsPermission> permissions = upmsPermissionService.selectByExample(example);
-//        modelMap.put("permissions",permissions);
         return "/manage/permission/create";
     }
 

@@ -142,4 +142,13 @@ public class UpmsRoleController {
         return new UpmsResult(UpmsResultEnum.SUCCESS, count);
     }
 
+
+    @ApiOperation(value = "角色权限")
+    @RequiresPermissions("upms:role:permission")
+    @RequestMapping(value = "/permission/{roleId}", method = RequestMethod.GET)
+    public String permission(@PathVariable("roleId") Integer roleId,ModelMap modelMap) {
+        UpmsRole upmsRole = upmsRoleService.selectByPrimaryKey(roleId);
+        modelMap.put("upmsRole",upmsRole);
+        return "/manage/role/permission";
+    }
 }

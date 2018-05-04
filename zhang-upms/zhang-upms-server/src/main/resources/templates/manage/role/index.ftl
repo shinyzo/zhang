@@ -55,6 +55,7 @@
 
     <div id="createBox"></div>
     <div id="updateBox"></div>
+    <div id="permissionBox"></div>
 
 
     <#include "/inc/footer.ftl"/>

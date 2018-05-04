@@ -7,6 +7,8 @@ var createForm = "#createForm";
 var updateBox = "#updateBox";
 var updateForm = "#updateForm";
 
+var permissionBox = "#permissionBox";
+
 var queryUrl = BASE_PATH + "/manage/role/list";
 var primaryKey = "roleId";
 
@@ -71,11 +73,71 @@ function btnopt(operType,title,rightUri,permissionId)
         case 'DELETE':
             deleteData(title,rightUri,permissionId);
             break;
+        case 'PERMISSION':
+            permissionData(title,rightUri,permissionId);
+            break;
         default:
             alert('没有此操作类型对应的方法，请核查！');
             break;
     }
 }
+
+
+function permissionData(title,rightUri,permissionId){
+    var rows = $(dgId).datagrid('getSelections');
+    if(rows.length<=0)
+    {
+        alert("请选择需要操作的记录！");
+        return false;
+    }
+    var rightUri = BASE_PATH + rightUri+"/"+rows[0][primaryKey];
+    $(permissionBox).dialog({
+        title: title,
+        width: 600,
+        height: 320,
+        closed: false,
+        cache: false,
+        href: rightUri,
+        modal: true,
+        buttons:[
+            {
+                iconCls: 'icon-save',
+                text:'保存',
+                handler: function(){
+                     addPermissionSave(rightUri);
+                }
+            },
+            {
+                iconCls: 'icon-cancel',
+                text:'取消',
+                handler: function(){
+                    $(permissionBox).dialog('close');
+                }
+            }
+        ]
+    });
+}
+
+
+function addPermissionSave(rightUri) {
+    var nodes = $('#permissionTree').tree('getChecked', ['checked','indeterminate']);
+    if(nodes.length<=0)
+    {
+        alert("请选择权限数据！");
+        return false;
+    }
+    console.log(nodes);
+    var ids = new Array();
+    $.each(nodes,function(index,node){
+        if(!node.attributes){ // 非系统节点
+            ids.push(node.id);
+        }
+    })
+
+    alert(ids)
+
+}
+
 
 function deleteData(title,rightUri,permissionId){
 
