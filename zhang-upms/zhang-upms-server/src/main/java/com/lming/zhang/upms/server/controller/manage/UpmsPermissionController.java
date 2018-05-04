@@ -202,8 +202,6 @@ public class UpmsPermissionController{
             return childTreeList;
         }
 
-
-
         // 加载所有系统权限数据
         UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
         upmsSystemExample.createCriteria().andStatusEqualTo((byte) 1);
@@ -226,6 +224,7 @@ public class UpmsPermissionController{
             systemMap.put("children",PermissionTreeUtil.rightTree(checkPermission(permissions,rolePermissions),"0"));
             list.add(systemMap);
         }
+        log.info(">>>> 角色权限：[{}]",list);
         return list;
     }
 

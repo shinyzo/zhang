@@ -1,5 +1,6 @@
 package com.lming.zhang.upms.server.controller.manage;
 
+import com.alibaba.fastjson.JSONArray;
 import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
@@ -7,11 +8,9 @@ import com.lming.zhang.common.validator.LengthValidator;
 import com.lming.zhang.upms.common.UpmsPageVO;
 import com.lming.zhang.upms.common.UpmsResult;
 import com.lming.zhang.upms.common.UpmsResultEnum;
-import com.lming.zhang.upms.dao.model.UpmsPermission;
-import com.lming.zhang.upms.dao.model.UpmsPermissionExample;
-import com.lming.zhang.upms.dao.model.UpmsRole;
-import com.lming.zhang.upms.dao.model.UpmsRoleExample;
+import com.lming.zhang.upms.dao.model.*;
 import com.lming.zhang.upms.rpc.api.UpmsPermissionService;
+import com.lming.zhang.upms.rpc.api.UpmsRolePermissionService;
 import com.lming.zhang.upms.rpc.api.UpmsRoleService;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -21,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,9 @@ public class UpmsRoleController {
 
     @Autowired
     private UpmsRoleService upmsRoleService;
+
+    @Autowired
+    private UpmsRolePermissionService upmsRolePermissionService;
 
     @Autowired
     private UpmsPermissionService upmsPermissionService;
@@ -151,4 +155,15 @@ public class UpmsRoleController {
         modelMap.put("upmsRole",upmsRole);
         return "/manage/role/permission";
     }
+
+    @ApiOperation(value = "角色权限")
+    @RequiresPermissions("upms:role:permission")
+    @RequestMapping(value = "/permission/{roleId}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object permission(@PathVariable("roleId") int roleId, HttpServletRequest request) {
+        String permissionIds = request.getParameter("permissionids");
+        int count = upmsRolePermissionService.rolePermission(roleId, Arrays.asList(permissionIds.split(",")) );
+        return new UpmsResult(UpmsResultEnum.SUCCESS,count);
+    }
+
 }

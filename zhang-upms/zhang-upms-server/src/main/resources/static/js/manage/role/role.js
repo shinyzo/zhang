@@ -134,7 +134,28 @@ function addPermissionSave(rightUri) {
         }
     })
 
-    alert(ids)
+    var data = {};
+    data['permissionids'] = ids.join(',');
+
+    $.ajax({
+        url : rightUri,
+        data: data,
+        type : 'POST',
+        async: false,
+        dataType : "json",
+        success : function(result) {
+            if(result.code == SUCCESS_CODE)
+            {
+                show(result.msg);
+                $(permissionBox).dialog('close');
+
+            }else
+            {
+                alert(result.msg);
+            }
+
+        }
+    });
 
 }
 

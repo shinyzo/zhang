@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
 * UpmsRolePermissionService实现
 * Created by zhanglm on 2018/4/26.
@@ -22,5 +24,19 @@ public class UpmsRolePermissionServiceImpl extends BaseServiceImpl<UpmsRolePermi
 
     @Autowired
     UpmsRolePermissionMapper upmsRolePermissionMapper;
+
+    public int rolePermission(Integer roleId,List<String> permissionIds){
+        UpmsRolePermissionExample example = new UpmsRolePermissionExample();
+        example.createCriteria().andRoleIdEqualTo(roleId);
+        upmsRolePermissionMapper.deleteByExample(example);
+        for(int i=0;i<permissionIds.size();i++)
+        {
+            UpmsRolePermission upmsRolePermission = new UpmsRolePermission();
+            upmsRolePermission.setRoleId(roleId);
+            upmsRolePermission.setPermissionId(Integer.parseInt(permissionIds.get(i)));
+            upmsRolePermissionMapper.insertSelective(upmsRolePermission);
+        }
+        return permissionIds.size();
+    }
 
 }

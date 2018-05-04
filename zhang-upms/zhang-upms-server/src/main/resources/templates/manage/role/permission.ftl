@@ -20,9 +20,9 @@
             url: url,
             method: 'get',
             checkbox:true,
-            lines:true
+            lines:true,
+            cascadeCheck:false // 加载的时候不启用层叠选中
         });
-
     })
 
 
