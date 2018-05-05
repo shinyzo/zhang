@@ -1,13 +1,13 @@
 // 基础数据维护
-var dgId = "#dgBox";
+var dgId = "#dgTable";
 
-var createBox = "#createBox";
+var createDialog = "#createDialog";
 var createForm = "#createForm";
 
-var updateBox = "#updateBox";
+var updateDialog = "#updateDialog";
 var updateForm = "#updateForm";
 
-var permissionBox = "#permissionBox";
+var permissionDialog = "#permissionDialog";
 
 var queryUrl = BASE_PATH + "/manage/role/list";
 var primaryKey = "roleId";
@@ -91,71 +91,73 @@ function permissionData(title,rightUri,permissionId){
         return false;
     }
     var rightUri = BASE_PATH + rightUri+"/"+rows[0][primaryKey];
-    $(permissionBox).dialog({
-        title: title,
-        width: 600,
-        height: 320,
-        closed: false,
-        cache: false,
-        href: rightUri,
-        modal: true,
-        buttons:[
-            {
-                iconCls: 'icon-save',
-                text:'保存',
-                handler: function(){
-                     addPermissionSave(rightUri);
-                }
-            },
-            {
-                iconCls: 'icon-cancel',
-                text:'取消',
-                handler: function(){
-                    $(permissionBox).dialog('close');
-                }
-            }
-        ]
-    });
+    parent.addTab(title,rightUri,true);
+
+    // $(permissionDialog).dialog({
+    //     title: title,
+    //     width: 600,
+    //     height: 320,
+    //     closed: false,
+    //     cache: false,
+    //     href: rightUri,
+    //     modal: true,
+    //     buttons:[
+    //         {
+    //             iconCls: 'icon-save',
+    //             text:'保存',
+    //             handler: function(){
+    //                  addPermissionSave(rightUri);
+    //             }
+    //         },
+    //         {
+    //             iconCls: 'icon-cancel',
+    //             text:'取消',
+    //             handler: function(){
+    //                 $(permissionDialog).dialog('close');
+    //             }
+    //         }
+    //     ]
+    // });
 }
 
 
 function addPermissionSave(rightUri) {
-    var nodes = $('#permissionTree').tree('getChecked', ['checked','indeterminate']);
-    if(nodes.length<=0)
-    {
-        alert("请选择权限数据！");
-        return false;
-    }
-    console.log(nodes);
-    var ids = new Array();
-    $.each(nodes,function(index,node){
-        if(!node.attributes){ // 非系统节点
-            ids.push(node.id);
-        }
-    })
-
-    var data = {};
-    data['permissionids'] = ids.join(',');
-
-    $.ajax({
-        url : rightUri,
-        data: data,
-        type : 'POST',
-        async: false,
-        dataType : "json",
-        success : function(result) {
-            if(result.code == SUCCESS_CODE)
-            {
-                show(result.msg);
-                $(permissionBox).dialog('close');
-
-            }else
-            {
-                alert(result.msg);
-            }
-
-        }
-    });
+    // var nodes = $('#permissionTree').tree('getChecked', ['checked','indeterminate']);
+    // if(nodes.length<=0)
+    // {
+    //     alert("请选择权限数据！");
+    //     return false;
+    // }
+    // console.log(nodes);
+    // var ids = new Array();
+    // $.each(nodes,function(index,node){
+    //     if(!node.attributes){ // 非系统节点
+    //         ids.push(node.id);
+    //     }
+    // })
+    //
+    // var data = {};
+    // data['permissionids'] = ids.join(',');
+    //
+    // $.ajax({
+    //     url : rightUri,
+    //     data: data,
+    //     type : 'POST',
+    //     async: false,
+    //     dataType : "json",
+    //     success : function(result) {
+    //         if(result.code == SUCCESS_CODE)
+    //         {
+    //             show(result.msg);
+    //             $(permissionDialog).dialog('close');
+    //
+    //         }else
+    //         {
+    //             alert(result.msg);
+    //         }
+    //
+    //     }
+    // });
 
 }
 
@@ -229,7 +231,7 @@ function updateData(title,rightUri,permissionId){
     }
 
     var rightUri = BASE_PATH + rightUri+"/"+rows[0][primaryKey];
-    $(updateBox).dialog({
+    $(updateDialog).dialog({
         title: title,
         width: 600,
         height: 320,
@@ -249,7 +251,7 @@ function updateData(title,rightUri,permissionId){
                 iconCls: 'icon-cancel',
                 text:'取消',
                 handler: function(){
-                    $(updateBox).dialog('close');
+                    $(updateDialog).dialog('close');
                 }
             }
         ]
@@ -278,7 +280,7 @@ function updateDataSave(rightUri) {
             var result = eval('(' + result + ')');
             if (result.code == SUCCESS_CODE) {
                 show(result.msg);
-                $(updateBox).dialog('close');
+                $(updateDialog).dialog('close');
                 searchOrReload();
             }
             else {
@@ -302,7 +304,7 @@ function addData(title,rightUri,permissionId)
 {
 
 	var rightUri = BASE_PATH + rightUri;
-    $(createBox).dialog({
+    $(createDialog).dialog({
         title: title,
         width: 600,
         height: 320,
@@ -322,7 +324,7 @@ function addData(title,rightUri,permissionId)
 					iconCls: 'icon-cancel',
 					text:'取消',
 					handler: function(){
-						$(createBox).dialog('close');
+						$(createDialog).dialog('close');
 					}
             	}
         ]
@@ -349,7 +351,7 @@ function addDataSave(rightUri) {
             if(result.code == SUCCESS_CODE)
             {
                 show(result.msg);
-                $(createBox).dialog('close');
+                $(createDialog).dialog('close');
                 searchOrReload();
             }
             else

@@ -28,6 +28,9 @@
     <dubbo:service interface="com.lming.zhang.upms.rpc.api.UpmsPermissionService" ref="upmsPermissionService" timeout="10000"/>
     <bean id="upmsPermissionService" class="com.lming.zhang.upms.rpc.service.impl.UpmsPermissionServiceImpl" />
 
+    <dubbo:service interface="com.lming.zhang.upms.rpc.api.UpmsUserPermissionService" ref="upmsUserPermissionService" timeout="10000"/>
+    <bean id="upmsUserPermissionService" class="com.lming.zhang.upms.rpc.service.impl.UpmsUserPermissionServiceImpl" />
+
     <dubbo:service interface="com.lming.zhang.upms.rpc.api.UpmsRolePermissionService" ref="upmsRolePermissionService" timeout="10000"/>
     <bean id="upmsRolePermissionService" class="com.lming.zhang.upms.rpc.service.impl.UpmsRolePermissionServiceImpl" />
 

@@ -12,6 +12,7 @@ import com.lming.zhang.upms.dao.model.*;
 import com.lming.zhang.upms.rpc.api.UpmsPermissionService;
 import com.lming.zhang.upms.rpc.api.UpmsRolePermissionService;
 import com.lming.zhang.upms.rpc.api.UpmsRoleService;
+import com.lming.zhang.upms.rpc.api.UpmsSystemService;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -43,8 +44,10 @@ public class UpmsRoleController {
 
     @Autowired
     private UpmsPermissionService upmsPermissionService;
+    @Autowired
+    private UpmsSystemService upmsSystemService;
 
-    @ApiOperation("权限页面")
+    @ApiOperation("角色首页")
     @RequiresPermissions("upms:role:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(@RequestParam("permissionId") Integer permissionId,
@@ -142,25 +145,37 @@ public class UpmsRoleController {
     @RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
-        int count = upmsRoleService.deleteByPrimaryKeys(ids);
+        // 删除角色前要删除角色下的所有权限,由于是分布式系统，此处应该在service中进行实物操作
+       List<String> roleidList = Arrays.asList(ids.split("-"));
+       int count = 0;
+       for(String roleId:roleidList){
+           count += upmsRoleService.deleteRoleAndPermissions(Integer.parseInt(roleId));
+       }
+
         return new UpmsResult(UpmsResultEnum.SUCCESS, count);
     }
 
 
-    @ApiOperation(value = "角色权限")
+    @ApiOperation(value = "角色权限页面")
     @RequiresPermissions("upms:role:permission")
     @RequestMapping(value = "/permission/{roleId}", method = RequestMethod.GET)
     public String permission(@PathVariable("roleId") Integer roleId,ModelMap modelMap) {
         UpmsRole upmsRole = upmsRoleService.selectByPrimaryKey(roleId);
         modelMap.put("upmsRole",upmsRole);
+
+        UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
+        upmsSystemExample.createCriteria()
+                .andStatusEqualTo((byte) 1);
+        List<UpmsSystem> upmsSystems = upmsSystemService.selectByExample(upmsSystemExample);
+        modelMap.put("upmsSystems",upmsSystems);
         return "/manage/role/permission";
     }
 
-    @ApiOperation(value = "角色权限")
+    @ApiOperation(value = "角色权限分配")
     @RequiresPermissions("upms:role:permission")
     @RequestMapping(value = "/permission/{roleId}", method = RequestMethod.POST)
     @ResponseBody
-    public Object permission(@PathVariable("roleId") int roleId, HttpServletRequest request) {
+    public UpmsResult permission(@PathVariable("roleId") int roleId, HttpServletRequest request) {
         String permissionIds = request.getParameter("permissionids");
         int count = upmsRolePermissionService.rolePermission(roleId, Arrays.asList(permissionIds.split(",")) );
         return new UpmsResult(UpmsResultEnum.SUCCESS,count);

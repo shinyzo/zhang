@@ -1,12 +1,12 @@
-<div id="updateDialog">
+<div id="updateMain">
     <form id="updateForm" method="post">
         <table class="tab3" >
             <tr>
                 <td>系统ID：</td>
-                <td><input type="text" name="systemId" id="fx_systemid" value="${permission.systemId!}" readonly="readonly" class="easyui-textbox" /></td>
+                <td>${permission.systemId!}</td>
                 <td width="10px"></td>
                 <td>父级菜单：</td>
-                <td><input type="text" name="pid" id="fx_pid" value="${permission.pid!}"  readonly="readonly" class="easyui-textbox" /></td>
+                <td>${permission.pid!}</td>
             </tr>
 
             <tr>

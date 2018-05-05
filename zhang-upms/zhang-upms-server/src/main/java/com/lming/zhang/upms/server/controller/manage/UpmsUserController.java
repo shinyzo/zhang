@@ -1,6 +1,7 @@
 package com.lming.zhang.upms.server.controller.manage;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
@@ -11,9 +12,12 @@ import com.lming.zhang.upms.common.UpmsResult;
 import com.lming.zhang.upms.common.UpmsResultEnum;
 import com.lming.zhang.upms.dao.model.*;
 import com.lming.zhang.upms.rpc.api.*;
+import com.lming.zhang.upms.server.vo.TreeNodeVO;
 import com.lming.zhang.upms.util.PasswordHelper;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -22,11 +26,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import sun.reflect.generics.tree.Tree;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 /**
  * 用户controller
@@ -43,6 +46,15 @@ public class UpmsUserController {
 
     @Autowired
     private UpmsPermissionService upmsPermissionService;
+
+    @Autowired
+    private UpmsRoleService upmsRoleService;
+
+    @Autowired
+    private UpmsUserRoleService upmsUserRoleService;
+
+    @Autowired
+    private UpmsUserPermissionService upmsUserPermissionService;
 
     @ApiOperation("用户页面")
     @RequiresPermissions("upms:user:read")
@@ -156,6 +168,99 @@ public class UpmsUserController {
         upmsUser.setUserId(id);
         int count = upmsUserService.updateByPrimaryKeySelective(upmsUser);
         return new UpmsResult(UpmsResultEnum.SUCCESS, count);
+    }
+
+
+    @ApiOperation(value = "用户角色")
+    @RequiresPermissions("upms:user:role")
+    @RequestMapping(value = "/role/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object role(@PathVariable("id") int id, ModelMap modelMap) {
+        List<UpmsRole> upmsRoles = upmsRoleService.selectByExample(new UpmsRoleExample());
+        // 用户拥有角色
+        UpmsUserRoleExample upmsUserRoleExample = new UpmsUserRoleExample();
+        upmsUserRoleExample.createCriteria()
+                .andUserIdEqualTo(id);
+        List<UpmsUserRole> upmsUserRoles = upmsUserRoleService.selectByExample(upmsUserRoleExample);
+
+        List<TreeNodeVO> treeNodeVOList = new ArrayList<>();
+
+        for(int i=0;i<upmsRoles.size();i++)
+        {
+            boolean isChecked =false;
+            for(int j=0;j<upmsUserRoles.size();j++)
+            {
+                if(upmsRoles.get(i).getRoleId() == upmsUserRoles.get(j).getRoleId())
+                {
+                    isChecked = true;
+                    break;
+                }
+            }
+            TreeNodeVO treeNodeVO = new TreeNodeVO();
+            treeNodeVO.setId(upmsRoles.get(i).getRoleId().toString());
+            treeNodeVO.setText(upmsRoles.get(i).getTitle());
+            treeNodeVO.setChecked(isChecked);
+            treeNodeVOList.add(treeNodeVO);
+        }
+        return treeNodeVOList;
+    }
+
+
+    @ApiOperation(value = "用户角色")
+    @RequiresPermissions("upms:user:role")
+    @RequestMapping(value = "/role/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object role(@PathVariable("id") int id, HttpServletRequest request) {
+        String roleIds = request.getParameter("roleId");
+        String[] roleIdArray = roleIds.split(",");
+        upmsUserRoleService.role(roleIdArray, id);
+        return new UpmsResult(UpmsResultEnum.SUCCESS, "");
+    }
+
+    @ApiOperation(value = "用户权限")
+    @RequiresPermissions("upms:user:permission")
+    @RequestMapping(value = "/permission/{id}", method = RequestMethod.GET)
+    public String permission(@PathVariable("id") int id, ModelMap modelMap) {
+        UpmsUser user = upmsUserService.selectByPrimaryKey(id);
+        modelMap.put("user", user);
+        return "/manage/user/permission";
+    }
+
+    @ApiOperation(value = "用户权限")
+    @RequiresPermissions("upms:user:permission")
+    @RequestMapping(value = "/permission/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object permission(@PathVariable("id") int id, HttpServletRequest request) {
+
+        String addPermissionids = request.getParameter("addids");
+        String minusPermissionids = request.getParameter("minusids");
+
+        List<Integer> addPermisssionList = new ArrayList<>();
+        if(StringUtils.isNotEmpty(addPermissionids))
+        {
+            CollectionUtils.collect(Arrays.asList(addPermissionids.split(",")), new Transformer() {
+                @Override
+                public Object transform(Object o) {
+                    return Integer.valueOf(o.toString());
+                }
+            }, addPermisssionList);
+        }
+
+
+        List<Integer> minusPermissionList = new ArrayList<>();
+        if(StringUtils.isNotEmpty(minusPermissionids))
+        {
+            CollectionUtils.collect(Arrays.asList(minusPermissionids.split(",")), new Transformer() {
+                @Override
+                public Object transform(Object o) {
+                    return Integer.valueOf(o.toString());
+                }
+            }, minusPermissionList);
+        }
+
+        int count = upmsUserPermissionService.userPermission(id,addPermisssionList,minusPermissionList);
+
+        return new UpmsResult(UpmsResultEnum.SUCCESS,count);
     }
 
 

@@ -47,15 +47,15 @@
 
 
     <div  class="easyui-panel" title="角色列表">
-        <table id="dgBox">
+        <table id="dgTable">
 
 
         </table>
     </div>
 
-    <div id="createBox"></div>
-    <div id="updateBox"></div>
-    <div id="permissionBox"></div>
+    <div id="createDialog"></div>
+    <div id="updateDialog"></div>
+    <div id="permissionDialog"></div>
 
 
     <#include "/inc/footer.ftl"/>

@@ -7,9 +7,10 @@ var createForm = "#createForm";
 var updateDialog = "#updateDialog";
 var updateForm = "#updateForm";
 
-var queryUrl = BASE_PATH + "/manage/permission/list";
-// 修改删除用的主键列
-var primaryKey = "permissionId";
+var queryUrl = BASE_PATH + "/manage/organization/list";
+var primaryKey = "organizationId";
+var dialogWidth = 600;
+var dialogHeight = 390;
 
 $(document).ready(function(){
 
@@ -92,7 +93,7 @@ function deleteData(title,rightUri,permissionId){
     }
     var requestUrl = BASE_PATH + rightUri+"/"+ids.join("-") ;
 
-    $.messager.confirm(title,"确认删除权限吗？",function(result){
+    $.messager.confirm(title,"确认删除组织吗？",function(result){
         if(result)
         {
             $.ajax( {
@@ -149,8 +150,8 @@ function updateData(title,rightUri,permissionId){
     var rightUri = BASE_PATH + rightUri+"/"+rows[0][primaryKey];
     $(updateDialog).dialog({
         title: title,
-        width: 600,
-        height: 360,
+        width: dialogWidth,
+        height: dialogHeight,
         closed: false,
         cache: false,
         href: rightUri,
@@ -222,8 +223,8 @@ function addData(title,rightUri,permissionId)
 	var rightUri = BASE_PATH + rightUri;
     $(createDialog).dialog({
         title: title,
-        width: 800,
-        height: 450,
+        width: dialogWidth,
+        height: dialogHeight,
         closed: false,
         cache: false,
         href: rightUri,
@@ -240,7 +241,7 @@ function addData(title,rightUri,permissionId)
 					iconCls: 'icon-cancel',
 					text:'取消',
 					handler: function(){
-						$(createDialog).dialog('close');
+                        $(createDialog).dialog('close');
 					}
             	}
         ]
@@ -255,25 +256,20 @@ function addDataSave(rightUri) {
     {
 		return false;
     }
-
-
     $(createForm).form('submit',{
         url:rightUri,
         ajax:true,
         dataType:'json',
         onSubmit:function(param){
-            var node = $('#permissionTree').tree('getSelected');
-            if(!node) {
-                alert("请选择系统节点或菜单节点");
-                return false;
-            }
+
         },
         success:function(result){
             var result = eval('(' + result + ')');
             if(result.code == SUCCESS_CODE)
             {
                 show(result.msg);
-                $(createDialog).dialog('close');
+                $('#organizationAddTree').tree('reload');
+                $("#fm_name").textbox('setValue',"");
                 searchOrReload();
             }
             else
@@ -304,18 +300,12 @@ function getColumnsOpt()
 {
 	var opt = 
 		[[
-		  	{field:'permissionId',title:'权限编号',width:10,align:'left',sortable:true},
-            {field:'systemId',title:'系统编号',width:15,align:'left',sortable:true},
-            {field:'name',title:'权限名称',width:15,align:'left',sortable:true},
-	   		{field:'type',title:'菜单类型',width:15,align:'left',sortable:true},
-            {field:'pid',title:'父级权限编号',width:15,align:'left',sortable:true},
-            {field:'uri',title:'请求Uri',width:15,align:'left',sortable:true},
-            {field:'permissionValue',title:'权限值',width:15,align:'left',sortable:true},
-            {field:'opertype',title:'操作类型',width:15,align:'left',sortable:true},
-            {field:'icon',title:'ICON',width:15,align:'left',sortable:true},
-            {field:'status',title:'状态',width:15,align:'left',sortable:true},
-            {field:'ctime',title:'创建时间',width:15,align:'left',sortable:true},
-            {field:'orders',title:'排序',width:15,align:'left',sortable:true}
+		  	{field:'organizationId',title:'组织编号',width:10,align:'left',sortable:true},
+            {field:'name',title:'组织名称',width:15,align:'left',sortable:true},
+            {field:'pid',title:'上级组织',width:15,align:'left',sortable:true},
+	   		{field:'description',title:'描述',width:15,align:'left',sortable:true},
+            {field:'ctime',title:'创建时间',width:15,align:'left',sortable:true}
+
 	   	]];
 	   	return opt;
 }
@@ -333,9 +323,7 @@ function searchOrReload(){
 
 	var queryParams = $(dgId).datagrid('options').queryParams;
 	
-	queryParams['name'] = $("#name").val();
-	queryParams['systemId'] = $("#systemid").combobox('getValue');
-	queryParams['type'] = $("#type").combobox('getValue');
+	queryParams['title'] = $("#title").val();
 
 	$(dgId).datagrid('options').queryParams = queryParams;
 	$(dgId).datagrid('reload');

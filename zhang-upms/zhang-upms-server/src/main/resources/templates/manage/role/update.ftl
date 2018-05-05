@@ -1,4 +1,4 @@
-<div id="updateDialog">
+<div id="updateMain">
     <form id="updateForm" method="post">
         <table class="tab3" >
             <tr>

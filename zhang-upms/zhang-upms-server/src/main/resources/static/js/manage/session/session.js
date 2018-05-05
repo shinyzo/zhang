@@ -1,15 +1,11 @@
 // 基础数据维护
 var dgId = "#dgTable";
 
-var createDialog = "#createDialog";
-var createForm = "#createForm";
 
-var updateDialog = "#updateDialog";
-var updateForm = "#updateForm";
 
-var queryUrl = BASE_PATH + "/manage/log/list";
+var queryUrl = BASE_PATH + "/manage/session/list";
 // 修改删除用的主键列
-var primaryKey = "logId";
+var primaryKey = "id";
 
 $(document).ready(function(){
 
@@ -63,8 +59,8 @@ function initValidateBox(){
 function btnopt(operType,title,rightUri,permissionId)
 {
     switch (operType){
-        case 'DELETE':
-            deleteData(title,rightUri,permissionId);
+        case 'FORCELOGOUT':
+            forceLogout(title,rightUri,permissionId);
             break;
         default:
             alert('没有此操作类型对应的方法，请核查！');
@@ -72,7 +68,7 @@ function btnopt(operType,title,rightUri,permissionId)
     }
 }
 
-function deleteData(title,rightUri,permissionId){
+function forceLogout(title,rightUri,permissionId){
 
     var rows = $(dgId).datagrid('getSelections');
     if(rows.length<=0)
@@ -84,9 +80,9 @@ function deleteData(title,rightUri,permissionId){
     for (var i in rows) {
         ids.push(rows[i][primaryKey]);
     }
-    var requestUrl = BASE_PATH + rightUri+"/"+ids.join("-") ;
+    var requestUrl = BASE_PATH + rightUri+"/"+ids.join(",") ;
 
-    $.messager.confirm(title,"确认删除日志吗？",function(result){
+    $.messager.confirm(title,"确认强制会话退出吗？",function(result){
         if(result)
         {
             $.ajax( {
@@ -114,8 +110,6 @@ function deleteData(title,rightUri,permissionId){
 
     })
 
-
-
 }
 
 
@@ -130,19 +124,13 @@ function getColumnsOpt()
 {
 	var opt = 
 		[[
-		  	{field:'logId',title:'日志编号',width:10,align:'left',sortable:true},
-            {field:'username',title:'操作用户',width:15,align:'left',sortable:true},
-	   		{field:'ip',title:'IP地址',width:15,align:'left',sortable:true},
-            {field:'description',title:'标题',width:15,align:'left',sortable:true},
-            {field:'startTime',title:'开始时间',width:15,align:'left',sortable:true},
-            {field:'spendTime',title:'耗时ms',width:15,align:'left',sortable:true},
-            {field:'basePath',title:'请求路径',width:15,align:'left',sortable:true},
-            {field:'uri',title:'uri',width:15,align:'left',sortable:true},
-            {field:'method',title:'请求方式',width:15,align:'left',sortable:true},
-            {field:'parameter',title:'请求参数',width:15,align:'left',sortable:true},
-            {field:'userAgent',title:'客户端类型',width:15,align:'left',sortable:true},
-            {field:'result',title:'处理结果',width:15,align:'left',sortable:true},
-            {field:'permissions',title:'权限',width:15,align:'left',sortable:true}
+		  	{field:'id',title:'sessionid',width:10,align:'left',sortable:true},
+            {field: 'startTimestamp', title: '创建时间', sortable: true, align: 'center'},
+            {field: 'lastAccessTime', title: '最后访问时间'},
+            {field: 'expired', title: '是否过期', align: 'center'},
+            {field: 'host', title: '访问者IP', align: 'center'},
+            {field: 'userAgent', title: '用户标识', align: 'center'},
+            {field: 'status', title: '状态', align: 'center'}
 	   	]];
 	   	return opt;
 }
@@ -157,15 +145,6 @@ function getColumnsOpt()
  * @return
  */
 function searchOrReload(){
-
-	var queryParams = $(dgId).datagrid('options').queryParams;
-	
-	queryParams['username'] = $("#username").val();
-    queryParams['ip'] = $("#ip").val();
-    queryParams['description'] = $("#title").val();
-
-
-    $(dgId).datagrid('options').queryParams = queryParams;
 	$(dgId).datagrid('reload');
 }
 

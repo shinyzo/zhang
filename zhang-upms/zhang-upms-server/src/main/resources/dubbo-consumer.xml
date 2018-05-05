@@ -25,6 +25,8 @@
 
     <dubbo:reference id="upmsPermissionService" interface="com.lming.zhang.upms.rpc.api.UpmsPermissionService"  mock="true"  />
 
+    <dubbo:reference id="upmsUserPermissionService" interface="com.lming.zhang.upms.rpc.api.UpmsUserPermissionService"  mock="true"  />
+
     <dubbo:reference id="upmsRolePermissionService" interface="com.lming.zhang.upms.rpc.api.UpmsRolePermissionService"  mock="true"  />
 
     <dubbo:reference id="upmsSystemService" interface="com.lming.zhang.upms.rpc.api.UpmsSystemService"  mock="true"  />

@@ -10,7 +10,7 @@ import java.util.List;
  * description : xxxx
  */
 @Data
-public class PermissionTreeDTO {
+public class TreeNodeVO {
 
     // 当前节点id
     private String id;
@@ -26,7 +26,7 @@ public class PermissionTreeDTO {
     // 父节点id
     private String pid;
     // 子节点
-    private List<PermissionTreeDTO> children;
+    private List<TreeNodeVO> children;
     // 附加属性
     private String attributes;
 }

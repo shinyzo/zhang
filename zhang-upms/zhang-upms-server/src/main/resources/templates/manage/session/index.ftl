@@ -2,7 +2,7 @@
 <html>
 <head>
 
-    <title>日志管理</title>
+    <title>会话管理</title>
 
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
@@ -20,12 +20,6 @@
             <form id="queryForm">
                 <table>
                     <tr>
-                        <td >用户：</td>
-                        <td ><input type="text" class="easyui-textbox" id="username" /></td>
-                        <td >IP：</td>
-                        <td ><input type="text" class="easyui-textbox" id="ip" /></td>
-                        <td >标题：</td>
-                        <td ><input type="text" class="easyui-textbox" id="title" /></td>
                         <td  >
                             <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" onclick="searchOrReload()">查询</a>
                             <a href="javascript:void(0);" class="easyui-linkbutton" onclick="clearForm()">重置</a>
@@ -50,19 +44,18 @@
     </div>
 
 
-    <div  class="easyui-panel" title="日志列表">
+    <div  class="easyui-panel" title="会话列表">
         <table id="dgTable">
 
 
         </table>
     </div>
 
-    <div id="createBox"></div>
-    <div id="updateBox"></div>
+
 
 
     <#include "/inc/footer.ftl"/>
-    <script type="text/javascript" src="${basepath}/static/js/manage/log/log.js"></script>
+    <script type="text/javascript" src="${basepath}/static/js/manage/session/session.js"></script>
 
 </body>
 </html>

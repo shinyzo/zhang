@@ -1,4 +1,4 @@
-<div id="createDialog">
+<div id="createMain">
     <form id="createForm" method="post">
         <table class="tab3" >
             <tr>

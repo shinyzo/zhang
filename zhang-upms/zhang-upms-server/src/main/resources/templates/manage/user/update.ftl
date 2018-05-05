@@ -1,4 +1,4 @@
-<div id="updateDialog">
+<div id="updateMain">
     <form id="updateForm" method="post">
         <table class="tab3" >
             <tr>
@@ -6,7 +6,7 @@
                 <td><input type="text" name="username" id="fx_username" value="${user.username!}" class="easyui-textbox" /></td>
                 <td width="10px"></td>
                 <td>密码：</td>
-                <td><input type="password" name="password" id="fx_password" class="easyui-textbox" /></td>
+                <td><input type="password" name="password" id="fx_password" class="easyui-textbox" readonly /></td>
             </tr>
 
             <tr>
@@ -41,10 +41,10 @@
             <tr>
                 <td>账号状态：</td>
                 <td>
-                    <#if user.locked==1>
-                        <input type="radio" checked="checked" name="locked" value="0" /> 正常<input type="radio"  value="1" name="locked" /> 锁定
-                    <#else >
+                    <#if user.locked == 1 >
                         <input type="radio"  name="locked" value="0" /> 正常<input type="radio" checked="checked"  value="1" name="locked" /> 锁定
+                    <#else >
+                        <input type="radio" checked="checked"  name="locked" value="0" /> 正常<input type="radio"   value="1" name="locked" /> 锁定
 
                     </#if>
                 </td>

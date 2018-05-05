@@ -10,4 +10,6 @@ import com.lming.zhang.upms.dao.model.UpmsRoleExample;
 */
 public interface UpmsRoleService extends BaseService<UpmsRole, UpmsRoleExample> {
 
+    int deleteRoleAndPermissions(Integer roleId);
+
 }

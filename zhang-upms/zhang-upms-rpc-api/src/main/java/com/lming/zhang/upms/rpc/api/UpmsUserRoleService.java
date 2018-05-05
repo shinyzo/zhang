@@ -10,4 +10,5 @@ import com.lming.zhang.upms.dao.model.UpmsUserRoleExample;
 */
 public interface UpmsUserRoleService extends BaseService<UpmsUserRole, UpmsUserRoleExample> {
 
+    int role(String[] roleIds, int id);
 }

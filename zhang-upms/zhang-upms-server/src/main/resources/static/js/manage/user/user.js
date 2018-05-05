@@ -1,17 +1,21 @@
 // 基础数据维护
-var dgId = "#dgBox";
+var dgId = "#dgTable";
 
-var createBox = "#createBox";
+var createDialog = "#createDialog";
 var createForm = "#createForm";
 
-var updateBox = "#updateBox";
+var updateDialog = "#updateDialog";
 var updateForm = "#updateForm";
+
+var roleDialog = "#roleDialog";
 
 var queryUrl = BASE_PATH + "/manage/user/list";
 // 修改删除用的主键列
 var primaryKey = "userId";
 
 $(document).ready(function(){
+
+    $(roleDialog).hide();
 
 	$(dgId).datagrid({
 		url:queryUrl,         //加载的URL
@@ -72,11 +76,125 @@ function btnopt(operType,title,rightUri,permissionId)
         case 'DELETE':
             deleteData(title,rightUri,permissionId);
             break;
+        case 'ROLE':
+            roleData(title,rightUri,permissionId);
+            break;
+        case 'PERMISSION':
+            permissionData(title,rightUri,permissionId);
+            break;
         default:
             alert('没有此操作类型对应的方法，请核查！');
             break;
     }
 }
+
+
+function permissionData(title,rightUri,permissionId){
+    var rows = $(dgId).datagrid('getSelections');
+    if(rows.length <= 0)
+    {
+        alert("请选择需要操作的记录！");
+        return false;
+    }
+    if(rows.length > 1)
+    {
+        alert("仅允许修改单条记录！");
+        return false;
+    }
+
+    var rightUri = BASE_PATH + rightUri+"/"+rows[0][primaryKey];
+
+    parent.addTab(title,rightUri,true);
+}
+
+
+function roleData(title,rightUri,permissionId){
+    var rows = $(dgId).datagrid('getSelections');
+    if(rows.length <= 0)
+    {
+        alert("请选择需要操作的记录！");
+        return false;
+    }
+    if(rows.length > 1)
+    {
+        alert("仅允许修改单条记录！");
+        return false;
+    }
+
+    var rightUri = BASE_PATH + rightUri+"/"+rows[0][primaryKey];
+
+    $("#roleSelect").combotree({
+        method: 'GET',
+        required: true,
+        url: rightUri
+    })
+
+    $(roleDialog).show();
+
+    $(roleDialog).dialog({
+        title: title,
+        width: 600,
+        height: 320,
+        closed: false,
+        cache: false,
+        buttons:[
+            {
+                iconCls: 'icon-save',
+                text:'保存',
+                handler: function(){
+                    roleDataSave(rightUri);
+                }
+            },
+            {
+                iconCls: 'icon-cancel',
+                text:'取消',
+                handler: function(){
+                    $(roleDialog).dialog('close');
+                }
+            }
+        ]
+    });
+}
+
+
+function roleDataSave(rightUri)
+{
+   var roleValues =  $('#roleSelect').combotree('getValues');
+   if(roleValues.length <= 0)
+   {
+       alert("请选择用户角色");
+       return false;
+   }
+
+
+
+   var data = {};
+   data['roleId'] = roleValues.join(",");
+    $.ajax({
+        url: rightUri,
+        async:false, // 同步
+        type:"post",
+        data: data,
+        dataType:'json',
+        success:function(result){
+           // var result = eval('(' + result + ')');
+            if (result.code == SUCCESS_CODE) {
+                show(result.msg);
+                $(roleDialog).dialog('close');
+                searchOrReload();
+            }
+            else {
+                alert(result.msg);
+            }
+        },
+        error:function(){
+            error('系统错误,请稍后重试！');
+        }
+    });
+
+
+}
+
 
 function deleteData(title,rightUri,permissionId){
 
@@ -147,7 +265,7 @@ function updateData(title,rightUri,permissionId){
     }
 
     var rightUri = BASE_PATH + rightUri+"/"+rows[0][primaryKey];
-    $(updateBox).dialog({
+    $(updateDialog).dialog({
         title: title,
         width: 600,
         height: 320,
@@ -167,7 +285,7 @@ function updateData(title,rightUri,permissionId){
                 iconCls: 'icon-cancel',
                 text:'取消',
                 handler: function(){
-                    $(updateBox).dialog('close');
+                    $(updateDialog).dialog('close');
                 }
             }
         ]
@@ -196,7 +314,7 @@ function updateDataSave(rightUri) {
             var result = eval('(' + result + ')');
             if (result.code == SUCCESS_CODE) {
                 show(result.msg);
-                $(updateBox).dialog('close');
+                $(updateDialog).dialog('close');
                 searchOrReload();
             }
             else {
@@ -220,7 +338,7 @@ function addData(title,rightUri,permissionId)
 {
 
 	var rightUri = BASE_PATH + rightUri;
-    $(createBox).dialog({
+    $(createDialog).dialog({
         title: title,
         width: 600,
         height: 320,
@@ -240,7 +358,7 @@ function addData(title,rightUri,permissionId)
 					iconCls: 'icon-cancel',
 					text:'取消',
 					handler: function(){
-						$(createBox).dialog('close');
+						$(createDialog).dialog('close');
 					}
             	}
         ]
@@ -267,7 +385,7 @@ function addDataSave(rightUri) {
             if(result.code == SUCCESS_CODE)
             {
                 show(result.msg);
-                $(createBox).dialog('close');
+                $(createDialog).dialog('close');
                 searchOrReload();
             }
             else

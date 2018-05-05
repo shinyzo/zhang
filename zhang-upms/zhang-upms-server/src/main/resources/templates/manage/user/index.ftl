@@ -47,14 +47,27 @@
 
 
     <div  class="easyui-panel" title="用户列表">
-        <table id="dgBox">
+        <table id="dgTable">
 
 
         </table>
     </div>
 
-    <div id="createBox"></div>
-    <div id="updateBox"></div>
+    <div id="createDialog"></div>
+    <div id="updateDialog"></div>
+    <div id="roleDialog">
+        <table class="tab3" >
+            <tr>
+                <td>选择角色：</td>
+                <td>
+                    <select id="roleSelect" class="easyui-comboboxtree" data-options="multiple:true"  style="width:200px;">
+
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+    </div>
 
 
     <#include "/inc/footer.ftl"/>

@@ -1,10 +1,10 @@
 // 基础数据维护
-var dgId = "#dgBox";
+var dgId = "#dgTable";
 
-var createBox = "#createBox";
+var createDialog = "#createDialog";
 var createForm = "#createForm";
 
-var updateBox = "#updateBox";
+var updateDialog = "#updateDialog";
 var updateForm = "#updateForm";
 
 var queryUrl = BASE_PATH + "/manage/system/list";
@@ -146,7 +146,7 @@ function updateData(title,rightUri,permissionId){
     }
 
     var rightUri = BASE_PATH + rightUri+"/"+rows[0][primaryKey];
-    $(updateBox).dialog({
+    $(updateDialog).dialog({
         title: title,
         width: 600,
         height: 320,
@@ -166,7 +166,7 @@ function updateData(title,rightUri,permissionId){
                 iconCls: 'icon-cancel',
                 text:'取消',
                 handler: function(){
-                    $(updateBox).dialog('close');
+                    $(updateDialog).dialog('close');
                 }
             }
         ]
@@ -195,7 +195,7 @@ function updateDataSave(rightUri) {
             var result = eval('(' + result + ')');
             if (result.code == SUCCESS_CODE) {
                 show(result.msg);
-                $(updateBox).dialog('close');
+                $(updateDialog).dialog('close');
                 searchOrReload();
             }
             else {
@@ -219,7 +219,7 @@ function addData(title,rightUri,permissionId)
 {
 
 	var rightUri = BASE_PATH + rightUri;
-    $(createBox).dialog({
+    $(createDialog).dialog({
         title: title,
         width: 600,
         height: 320,
@@ -239,7 +239,7 @@ function addData(title,rightUri,permissionId)
 					iconCls: 'icon-cancel',
 					text:'取消',
 					handler: function(){
-						$(createBox).dialog('close');
+						$(createDialog).dialog('close');
 					}
             	}
         ]
@@ -266,7 +266,7 @@ function addDataSave(rightUri) {
             if(result.code == SUCCESS_CODE)
             {
                 show(result.msg);
-                $(createBox).dialog('close');
+                $(createDialog).dialog('close');
                 searchOrReload();
             }
             else

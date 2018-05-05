@@ -101,13 +101,13 @@ public class UpmsSessionDao extends CachingSessionDAO {
      * @param limit
      * @return
      */
-    public Map getActiveSessions(int offset, int limit) {
+    public Map getActiveSessions(int pageNum, int pageSize) {
         Map sessions = new HashMap();
         Jedis jedis = RedisUtil.getJedis();
         // 获取在线会话总数
         long total = jedis.llen(UpmsConstants.ZHANG_UPMS_SERVER_SESSION_IDS);
         // 获取当前页会话详情
-        List<String> ids = jedis.lrange(UpmsConstants.ZHANG_UPMS_SERVER_SESSION_IDS, offset, (offset + limit - 1));
+        List<String> ids = jedis.lrange(UpmsConstants.ZHANG_UPMS_SERVER_SESSION_IDS, (pageNum-1) * pageSize, pageSize);
         List<Session> rows = new ArrayList<>();
         for (String id : ids) {
             String session = RedisUtil.get(UpmsConstants.ZHANG_UPMS_SHIRO_SESSION_ID + "_" + id);

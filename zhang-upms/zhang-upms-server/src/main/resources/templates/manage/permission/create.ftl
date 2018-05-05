@@ -1,4 +1,4 @@
-<div class="easyui-layout" style="width:780px;height:380px;">
+<div class="easyui-layout" id="createMain" style="width:100%;height:100%;">
     <div data-options="region:'west',title:'系统权限树',split:true" style="width:220px" >
             <ul id="permissionTree">
 

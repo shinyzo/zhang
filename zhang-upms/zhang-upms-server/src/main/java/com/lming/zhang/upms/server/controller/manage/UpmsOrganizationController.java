@@ -4,22 +4,27 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.lming.zhang.common.validator.LengthValidator;
+import com.lming.zhang.upms.common.UpmsPageVO;
 import com.lming.zhang.upms.common.UpmsResult;
 import com.lming.zhang.upms.common.UpmsResultEnum;
 import com.lming.zhang.upms.dao.model.UpmsOrganization;
 import com.lming.zhang.upms.dao.model.UpmsOrganizationExample;
+import com.lming.zhang.upms.dao.model.UpmsPermission;
+import com.lming.zhang.upms.dao.model.UpmsPermissionExample;
 import com.lming.zhang.upms.rpc.api.UpmsOrganizationService;
-import io.swagger.annotations.Api;
+import com.lming.zhang.upms.rpc.api.UpmsPermissionService;
+import com.lming.zhang.upms.server.util.TreeUtil;
+import com.lming.zhang.upms.server.vo.TreeNodeVO;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +34,7 @@ import java.util.Map;
  * Created by shuzheng on 2017/2/6.
  */
 @Controller
+@Slf4j
 @RequestMapping("/manage/organization")
 public class UpmsOrganizationController {
 
@@ -36,10 +42,21 @@ public class UpmsOrganizationController {
     @Autowired
     private UpmsOrganizationService upmsOrganizationService;
 
+    @Autowired
+    private UpmsPermissionService upmsPermissionService;
+
     @ApiOperation(value = "组织首页")
     @RequiresPermissions("upms:organization:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
+    public String index(@RequestParam("permissionId") Integer permissionId,
+                        ModelMap modelMap) {
+        // 加载菜单下的所有按钮
+        UpmsPermissionExample example = new UpmsPermissionExample();
+        example.or().andPidEqualTo(permissionId).andStatusEqualTo((byte) 1);
+
+        List<UpmsPermission> buttonPermissions = upmsPermissionService.selectByExample(example);
+        modelMap.put("buttonPermissions",buttonPermissions);
+
         return "/manage/organization/index";
     }
 
@@ -48,20 +65,17 @@ public class UpmsOrganizationController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Object list(
-            @RequestParam(required = false, defaultValue = "1", value = "page") int pageNum,
-            @RequestParam(required = false, defaultValue = "10", value = "rows") int pageSize,
-            @RequestParam(required = false, defaultValue = "", value = "search") String search,
-            @RequestParam(required = false, value = "sort") String sort,
-            @RequestParam(required = false, value = "order") String order) {
+            UpmsPageVO pageVO,
+            @RequestParam(required = false, defaultValue = "", value = "search") String search) {
         UpmsOrganizationExample upmsOrganizationExample = new UpmsOrganizationExample();
-        if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-            upmsOrganizationExample.setOrderByClause(sort + " " + order);
+        if (!StringUtils.isBlank(pageVO.getSort()) && !StringUtils.isBlank(pageVO.getOrder())) {
+            upmsOrganizationExample.setOrderByClause(pageVO.getSort() + " " + pageVO.getOrder());
         }
         if (StringUtils.isNotBlank(search)) {
             upmsOrganizationExample.or()
                     .andNameLike("%" + search + "%");
         }
-        List<UpmsOrganization> rows = upmsOrganizationService.selectByExampleForOffsetPage(upmsOrganizationExample, pageNum, pageSize);
+        List<UpmsOrganization> rows = upmsOrganizationService.selectByExampleForStartPage(upmsOrganizationExample, pageVO.getPage(), pageVO.getRows());
         long total = upmsOrganizationService.countByExample(upmsOrganizationExample);
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);
@@ -73,6 +87,7 @@ public class UpmsOrganizationController {
     @RequiresPermissions("upms:organization:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
+        log.info(">>> 新增组织");
         return "/manage/organization/create";
     }
 
@@ -82,11 +97,11 @@ public class UpmsOrganizationController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public UpmsResult create(UpmsOrganization upmsOrganization) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(upmsOrganization.getName(), new LengthValidator(1, 20, "名称"))
+                .on(upmsOrganization.getName(), new LengthValidator(1, 20, "组织名称"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
-            return new UpmsResult(UpmsResultEnum.INVALID_LENGTH, result.getErrors());
+            return new UpmsResult(UpmsResultEnum.INVALID_LENGTH.getCode(), result.getErrors().get(0).getErrorMsg());
         }
         long time = System.currentTimeMillis();
         upmsOrganization.setCtime(time);
@@ -127,6 +142,31 @@ public class UpmsOrganizationController {
         upmsOrganization.setOrganizationId(id);
         int count = upmsOrganizationService.updateByPrimaryKeySelective(upmsOrganization);
         return new UpmsResult(UpmsResultEnum.SUCCESS, count);
+    }
+
+
+    @ApiOperation(value = "树形组织")
+    @RequiresPermissions("upms:organization:read")
+    @ResponseBody
+    @RequestMapping(value = "/tree", method = RequestMethod.GET)
+    public Object tree() {
+        List<UpmsOrganization> organizationList = upmsOrganizationService.selectByExample(new UpmsOrganizationExample());
+        List<TreeNodeVO> treeNodeVOList = new ArrayList<>();
+        for(int i=0;i<organizationList.size();i++)
+        {
+            TreeNodeVO treeNodeVO = new TreeNodeVO();
+            treeNodeVO.setId(organizationList.get(i).getOrganizationId().toString());
+            treeNodeVO.setText(organizationList.get(i).getName());
+            treeNodeVO.setPid(organizationList.get(i).getPid() == null ? "0": organizationList.get(i).getPid().toString());
+            treeNodeVOList.add(treeNodeVO);
+        }
+        List<Map<String,Object>> list = new ArrayList<>();
+        Map<String,Object> root = new HashMap<>();
+        root.put("id","0");
+        root.put("text","根节点");
+        root.put("children",TreeUtil.tree(treeNodeVOList,"0"));
+        list.add(root);
+        return list;
     }
 
 }

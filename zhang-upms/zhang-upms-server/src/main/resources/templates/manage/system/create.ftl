@@ -1,4 +1,4 @@
-<div id="createDialog">
+<div id="createMain">
     <form id="createForm" method="post">
         <table class="tab3" >
             <tr>
@@ -24,7 +24,7 @@
 
             <tr>
                 <td>basepath：</td>
-                <td colspan="4"><input type="text" name="fx_basepath" class="easyui-textbox w400" /> (项目访问路径)</td>
+                <td colspan="4"><input type="text" name="basepath" class="easyui-textbox w400" /> (项目访问路径)</td>
             </tr>
 
 
