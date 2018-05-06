@@ -8,6 +8,7 @@ var updateDialog = "#updateDialog";
 var updateForm = "#updateForm";
 
 var roleDialog = "#roleDialog";
+var organizationDialog = "#organizationDialog";
 
 var queryUrl = BASE_PATH + "/manage/user/list";
 // 修改删除用的主键列
@@ -82,13 +83,113 @@ function btnopt(operType,title,rightUri,permissionId)
         case 'PERMISSION':
             permissionData(title,rightUri,permissionId);
             break;
+        case 'ORGANIZATION':
+            organizationData(title,rightUri,permissionId);
+            break;
         default:
             alert('没有此操作类型对应的方法，请核查！');
             break;
     }
 }
 
+/**
+ * 用户组织
+ * @param title
+ * @param rightUri
+ * @param permissionId
+ * @returns {boolean}
+ */
+function organizationData(title,rightUri,permissionId){
+    var rows = $(dgId).datagrid('getSelections');
+    if(rows.length <= 0)
+    {
+        alert("请选择需要操作的记录！");
+        return false;
+    }
+    if(rows.length > 1)
+    {
+        alert("仅允许修改单条记录！");
+        return false;
+    }
 
+    var id = rows[0][primaryKey];
+
+    var rightUri = BASE_PATH + rightUri+"/" + id;
+
+    $(organizationDialog).dialog({
+        title: title,
+        width: 800,
+        height: 420,
+        closed: false,
+        cache: false,
+        href: rightUri,
+        buttons:[
+            {
+                iconCls: 'icon-save',
+                text:'保存',
+                handler: function(){
+                    organizationDataSave(rightUri);
+                }
+            },
+            {
+                iconCls: 'icon-cancel',
+                text:'取消',
+                handler: function(){
+                    $(organizationDialog).dialog('close');
+                }
+            }
+        ]
+    });
+
+}
+
+
+function organizationDataSave(rightUri){
+
+    var nodes   = $("#organizationTree").tree('getChecked', ['checked','indeterminate']);
+    if(nodes.length<=0)
+    {
+        alert("请选择组织节点！");
+
+        return false;
+    }
+
+    var organizationIds = new Array();
+    $.each(nodes,function(index,node){
+        organizationIds.push(node.id);
+    })
+
+    var data = {};
+    data['organizationIds'] = organizationIds.join(',');
+
+    $.ajax({
+        url : rightUri,
+        data: data,
+        type : 'POST',
+        async: false,
+        dataType : "json",
+        success : function(result) {
+            if(result.code == SUCCESS_CODE)
+            {
+                show(result.msg);
+                $(organizationDialog).dialog('close');
+            }else
+            {
+                alert(result.msg);
+            }
+
+        }
+    });
+
+}
+
+/**
+ * 用户权限
+ * @param title
+ * @param rightUri
+ * @param permissionId
+ * @returns {boolean}
+ */
 function permissionData(title,rightUri,permissionId){
     var rows = $(dgId).datagrid('getSelections');
     if(rows.length <= 0)
@@ -103,11 +204,16 @@ function permissionData(title,rightUri,permissionId){
     }
 
     var rightUri = BASE_PATH + rightUri+"/"+rows[0][primaryKey];
-
     parent.addTab(title,rightUri,true);
 }
 
-
+/**
+ * 用户角色
+ * @param title
+ * @param rightUri
+ * @param permissionId
+ * @returns {boolean}
+ */
 function roleData(title,rightUri,permissionId){
     var rows = $(dgId).datagrid('getSelections');
     if(rows.length <= 0)
@@ -156,7 +262,11 @@ function roleData(title,rightUri,permissionId){
     });
 }
 
-
+/***
+ * 添加用户角色
+ * @param rightUri
+ * @returns {boolean}
+ */
 function roleDataSave(rightUri)
 {
    var roleValues =  $('#roleSelect').combotree('getValues');
@@ -165,8 +275,6 @@ function roleDataSave(rightUri)
        alert("请选择用户角色");
        return false;
    }
-
-
 
    var data = {};
    data['roleId'] = roleValues.join(",");
@@ -195,7 +303,7 @@ function roleDataSave(rightUri)
 
 }
 
-
+// 删除用户
 function deleteData(title,rightUri,permissionId){
 
     var rows = $(dgId).datagrid('getSelections');
@@ -243,7 +351,7 @@ function deleteData(title,rightUri,permissionId){
 }
 
 /**
- * 加载修改页面
+ * 修改用户
  * @param title
  * @param rightUri
  * @param permissionId

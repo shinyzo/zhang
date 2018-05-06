@@ -56,6 +56,9 @@ public class UpmsUserController {
     @Autowired
     private UpmsUserPermissionService upmsUserPermissionService;
 
+    @Autowired
+    private UpmsUserOrganizationService upmsUserOrganizationService;
+
     @ApiOperation("用户页面")
     @RequiresPermissions("upms:user:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -73,7 +76,7 @@ public class UpmsUserController {
 
 
 
-    @ApiOperation("用户列表")
+    @ApiOperation("用户分页")
     @RequiresPermissions("upms:user:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
@@ -97,14 +100,14 @@ public class UpmsUserController {
     }
 
 
-    @ApiOperation(value = "新增用户")
+    @ApiOperation(value = "新增用户页面")
     @RequiresPermissions("upms:user:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
         return "/manage/user/create";
     }
 
-    @ApiOperation(value = "新增用户")
+    @ApiOperation(value = "新增用户保存")
     @RequiresPermissions("upms:user:create")
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -141,7 +144,7 @@ public class UpmsUserController {
         return new UpmsResult(UpmsResultEnum.SUCCESS, count);
     }
 
-    @ApiOperation(value = "修改用户")
+    @ApiOperation(value = "修改用户页面")
     @RequiresPermissions("upms:user:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable("id") int id, ModelMap modelMap) {
@@ -150,7 +153,7 @@ public class UpmsUserController {
         return "/manage/user/update";
     }
 
-    @ApiOperation(value = "修改用户")
+    @ApiOperation(value = "修改用户保存")
     @RequiresPermissions("upms:user:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
@@ -171,7 +174,7 @@ public class UpmsUserController {
     }
 
 
-    @ApiOperation(value = "用户角色")
+    @ApiOperation(value = "用户角色数据")
     @RequiresPermissions("upms:user:role")
     @RequestMapping(value = "/role/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -206,7 +209,7 @@ public class UpmsUserController {
     }
 
 
-    @ApiOperation(value = "用户角色")
+    @ApiOperation(value = "用户角色修改")
     @RequiresPermissions("upms:user:role")
     @RequestMapping(value = "/role/{id}", method = RequestMethod.POST)
     @ResponseBody
@@ -217,7 +220,7 @@ public class UpmsUserController {
         return new UpmsResult(UpmsResultEnum.SUCCESS, "");
     }
 
-    @ApiOperation(value = "用户权限")
+    @ApiOperation(value = "用户权限页面")
     @RequiresPermissions("upms:user:permission")
     @RequestMapping(value = "/permission/{id}", method = RequestMethod.GET)
     public String permission(@PathVariable("id") int id, ModelMap modelMap) {
@@ -226,7 +229,7 @@ public class UpmsUserController {
         return "/manage/user/permission";
     }
 
-    @ApiOperation(value = "用户权限")
+    @ApiOperation(value = "用户权限数据")
     @RequiresPermissions("upms:user:permission")
     @RequestMapping(value = "/permission/{id}", method = RequestMethod.POST)
     @ResponseBody
@@ -263,5 +266,28 @@ public class UpmsUserController {
         return new UpmsResult(UpmsResultEnum.SUCCESS,count);
     }
 
+
+    @ApiOperation(value = "用户组织页面")
+    @RequiresPermissions("upms:user:organization")
+    @RequestMapping(value = "/organization/{id}", method = RequestMethod.GET)
+    public String organization(@PathVariable("id") int id, ModelMap modelMap) {
+        // 所有组织
+        UpmsUser upmsUser = upmsUserService.selectByPrimaryKey(id);
+        modelMap.put("user",upmsUser);
+
+        return "/manage/user/organization";
+    }
+
+    @ApiOperation(value = "用户组织保存")
+    @RequiresPermissions("upms:user:organization")
+    @RequestMapping(value = "/organization/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object organization(@PathVariable("id") int id, HttpServletRequest request) {
+//        String[] organizationIds = request.getParameterValues("organizationId");
+        String organizationIds = request.getParameter("organizationIds");
+        upmsUserOrganizationService.organization(organizationIds.split(","), id);
+        return new UpmsResult(UpmsResultEnum.SUCCESS, "");
+
+    }
 
 }

@@ -49,7 +49,7 @@ public class UpmsSessionController{
         return "/manage/session/index";
     }
 
-    @ApiOperation(value = "会话列表")
+    @ApiOperation(value = "会话分页")
     @RequiresPermissions("upms:session:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody

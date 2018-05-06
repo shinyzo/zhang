@@ -60,7 +60,7 @@ public class UpmsSystemController {
 		return "/manage/system/index";
 	}
 
-	@ApiOperation(value = "系统列表")
+	@ApiOperation(value = "系统分页")
 	@RequiresPermissions("upms:system:read")
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
@@ -82,14 +82,14 @@ public class UpmsSystemController {
 		return result;
 	}
 
-	@ApiOperation(value = "新增系统")
+	@ApiOperation(value = "新增系统页面")
 	@RequiresPermissions("upms:system:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String create() {
 		return "/manage/system/create";
 	}
 
-	@ApiOperation(value = "新增系统")
+	@ApiOperation(value = "新增系统保存")
 	@RequiresPermissions("upms:system:create")
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
@@ -119,7 +119,7 @@ public class UpmsSystemController {
 		return new UpmsResult(UpmsResultEnum.SUCCESS, count);
 	}
 
-	@ApiOperation(value = "修改系统")
+	@ApiOperation(value = "修改系统页面")
 	@RequiresPermissions("upms:system:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String update(@PathVariable("id") int id, ModelMap modelMap) {
@@ -128,7 +128,7 @@ public class UpmsSystemController {
 		return "/manage/system/update";
 	}
 
-	@ApiOperation(value = "修改系统")
+	@ApiOperation(value = "修改系统保存")
 	@RequiresPermissions("upms:system:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
 	@ResponseBody

@@ -57,7 +57,7 @@ public class UpmsLogController {
         return "/manage/log/index";
     }
 
-    @ApiOperation(value = "日志列表")
+    @ApiOperation(value = "日志分页")
     @RequiresPermissions("upms:log:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody

@@ -46,6 +46,9 @@
     <dubbo:service interface="com.lming.zhang.upms.rpc.api.UpmsOrganizationService" ref="upmsOrganizationService" timeout="10000"/>
     <bean id="upmsOrganizationService" class="com.lming.zhang.upms.rpc.service.impl.UpmsOrganizationServiceImpl" />
 
+    <dubbo:service interface="com.lming.zhang.upms.rpc.api.UpmsUserOrganizationService" ref="upmsUserOrganizationService" timeout="10000"/>
+    <bean id="upmsUserOrganizationService" class="com.lming.zhang.upms.rpc.service.impl.UpmsUserOrganizationServiceImpl" />
+
 
 
 </beans>

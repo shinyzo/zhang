@@ -41,9 +41,6 @@
         <tr>
             <td>角色ID：</td> <td><input type="text" id="roleId" class="easyui-textbox"  value="${upmsRole.roleId}"></td>
             <td>角色名称：</td> <td><input type="text" class="easyui-textbox"  value="${upmsRole.title}"></td>
-            <td>
-                <input type="hidden" id="system" value="${upmsSystems?size}">
-            </td>
             <td width="20"></td>
             <td colspan="2"> <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="submitRolePermission()">保存</a></td>
 
@@ -88,8 +85,8 @@
 
     function submitRolePermission(){
 
-        var uri = BASE_PATH + "/manage/role/permission/"+$("#roleId").textbox('getValue');
-        var systemSize = $("#system").val();
+        var uri = BASE_PATH + "/manage/role/permission/"+${upmsRole.roleId};
+        var systemSize = ${upmsSystems?size};
         if(systemSize <= 0) return;
 
         var ids = new Array();

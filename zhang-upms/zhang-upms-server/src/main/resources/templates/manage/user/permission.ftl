@@ -37,7 +37,7 @@
     <div>
         <table class="tab3">
             <tr>
-                <td><input type="text" id="userId" value="${user.userId}"></td>
+                <td>用户ID：</td><td><input type="text" class="easyui-textbox" id="userId" value="${user.userId}"></td>
                 <td>用户名：</td><td><input type="text" class="easyui-textbox" value="${user.username}"></td>
                 <td width="20"></td>
                 <td colspan="2"> <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="submitUserPermission()">保存</a></td>
@@ -73,7 +73,7 @@
 
 <#include "/inc/footer.ftl"/>
 <script type="text/javascript">
-    var url = BASE_PATH + "/manage/permission/user/"+$("#userId").val();
+    var url = BASE_PATH + "/manage/permission/user/"+${user.userId};
     $(function(){
         $('.userPermission').tree({
             url: url,
@@ -105,7 +105,7 @@
 
     function submitUserPermission(){
 
-        var uri = BASE_PATH + "/manage/user/permission/"+$("#userId").val();
+        var uri = BASE_PATH + "/manage/user/permission/"+$("#userId").textbox('getValue');
 
         var addNodes   = $(".addPermission").tree('getChecked', ['checked','indeterminate']);
         var minusNodes = $(".minusPermission").tree('getChecked', ['checked','indeterminate']);

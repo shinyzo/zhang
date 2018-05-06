@@ -63,7 +63,7 @@ public class UpmsRoleController {
     }
 
 
-    @ApiOperation(value = "角色列表")
+    @ApiOperation(value = "角色分页")
     @RequiresPermissions("upms:role:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
@@ -82,14 +82,14 @@ public class UpmsRoleController {
     }
 
 
-    @ApiOperation(value = "新增角色")
+    @ApiOperation(value = "新增角色页面")
     @RequiresPermissions("upms:role:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
         return "/manage/role/create";
     }
 
-    @ApiOperation(value = "新增角色")
+    @ApiOperation(value = "新增角色保存")
     @RequiresPermissions("upms:role:create")
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -111,7 +111,7 @@ public class UpmsRoleController {
     }
 
 
-    @ApiOperation(value = "修改角色")
+    @ApiOperation(value = "修改角色页面")
     @RequiresPermissions("upms:role:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable("id") int id, ModelMap modelMap) {
@@ -120,7 +120,7 @@ public class UpmsRoleController {
         return "/manage/role/update";
     }
 
-    @ApiOperation(value = "修改角色")
+    @ApiOperation(value = "修改角色保存")
     @RequiresPermissions("upms:role:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody

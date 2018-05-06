@@ -10,4 +10,5 @@ import com.lming.zhang.upms.dao.model.UpmsUserOrganizationExample;
 */
 public interface UpmsUserOrganizationService extends BaseService<UpmsUserOrganization, UpmsUserOrganizationExample> {
 
+    int organization(String[] organizationIds, int id);
 }

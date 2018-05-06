@@ -22,7 +22,6 @@
                     <tr>
                         <td  >
                             <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" onclick="searchOrReload()">查询</a>
-                            <a href="javascript:void(0);" class="easyui-linkbutton" onclick="clearForm()">重置</a>
                         </td>
                     </tr>
                 </table>

@@ -406,14 +406,14 @@ public class UpmsPermissionController{
     }
 
 
-    @ApiOperation(value = "新增权限")
+    @ApiOperation(value = "新增权限页面")
     @RequiresPermissions("upms:permission:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap modelMap) {
         return "/manage/permission/create";
     }
 
-    @ApiOperation(value = "新增权限")
+    @ApiOperation(value = "新增权限保存")
     @RequiresPermissions("upms:permission:create")
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -461,7 +461,7 @@ public class UpmsPermissionController{
         return new UpmsResult(UpmsResultEnum.SUCCESS, count);
     }
 
-    @ApiOperation(value = "修改权限")
+    @ApiOperation(value = "修改权限页面")
     @RequiresPermissions("upms:permission:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable("id") int id, ModelMap modelMap) {
@@ -479,7 +479,7 @@ public class UpmsPermissionController{
         return "/manage/permission/update";
     }
 
-    @ApiOperation(value = "修改权限")
+    @ApiOperation(value = "修改权限保存")
     @RequiresPermissions("upms:permission:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody

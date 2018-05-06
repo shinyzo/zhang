@@ -66,8 +66,8 @@
                 </td>
             </tr>
         </table>
-
     </div>
+    <div id="organizationDialog"></div>
 
 
     <#include "/inc/footer.ftl"/>

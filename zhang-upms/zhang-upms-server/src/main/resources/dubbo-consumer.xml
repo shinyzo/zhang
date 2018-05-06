@@ -35,6 +35,8 @@
 
     <dubbo:reference id="upmsOrganizationService" interface="com.lming.zhang.upms.rpc.api.UpmsOrganizationService" mock="true" />
 
+    <dubbo:reference id="upmsUserOrganizationService" interface="com.lming.zhang.upms.rpc.api.UpmsUserOrganizationService" mock="true" />
+
     <dubbo:reference id="upmsLogService" interface="com.lming.zhang.upms.rpc.api.UpmsLogService" mock="true" />
 
 
