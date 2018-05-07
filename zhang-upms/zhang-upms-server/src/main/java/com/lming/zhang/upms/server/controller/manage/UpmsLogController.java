@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,12 +36,12 @@ import java.util.Map;
 @RequestMapping("/manage/log")
 public class UpmsLogController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UpmsLogController.class);
 
     @Autowired
     private UpmsLogService upmsLogService;
     @Autowired
     private UpmsPermissionService upmsPermissionService;
+
 
     @ApiOperation(value = "日志首页")
     @RequiresPermissions("upms:log:read")

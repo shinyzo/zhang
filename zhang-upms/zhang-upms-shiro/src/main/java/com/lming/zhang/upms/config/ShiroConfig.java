@@ -42,7 +42,7 @@ public class ShiroConfig {
 
     private boolean ssoSwitch = true;
 
-    private String ssoLoginUrl = "http://localhost:7001/upms/manage/login";
+    private String ssoServerUrl = PropertiesFileUtil.getInstance("zhang-upms-client").get("zhang.upms.sso.server.url");
 
     //Filter工厂，设置对应的过滤条件和跳转条件
     @Bean
@@ -60,7 +60,7 @@ public class ShiroConfig {
         //shiroFilterMap.put("/manage/login","anon");
 
         // 登录,首页,退出
-        shiroFilterFactoryBean.setLoginUrl(ssoLoginUrl);
+        shiroFilterFactoryBean.setLoginUrl(ssoServerUrl+"/sso/login");
         shiroFilterFactoryBean.setSuccessUrl("/manage/index");
         //shiroFilterMap.put("/manage/logout","logout");
 

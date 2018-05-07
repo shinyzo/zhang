@@ -14,7 +14,6 @@ public class TreeNodeVO {
 
     // 当前节点id
     private String id;
-
     // text
     private String text;
     // icon

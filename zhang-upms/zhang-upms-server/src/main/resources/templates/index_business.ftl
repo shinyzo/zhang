@@ -33,7 +33,7 @@
 						欢迎您，<@shiro.principal/>
 					</@shiro.user>
 
-                <a class="easyui-linkbutton" href="javascript:void(0);" onclick="logout()">安全退出</a>
+                <a class="easyui-linkbutton" data-options="iconCls:'icon-setting'" href="javascript:void(0);" onclick="logout()">安全退出</a>
 
 			</div>		
 		</div>

@@ -3,22 +3,16 @@ package com.lming.zhang.upms.server.controller;
 import com.lming.zhang.common.util.RedisUtil;
 import com.lming.zhang.common.util.VerifyUtil;
 import com.lming.zhang.upms.common.UpmsConstants;
-import com.lming.zhang.upms.dao.model.UpmsUser;
-import com.lming.zhang.upms.dao.model.UpmsUserExample;
-import com.lming.zhang.upms.rpc.api.UpmsUserService;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Auth : shinyzo
@@ -26,6 +20,7 @@ import java.util.concurrent.TimeUnit;
  * description : xxxx
  */
 @Controller
+@Slf4j
 public class IndexController {
 
 
